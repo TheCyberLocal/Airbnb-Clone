@@ -18,5 +18,3 @@ router.post('/test', (req, res) => {
 });
 
 module.exports = router;
-
-module.exports = router;

@@ -12,14 +12,10 @@ const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
 const validateLogin = [
-  check("email")
+  check("credential")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a valid email."),
-  check("username")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid username."),
+    .withMessage("Please provide a valid credential."),
   check("password")
     .exists({ checkFalsy: true })
     .withMessage("Please provide a password."),
@@ -28,13 +24,13 @@ const validateLogin = [
 
 // Log in
 router.post("/", validateLogin, async (req, res, next) => {
-  const { email, username, password } = req.body;
+  const { credential, password } = req.body;
 
   const user = await User.unscoped().findOne({
     where: {
       [Op.or]: {
-        email,
-        username,
+        email: credential,
+        username: credential,
       },
     },
   });

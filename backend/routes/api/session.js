@@ -20,14 +20,6 @@ const validateLogin = [
     .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage("Please provide a valid username."),
-  check("firstName")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid first name."),
-  check("lastName")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid last name."),
   check("password")
     .exists({ checkFalsy: true })
     .withMessage("Please provide a password."),

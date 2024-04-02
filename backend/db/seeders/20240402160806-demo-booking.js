@@ -1,7 +1,6 @@
 "use strict";
 
-const { User } = require("../models");
-const bcrypt = require("bcryptjs");
+const { Booking } = require("../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -21,31 +20,28 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await User.bulkCreate(
+    await Booking.bulkCreate(
       [
         {
           id: 1,
-          email: "alberto@user.io",
-          username: "albert1",
-          firstName: "Albert",
-          lastName: "Einstein",
-          hashedPassword: bcrypt.hashSync("password"),
+          spotId: 1,
+          userId: 1,
+          startDate: "1910-04-20",
+          endDate: "1910-07-20",
         },
         {
           id: 2,
-          email: "freddy@user.io",
-          username: "fred2",
-          firstName: "Frederick",
-          lastName: "Nietzsche",
-          hashedPassword: bcrypt.hashSync("password2"),
+          spotId: 2,
+          userId: 2,
+          startDate: "1920-09-01",
+          endDate: "1920-12-01",
         },
         {
           id: 3,
-          email: "jbpeterson@user.io",
-          username: "jordan3",
-          firstName: "Jordan",
-          lastName: "Peterson",
-          hashedPassword: bcrypt.hashSync("password3"),
+          spotId: 3,
+          userId: 3,
+          startDate: "1990-01-01",
+          endDate: "1990-12-31",
         },
       ],
       { validate: true }
@@ -59,7 +55,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = "Users";
+    options.tableName = "Bookings";
     return queryInterface.bulkDelete(options, null, {});
   },
 };

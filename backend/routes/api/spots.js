@@ -6,7 +6,7 @@ const {
   ReviewImage,
   User,
 } = require("../../db/models");
-const { restoreUser } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { check } = require("express-validator");
 router.use(restoreUser);
 
@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
   });
 });
 
-router.get("/current", async (req, res) => {
+router.get("/current", requireAuth, async (req, res) => {
   const ownedSpots = await Spot.findAll({
     where: {
       ownerId: req.user.id,
@@ -85,7 +85,11 @@ router.get("/current", async (req, res) => {
 
 router.get("/:spotId", async (req, res) => {
   const spotId = parseInt(req.params.spotId);
-  if (isNaN(spotId) || spotId < 1) return;
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
 
   const selectedSpots = await Spot.findByPk(spotId, {
     include: [
@@ -107,10 +111,11 @@ router.get("/:spotId", async (req, res) => {
     ],
   });
 
-  if (!selectedSpots)
-    return res.status(404).json({
-      message: "Spot couldn't be found",
-    });
+  if (!selectedSpots) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
 
   // Build avgRating
   const totalStarRating = selectedSpots.Reviews.reduce(
@@ -129,9 +134,50 @@ router.get("/:spotId", async (req, res) => {
   res.json(selectedSpots);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } =
-  req.body;
+    req.body;
+
+  const err = new Error("Bad Request");
+  err.errors = {};
+  if (typeof address !== "string" || address.length === 0) {
+    err.errors.address = "Street address is required";
+    err.status = 400;
+  }
+  if (typeof city !== "string" || city.length === 0) {
+    err.errors.city = "City is required";
+    err.status = 400;
+  }
+  if (typeof state !== "string" || state.length === 0) {
+    err.errors.state = "State is required";
+    err.status = 400;
+  }
+  if (typeof country !== "string" || country.length === 0) {
+    err.errors.country = "Country is required";
+    err.status = 400;
+  }
+  if (typeof lat !== "number" || lat > 90 || lat < -90) {
+    err.errors.lat = "Latitude must be within -90 and 90";
+    err.status = 400;
+  }
+  if (typeof lng !== "number" || lng > 180 || lng < -180) {
+    err.errors.lng = "Longitude must be within -180 and 180";
+    err.status = 400;
+  }
+  if (typeof name !== "string" || name.length > 50) {
+    err.errors.name = "Name must be less than 50 characters";
+    err.status = 400;
+  }
+  if (typeof description !== "string" || description.length === 0) {
+    err.errors.description = "Description is required";
+    err.status = 400;
+  }
+  if (typeof price !== "number" || price < 0) {
+    err.errors.price = "Price per day must be a positive number";
+    err.status = 400;
+  }
+  if (err.status === 400) throw err;
+
   const newSpot = await Spot.create({
     ownerId: req.user.id,
     address,
@@ -146,5 +192,14 @@ router.post("/", async (req, res) => {
   });
   res.status(201).json(newSpot);
 });
+
+// router.post("/:spotId/images", requireAuth, async (req, res) => {
+//   const spotId = parseInt(req.params.spotId);
+//   if (isNaN(spotId) || spotId < 1) {
+//     const err = new Error("Spot couldn't be found");
+//     err.status = 404;
+//     throw err;
+//   }
+// });
 
 module.exports = router;

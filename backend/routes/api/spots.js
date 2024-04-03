@@ -7,17 +7,15 @@ const {
   User,
 } = require("../../db/models");
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
-const { check } = require("express-validator");
-router.use(restoreUser);
 
-const { handleValidationErrors } = require("../../utils/validation");
+router.use(restoreUser);
 
 function buildPreviewAndRating(allSpots) {
   allSpots.forEach((element) => {
     // Build previewImage
     const previewImg = element.SpotImages.reduce(
       (acc, e) => (e.preview ? e.url : acc),
-      ""
+      null
     );
     element.dataValues.previewImage = previewImg;
     element.dataValues.SpotImages = undefined;
@@ -34,6 +32,7 @@ function buildPreviewAndRating(allSpots) {
   return allSpots;
 }
 
+// Get all spots
 router.get("/", async (req, res) => {
   const allSpots = await Spot.findAll({
     include: [
@@ -57,6 +56,7 @@ router.get("/", async (req, res) => {
   });
 });
 
+// Get spots own by current user
 router.get("/current", requireAuth, async (req, res) => {
   const ownedSpots = await Spot.findAll({
     where: {
@@ -83,6 +83,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 });
 
+// Get spot details by id
 router.get("/:spotId", async (req, res) => {
   const spotId = parseInt(req.params.spotId);
   if (isNaN(spotId) || spotId < 1) {
@@ -91,7 +92,7 @@ router.get("/:spotId", async (req, res) => {
     throw err;
   }
 
-  const selectedSpots = await Spot.findByPk(spotId, {
+  const selectedSpot = await Spot.findByPk(spotId, {
     include: [
       {
         model: Review,
@@ -111,72 +112,69 @@ router.get("/:spotId", async (req, res) => {
     ],
   });
 
-  if (!selectedSpots) {
+  if (!selectedSpot) {
     const err = new Error("Spot couldn't be found");
     err.status = 404;
     throw err;
   }
 
   // Build avgRating
-  const totalStarRating = selectedSpots.Reviews.reduce(
+  const totalStarRating = selectedSpot.Reviews.reduce(
     (acc, e) => acc + e.stars,
     0
   );
-  const userReviewCount = selectedSpots.Reviews.length;
-  selectedSpots.dataValues.numReviews = userReviewCount;
-  selectedSpots.dataValues.avgStarRating = totalStarRating / userReviewCount;
-  selectedSpots.dataValues.Reviews = undefined;
+  const userReviewCount = selectedSpot.Reviews.length;
+  selectedSpot.dataValues.Reviews = undefined;
+  selectedSpot.dataValues.numReviews = userReviewCount;
+  if (userReviewCount) {
+    selectedSpot.dataValues.avgStarRating = totalStarRating / userReviewCount;
+  } else {
+    selectedSpot.dataValues.avgStarRating = null;
+  }
 
   // Rename User to Owner
-  selectedSpots.dataValues.Owner = selectedSpots.User;
-  selectedSpots.dataValues.User = undefined;
+  selectedSpot.dataValues.Owner = selectedSpot.User;
+  selectedSpot.dataValues.User = undefined;
 
-  res.json(selectedSpots);
+  res.json(selectedSpot);
 });
 
+// Create a spot
 router.post("/", requireAuth, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
 
   const err = new Error("Bad Request");
   err.errors = {};
+  err.status = 400;
   if (typeof address !== "string" || address.length === 0) {
     err.errors.address = "Street address is required";
-    err.status = 400;
   }
   if (typeof city !== "string" || city.length === 0) {
     err.errors.city = "City is required";
-    err.status = 400;
   }
   if (typeof state !== "string" || state.length === 0) {
     err.errors.state = "State is required";
-    err.status = 400;
   }
   if (typeof country !== "string" || country.length === 0) {
     err.errors.country = "Country is required";
-    err.status = 400;
   }
   if (typeof lat !== "number" || lat > 90 || lat < -90) {
     err.errors.lat = "Latitude must be within -90 and 90";
-    err.status = 400;
   }
   if (typeof lng !== "number" || lng > 180 || lng < -180) {
     err.errors.lng = "Longitude must be within -180 and 180";
-    err.status = 400;
   }
   if (typeof name !== "string" || name.length > 50) {
     err.errors.name = "Name must be less than 50 characters";
-    err.status = 400;
   }
   if (typeof description !== "string" || description.length === 0) {
     err.errors.description = "Description is required";
-    err.status = 400;
   }
   if (typeof price !== "number" || price < 0) {
     err.errors.price = "Price per day must be a positive number";
-    err.status = 400;
   }
-  if (err.status === 400) throw err;
+  if (Object.keys(err.errors).length) throw err;
 
   const newSpot = await Spot.create({
     ownerId: req.user.id,
@@ -193,13 +191,142 @@ router.post("/", requireAuth, async (req, res) => {
   res.status(201).json(newSpot);
 });
 
-// router.post("/:spotId/images", requireAuth, async (req, res) => {
-//   const spotId = parseInt(req.params.spotId);
-//   if (isNaN(spotId) || spotId < 1) {
-//     const err = new Error("Spot couldn't be found");
-//     err.status = 404;
-//     throw err;
-//   }
-// });
+// Add an image to spot of spotId
+router.post("/:spotId/images", requireAuth, async (req, res) => {
+  const spotId = parseInt(req.params.spotId);
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  const selectedSpot = await Spot.findByPk(spotId);
+  if (!selectedSpot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  if (selectedSpot.ownerId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  const { url, preview } = req.body;
+  const createdSpot = await SpotImage.create({
+    spotId,
+    url,
+    preview,
+  });
+
+  // Clear timestamps for response
+  createdSpot.dataValues.updatedAt = undefined;
+  createdSpot.dataValues.createdAt = undefined;
+
+  res.json(createdSpot);
+});
+
+// Edit a spot of current user
+router.put("/:spotId", requireAuth, async (req, res) => {
+  const spotId = parseInt(req.params.spotId);
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  const selectedSpot = await Spot.findByPk(spotId);
+  if (!selectedSpot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  if (selectedSpot.ownerId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  const payload = ({
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  } = req.body);
+
+  const err = new Error("Bad Request");
+  err.errors = {};
+  err.status = 400;
+  if (typeof address !== "string" || address.length === 0) {
+    err.errors.address = "Street address is required";
+  }
+  if (typeof city !== "string" || city.length === 0) {
+    err.errors.city = "City is required";
+  }
+  if (typeof state !== "string" || state.length === 0) {
+    err.errors.state = "State is required";
+  }
+  if (typeof country !== "string" || country.length === 0) {
+    err.errors.country = "Country is required";
+  }
+  if (typeof lat !== "number" || lat > 90 || lat < -90) {
+    err.errors.lat = "Latitude must be within -90 and 90";
+  }
+  if (typeof lng !== "number" || lng > 180 || lng < -180) {
+    err.errors.lng = "Longitude must be within -180 and 180";
+  }
+  if (typeof name !== "string" || name.length > 50) {
+    err.errors.name = "Name must be less than 50 characters";
+  }
+  if (typeof description !== "string" || description.length === 0) {
+    err.errors.description = "Description is required";
+  }
+  if (typeof price !== "number" || price < 0) {
+    err.errors.price = "Price per day must be a positive number";
+  }
+  if (Object.keys(err.errors).length) throw err;
+
+  await Spot.update(payload, {
+    where: {
+      id: spotId,
+    },
+  });
+
+  const updatedSpot = await Spot.findByPk(spotId);
+  res.json(updatedSpot);
+});
+
+// Delete a spot
+router.delete("/:spotId", requireAuth, async (req, res) => {
+  const spotId = parseInt(req.params.spotId);
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  const selectedSpot = await Spot.findByPk(spotId);
+  if (!selectedSpot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+  if (selectedSpot.ownerId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  await Spot.destroy({
+    where: {
+      id: spotId
+    }
+  });
+
+  const checkExists = await Spot.findByPk(spotId);
+  res.json(checkExists);
+});
 
 module.exports = router;

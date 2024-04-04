@@ -8,6 +8,8 @@ const {
   ReviewImage,
   SpotImage,
 } = require("../../db/models");
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
 
 const router = require("express").Router();
 
@@ -108,6 +110,88 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   newImage.dataValues.createdAt = undefined;
 
   res.json(newImage);
+});
+
+const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Review text is required"),
+  check("stars")
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
+// Edit existing Review
+router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
+  // Review must be valid integer
+  const reviewId = parseInt(req.params.reviewId);
+  if (isNaN(reviewId) || reviewId < 1) {
+    const err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Review must exist
+  const reviewExists = await Review.findByPk(reviewId);
+  if (!reviewExists) {
+    const err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Review must belong to User
+  if (reviewExists.userId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  // Update Review
+  const { review, stars } = req.body;
+  reviewExists.update({
+    review,
+    stars,
+  });
+
+  // Return Updated Review
+  const updatedReview = await Review.findByPk(reviewId);
+  res.json(updatedReview);
+});
+
+// Delete existing Review
+router.delete("/:reviewId", requireAuth, async (req, res) => {
+  // Review must be valid integer
+  const reviewId = parseInt(req.params.reviewId);
+  if (isNaN(reviewId) || reviewId < 1) {
+    const err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Review must exist
+  const reviewExists = await Review.findByPk(reviewId);
+  if (!reviewExists) {
+    const err = new Error("Review couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Review must belong to User
+  if (reviewExists.userId !== req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  // Delete Review
+  await reviewExists.destroy();
+
+  // Return Updated Review
+  res.json({
+    message: "Successfully deleted",
+  });
 });
 
 module.exports = router;

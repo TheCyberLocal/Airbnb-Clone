@@ -20,9 +20,9 @@ module.exports = {
         },
         ownerId: {
           type: Sequelize.INTEGER,
+          onDelete: "CASCADE",
           references: {
             model: "Users",
-            onDelete: "CASCADE",
           },
         },
         address: {

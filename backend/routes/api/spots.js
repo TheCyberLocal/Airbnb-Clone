@@ -319,14 +319,11 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
     throw err;
   }
 
-  await Spot.destroy({
-    where: {
-      id: spotId
-    }
-  });
+  await selectedSpot.destroy();
 
-  const checkExists = await Spot.findByPk(spotId);
-  res.json(checkExists);
+  res.json({
+    message: "Successfully deleted",
+  });
 });
 
 module.exports = router;

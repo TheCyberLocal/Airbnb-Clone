@@ -10,6 +10,7 @@ router.use(restoreUser);
 router.use("/session", require("./session.js"));
 router.use("/users", require("./users.js"));
 router.use("/spots", require("./spots.js"));
+router.use("/reviews", require("./reviews.js"));
 
 // Add a XSRF-TOKEN cookie
 router.get("/csrf/restore", (req, res) => {

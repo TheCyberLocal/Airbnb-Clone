@@ -1,7 +1,6 @@
 "use strict";
 
-const { User } = require("../models");
-const bcrypt = require("bcryptjs");
+const { SpotImage } = require("../models");
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -21,31 +20,25 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await User.bulkCreate(
+    await SpotImage.bulkCreate(
       [
         {
           id: 1,
-          email: "alberto@user.io",
-          username: "albert1",
-          firstName: "Albert",
-          lastName: "Einstein",
-          hashedPassword: bcrypt.hashSync("password"),
+          spotId: 1,
+          url: "https://a0.muscache.com/im/pictures/miso/Hosting-33882223/original/a65195bd-1211-45bc-96ca-27e9164d2b2b.jpeg?im_w=1200",
+          preview: true,
         },
         {
           id: 2,
-          email: "freddy@user.io",
-          username: "fred2",
-          firstName: "Frederick",
-          lastName: "Nietzsche",
-          hashedPassword: bcrypt.hashSync("password2"),
+          spotId: 2,
+          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-643406112283067720/original/24bec41f-8427-4efe-bf83-56a45cb9cb72.jpeg?im_w=1200",
+          preview: true,
         },
         {
           id: 3,
-          email: "jbpeterson@user.io",
-          username: "jordan3",
-          firstName: "Jordan",
-          lastName: "Peterson",
-          hashedPassword: bcrypt.hashSync("password3"),
+          spotId: 3,
+          url: "https://a0.muscache.com/im/pictures/miso/Hosting-999521786830063746/original/3c5218ee-d2d1-43c2-84dd-c319a6434a0c.jpeg?im_w=1200",
+          preview: false,
         },
       ],
       { validate: true }
@@ -59,7 +52,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = "Users";
+    options.tableName = "SpotImages";
     return queryInterface.bulkDelete(options, null, {});
   },
 };

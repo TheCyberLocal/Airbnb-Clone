@@ -3,7 +3,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
-const { setTokenCookie, restoreUser } = require("../../utils/auth");
+const { setTokenCookie } = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const { check } = require("express-validator");
@@ -12,46 +12,33 @@ const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
 const validateLogin = [
-  check("email")
+  check("credential")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a valid email."),
-  check("username")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid username."),
-  check("firstName")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid first name."),
-  check("lastName")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid last name."),
+    .withMessage("Email or username is required"),
   check("password")
     .exists({ checkFalsy: true })
-    .withMessage("Please provide a password."),
+    .notEmpty()
+    .withMessage("Password is required"),
   handleValidationErrors,
 ];
 
 // Log in
 router.post("/", validateLogin, async (req, res, next) => {
-  const { email, username, password } = req.body;
+  const { credential, password } = req.body;
 
   const user = await User.unscoped().findOne({
     where: {
       [Op.or]: {
-        email,
-        username,
+        email: credential,
+        username: credential,
       },
     },
   });
 
   if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-    const err = new Error("Login failed");
+    const err = new Error("Invalid credentials");
     err.status = 401;
-    err.title = "Login failed";
-    err.errors = { credential: "The provided credentials were invalid." };
     return next(err);
   }
 

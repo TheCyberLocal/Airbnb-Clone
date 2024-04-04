@@ -4,6 +4,7 @@ const {
   SpotImage,
   Review,
   ReviewImage,
+  Booking,
   User,
 } = require("../../db/models");
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
@@ -413,6 +414,52 @@ router.post("/:spotId/reviews", validateReview, async (req, res) => {
   });
 
   res.status(201).json(newReview);
+});
+
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+  // Validate spotId
+  const spotId = parseInt(req.params.spotId);
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Check Spot Exists
+  const spotExists = await Spot.findByPk(spotId);
+  if (!spotExists) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Construct Full Access Response
+  const bookings = await Booking.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+    ],
+    where: {
+      spotId,
+    },
+  });
+
+  // Filter Restricted Information
+  for (let booking of bookings) {
+    if (booking.userId !== req.user.id) {
+      booking.dataValues.User = undefined;
+      booking.dataValues.id = undefined;
+      booking.dataValues.userId = undefined;
+      booking.dataValues.createdAt = undefined;
+      booking.dataValues.updatedAt = undefined;
+    }
+  }
+
+  res.json({
+    Bookings: bookings,
+  });
 });
 
 module.exports = router;

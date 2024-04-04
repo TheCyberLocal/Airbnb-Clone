@@ -1,5 +1,3 @@
-// backend/routes/api/session.js
-
 const { requireAuth } = require("../../utils/auth");
 const {
   Review,
@@ -41,7 +39,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   // Compile Preview
   for (let review of allReviews) {
-    const firstPreviewUrl = review.Spot.SpotImages.filter(
+    const PreviewUrl = review.Spot.SpotImages.filter(
       (val) => val.preview === true
     )[0]?.url;
     review.Spot.dataValues.previewImage = firstPreviewUrl ?? null;

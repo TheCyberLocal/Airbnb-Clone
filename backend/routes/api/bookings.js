@@ -132,7 +132,11 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         formattedEndDate > booking.endDate)
     )
       continue;
-    err.errors.overlap = "New booking overlaps an existing booking";
+    // ! Using start and end date conflict for App Academy specs
+    err.errors.startDate = "Start date conflicts with an existing booking";
+    err.errors.endDate = "End date conflicts with an existing booking";
+    // ! Alternatively would use overlap error
+    // err.errors.overlap = "New booking overlaps an existing booking";
   }
   if (Object.keys(err.errors).length) throw err;
 

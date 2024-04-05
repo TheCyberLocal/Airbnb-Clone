@@ -1,7 +1,5 @@
 const { requireAuth } = require("../../utils/auth");
 const { Booking, Spot, SpotImage } = require("../../db/models");
-const { check } = require("express-validator");
-const { handleValidationErrors } = require("../../utils/validation");
 
 const router = require("express").Router();
 
@@ -78,8 +76,10 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
   const err = new Error("Bad Request");
   err.errors = {};
   err.status = 400;
-  if (isNaN(startDate)) err.errors.startDate = "startDate cannot be in the past";
-  if (isNaN(endDate)) err.errors.endDate = "endDate cannot be on or before startDate";
+  if (isNaN(startDate))
+    err.errors.startDate = "startDate cannot be in the past";
+  if (isNaN(endDate))
+    err.errors.endDate = "endDate cannot be on or before startDate";
   if (Object.keys(err.errors).length) throw err;
 
   // startDate cannot be in the past
@@ -132,7 +132,11 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         formattedEndDate > booking.endDate)
     )
       continue;
-    err.errors.overlap = "New booking overlaps an existing booking";
+    // ! Using start and end date conflict for App Academy specs
+    err.errors.startDate = "Start date conflicts with an existing booking";
+    err.errors.endDate = "End date conflicts with an existing booking";
+    // ! Alternatively would use overlap error
+    // err.errors.overlap = "New booking overlaps an existing booking";
   }
   if (Object.keys(err.errors).length) throw err;
 
@@ -188,7 +192,7 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
   await bookingExists.destroy();
 
   res.json({
-    message: "Successfully deleted"
+    message: "Successfully deleted",
   });
 });
 

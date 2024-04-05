@@ -39,7 +39,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
 
   // Compile Preview
   for (let review of allReviews) {
-    const PreviewUrl = review.Spot.SpotImages.filter(
+    const firstPreviewUrl = review.Spot.SpotImages.filter(
       (val) => val.preview === true
     )[0]?.url;
     review.Spot.dataValues.previewImage = firstPreviewUrl ?? null;
@@ -81,7 +81,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
       reviewId,
     },
   });
-  if (reviewImages.length > 10) {
+  if (reviewImages.length >= 10) {
     const err = new Error(
       "Maximum number of images for this resource was reached"
     );
@@ -122,7 +122,7 @@ const validateReview = [
 ];
 
 // Edit existing Review
-router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
+router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
   // Review must be valid integer
   const reviewId = parseInt(req.params.reviewId);
   if (isNaN(reviewId) || reviewId < 1) {

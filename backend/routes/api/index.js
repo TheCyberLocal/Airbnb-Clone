@@ -12,6 +12,8 @@ router.use("/users", require("./users.js"));
 router.use("/spots", require("./spots.js"));
 router.use("/reviews", require("./reviews.js"));
 router.use("/bookings", require("./bookings.js"));
+router.use("/spot-images", require("./spot-images.js"));
+router.use("/review-images", require("./review-images.js"));
 
 // Add a XSRF-TOKEN cookie
 router.get("/csrf/restore", (req, res) => {

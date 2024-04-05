@@ -10,6 +10,7 @@ const {
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { Op } = require("sequelize");
 router.use(restoreUser);
 
 function buildPreviewAndRating(allSpots) {
@@ -17,7 +18,7 @@ function buildPreviewAndRating(allSpots) {
     // Build previewImage
     const previewImg = element.SpotImages.reduce(
       (acc, e) => (e.preview ? e.url : acc),
-      null
+      "no preview"
     );
     element.dataValues.previewImage = previewImg;
     element.dataValues.SpotImages = undefined;
@@ -28,14 +29,104 @@ function buildPreviewAndRating(allSpots) {
       0
     );
     const userReviewCount = element.Reviews.length;
-    element.dataValues.avgRating = totalStarRating / userReviewCount;
     element.dataValues.Reviews = undefined;
+    if (userReviewCount) {
+      element.dataValues.avgRating = totalStarRating / userReviewCount;
+    } else {
+      element.dataValues.avgRating = "no reviews"
+    }
   });
   return allSpots;
 }
 
 // Get all spots
-router.get("/", async (_req, res) => {
+router.get("/", async (req, res) => {
+  let {
+    page = 1,
+    size = 20,
+    minLat,
+    maxLat,
+    minLng,
+    maxLng,
+    minPrice,
+    maxPrice,
+  } = req.query;
+
+  console.log(minPrice, maxPrice);
+
+  // Validate query params
+  const err = new Error("Bad Request");
+  err.status = 400;
+  err.errors = {};
+  if ((page !== undefined && isNaN(parseInt(page))) || page < 1 || page > 10)
+    err.errors.page = "Page must be greater than or equal to 1";
+  if ((size !== undefined && isNaN(parseInt(size))) || size < 1 || size > 20)
+    err.errors.size = "Size must be greater than or equal to 1";
+  if (
+    (minLat !== undefined && isNaN(parseInt(minLat))) ||
+    minLat < -90 ||
+    minLat > 90
+  )
+    err.errors.minLat = "Minimum latitude is invalid";
+  if (
+    (maxLat !== undefined && isNaN(parseInt(maxLat))) ||
+    maxLat < -90 ||
+    maxLat > 90
+  )
+    err.errors.maxLat = "Maximum latitude is invalid";
+  if (
+    (minLng !== undefined && isNaN(parseInt(minLng))) ||
+    minLng < -180 ||
+    minLng > 180
+  )
+    err.errors.minLng = "Minimum longitude is invalid";
+  if (
+    (maxLng !== undefined && isNaN(parseInt(maxLng))) ||
+    maxLng < -180 ||
+    maxLng > 180
+  )
+    err.errors.maxLng = "Maximum longitude is invalid";
+  if ((minPrice !== undefined && isNaN(parseInt(minPrice))) || minPrice < 0)
+    err.errors.minPrice = "Minimum price must be greater than or equal to 0";
+  if ((maxPrice !== undefined && isNaN(parseInt(maxPrice))) || maxPrice < 0)
+    err.errors.maxPrice = "Maximum price must be greater than or equal to 0";
+  if (Object.keys(err.errors).length) throw err;
+
+  if (page !== undefined) page = parseInt(page);
+  if (size !== undefined) size = parseInt(size);
+  if (minLat !== undefined) minLat = parseFloat(minLat);
+  if (maxLat !== undefined) maxLat = parseFloat(maxLat);
+  if (minLng !== undefined) minLng = parseFloat(minLng);
+  if (maxLng !== undefined) maxLng = parseFloat(maxLng);
+  if (minPrice !== undefined) minPrice = parseFloat(minPrice);
+  if (maxPrice !== undefined) maxPrice = parseFloat(maxPrice);
+
+  // Construct Query
+  const where = {};
+  if (minLat !== undefined && maxLat !== undefined) {
+    where.lat = { [Op.between]: [minLat, maxLat] };
+  } else if (minLat !== undefined) {
+    where.lat = { [Op.gte]: minLat };
+  } else if (maxLat !== undefined) {
+    where.lat = { [Op.lte]: maxLat };
+  }
+
+  if (minLng !== undefined && maxLng !== undefined) {
+    where.lng = { [Op.between]: [minLng, maxLng] };
+  } else if (minLng !== undefined) {
+    where.lng = { [Op.gte]: minLng };
+  } else if (maxLng !== undefined) {
+    where.lng = { [Op.lte]: maxLng };
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    where.price = { [Op.between]: [minPrice, maxPrice] };
+  } else if (minPrice !== undefined) {
+    where.price = { [Op.gte]: minPrice };
+  } else if (maxPrice !== undefined) {
+    where.price = { [Op.lte]: maxPrice };
+  }
+
   const allSpots = await Spot.findAll({
     include: [
       {
@@ -50,11 +141,16 @@ router.get("/", async (_req, res) => {
         attributes: ["url", "preview"],
       },
     ],
+    where,
+    limit: size,
+    offset: size * (page - 1),
   });
   const selectedSpots = buildPreviewAndRating(allSpots);
 
   res.json({
     Spots: selectedSpots,
+    page,
+    size,
   });
 });
 
@@ -131,7 +227,7 @@ router.get("/:spotId", async (req, res) => {
   if (userReviewCount) {
     selectedSpot.dataValues.avgStarRating = totalStarRating / userReviewCount;
   } else {
-    selectedSpot.dataValues.avgStarRating = null;
+    selectedSpot.dataValues.avgStarRating = "no reviews";
   }
 
   // Rename User to Owner
@@ -376,45 +472,50 @@ const validateReview = [
 ];
 
 // Create a Review for a Spot
-router.post("/:spotId/reviews", validateReview, async (req, res) => {
-  const spotId = parseInt(req.params.spotId);
-  if (isNaN(spotId) || spotId < 1) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    throw err;
-  }
-  const selectedSpot = await Spot.findByPk(spotId);
-  if (!selectedSpot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    throw err;
-  }
+router.post(
+  "/:spotId/reviews",
+  requireAuth,
+  validateReview,
+  async (req, res) => {
+    const spotId = parseInt(req.params.spotId);
+    if (isNaN(spotId) || spotId < 1) {
+      const err = new Error("Spot couldn't be found");
+      err.status = 404;
+      throw err;
+    }
+    const selectedSpot = await Spot.findByPk(spotId);
+    if (!selectedSpot) {
+      const err = new Error("Spot couldn't be found");
+      err.status = 404;
+      throw err;
+    }
 
-  // May only submit one review
-  const alreadyReviewed = await Review.findOne({
-    where: {
-      spotId,
+    // May only submit one review
+    const alreadyReviewed = await Review.findOne({
+      where: {
+        spotId,
+        userId: req.user.id,
+      },
+    });
+    if (!!alreadyReviewed) {
+      const err = new Error("User already has a review for this spot");
+      err.status = 500;
+      throw err;
+    }
+
+    let { review, stars } = req.body;
+    stars = parseInt(stars);
+
+    const newReview = await Review.create({
       userId: req.user.id,
-    },
-  });
-  if (!!alreadyReviewed) {
-    const err = new Error("User already has a review for this spot");
-    err.status = 500;
-    throw err;
+      spotId,
+      review,
+      stars,
+    });
+
+    res.status(201).json(newReview);
   }
-
-  let { review, stars } = req.body;
-  stars = parseInt(stars);
-
-  const newReview = await Review.create({
-    userId: req.user.id,
-    spotId,
-    review,
-    stars,
-  });
-
-  res.status(201).json(newReview);
-});
+);
 
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   // Validate spotId
@@ -462,6 +563,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   });
 });
 
+// Create a Booking
 router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   // Validate spotId
   const spotId = parseInt(req.params.spotId);
@@ -493,8 +595,10 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const err = new Error("Bad Request");
   err.errors = {};
   err.status = 400;
-  if (isNaN(startDate)) err.errors.startDate = "startDate cannot be in the past";
-  if (isNaN(endDate)) err.errors.endDate = "endDate cannot be on or before startDate";
+  if (isNaN(startDate))
+    err.errors.startDate = "startDate cannot be in the past";
+  if (isNaN(endDate))
+    err.errors.endDate = "endDate cannot be on or before startDate";
   if (Object.keys(err.errors).length) throw err;
 
   // startDate cannot be in the past
@@ -545,7 +649,11 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
         formattedEndDate > booking.endDate)
     )
       continue;
-    err.errors.overlap = "New booking overlaps an existing booking";
+    // ! Using start and end date conflict for App Academy specs
+    err.errors.startDate = "Start date conflicts with an existing booking";
+    err.errors.endDate = "End date conflicts with an existing booking";
+    // ! Alternatively would use overlap error
+    // err.errors.overlap = "New booking overlaps an existing booking";
   }
   if (Object.keys(err.errors).length) throw err;
 

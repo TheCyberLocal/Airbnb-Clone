@@ -462,4 +462,102 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   });
 });
 
+router.post("/:spotId/bookings", requireAuth, async (req, res) => {
+  // Validate spotId
+  const spotId = parseInt(req.params.spotId);
+  if (isNaN(spotId) || spotId < 1) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // Check Spot Exists
+  const spotExists = await Spot.findByPk(spotId);
+  if (!spotExists) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    throw err;
+  }
+
+  // User must NOT be owner
+  if (spotExists.ownerId === req.user.id) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    throw err;
+  }
+
+  // Validate input
+  let { startDate, endDate } = req.body;
+  startDate = Date.parse(startDate);
+  endDate = Date.parse(endDate);
+  const err = new Error("Bad Request");
+  err.errors = {};
+  err.status = 400;
+  if (isNaN(startDate)) err.errors.startDate = "startDate is required";
+  if (isNaN(endDate)) err.errors.endDate = "endDate is required";
+  if (Object.keys(err.errors).length) throw err;
+
+  // startDate cannot be in the past
+  // endDate cannot be on or before startDate
+  if (startDate < new Date())
+    err.errors.startDate = "startDate cannot be in the past";
+  if (endDate <= startDate)
+    err.errors.endDate = "endDate cannot be on or before startDate";
+  if (Object.keys(err.errors).length) throw err;
+
+  const bookings = await Booking.findAll({
+    where: {
+      spotId,
+    },
+  });
+
+  // Convert input to Date only
+  const formattedStartDate = new Date(startDate).toISOString().split("T")[0];
+  const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
+
+  // Check for Booking Conflicts
+  err.message = "Sorry, this spot is already booked for the specified dates";
+  err.status = 403;
+  for (let booking of bookings) {
+    // If new booking startDate is within an existing booking allocation
+    if (
+      formattedStartDate >= booking.startDate &&
+      formattedStartDate <= booking.endDate
+    ) {
+      err.errors.startDate = "Start date conflicts with an existing booking";
+    }
+    // If new booking endDate is within an existing booking allocation
+    if (
+      formattedEndDate >= booking.startDate &&
+      formattedEndDate <= booking.endDate
+    ) {
+      err.errors.endDate = "End date conflicts with an existing booking";
+    }
+    // Don't add overlap error if either start or end date conflict
+    if (err.errors.startDate || err.errors.endDate) continue;
+    // If new booking allocation is within an existing booking allocation
+    // If new booking start and end are both before existing start or
+    // If new booking start and end are both after existing end skip error
+    if (
+      (formattedStartDate < booking.startDate &&
+        formattedEndDate < booking.startDate) ||
+      (formattedStartDate > booking.endDate &&
+        formattedEndDate > booking.endDate)
+    )
+      continue;
+    err.errors.overlap = "New booking overlaps an existing booking";
+  }
+  if (Object.keys(err.errors).length) throw err;
+
+  // Create Booking
+  const newBooking = await Booking.create({
+    spotId,
+    userId: req.user.id,
+    startDate,
+    endDate,
+  });
+
+  res.json(newBooking);
+});
+
 module.exports = router;

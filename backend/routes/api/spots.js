@@ -493,8 +493,8 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const err = new Error("Bad Request");
   err.errors = {};
   err.status = 400;
-  if (isNaN(startDate)) err.errors.startDate = "startDate is required";
-  if (isNaN(endDate)) err.errors.endDate = "endDate is required";
+  if (isNaN(startDate)) err.errors.startDate = "startDate cannot be in the past";
+  if (isNaN(endDate)) err.errors.endDate = "endDate cannot be on or before startDate";
   if (Object.keys(err.errors).length) throw err;
 
   // startDate cannot be in the past
@@ -553,8 +553,8 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const newBooking = await Booking.create({
     spotId,
     userId: req.user.id,
-    startDate,
-    endDate,
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
   });
 
   res.json(newBooking);

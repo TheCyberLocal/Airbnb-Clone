@@ -27,7 +27,7 @@ router.get("/current", requireAuth, async (req, res) => {
   // Compile Preview
   for (let booking of bookings) {
     const firstPreviewUrl = booking.Spot.SpotImages.filter(
-      (val) => val.preview === true
+      (val) => val.preview === true,
     )[0]?.url;
     booking.Spot.dataValues.previewImage = firstPreviewUrl ?? null;
     booking.Spot.dataValues.SpotImages = undefined;
@@ -150,7 +150,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
       where: {
         id: bookingId,
       },
-    }
+    },
   );
 
   const newBooking = await Booking.findByPk(bookingId);

@@ -38,7 +38,7 @@ module.exports = {
           url: "https://a0.muscache.com/im/pictures/miso/Hosting-999521786830063746/original/7d02ff44-5167-4b6e-b67b-577726605ac1.jpeg?im_w=720",
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

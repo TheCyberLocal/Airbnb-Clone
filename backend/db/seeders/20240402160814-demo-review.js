@@ -58,7 +58,7 @@ module.exports = {
           stars: 4,
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

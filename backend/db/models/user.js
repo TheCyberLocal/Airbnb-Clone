@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
         },
       },
-    }
+    },
   );
   return User;
 };

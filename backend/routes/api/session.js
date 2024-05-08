@@ -52,7 +52,7 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   await setTokenCookie(res, safeUser);
 
-  return res.json({
+  res.json({
     user: safeUser,
   });
 });
@@ -60,7 +60,7 @@ router.post("/", validateLogin, async (req, res, next) => {
 // Log out
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
-  return res.json({ message: "success" });
+  res.json({ message: "success" });
 });
 
 // Restore session user
@@ -74,10 +74,14 @@ router.get("/", (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
     };
-    return res.json({
+    res.json({
       user: safeUser,
     });
-  } else return res.json({ user: null });
+  } else {
+    res.json({
+      user: null,
+    });
+  }
 });
 
 module.exports = router;

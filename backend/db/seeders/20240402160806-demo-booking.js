@@ -44,7 +44,7 @@ module.exports = {
           endDate: "1990-12-31",
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

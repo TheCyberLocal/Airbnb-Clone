@@ -62,7 +62,7 @@ module.exports = {
           price: 145.99,
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

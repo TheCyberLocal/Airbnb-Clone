@@ -37,7 +37,7 @@ module.exports = {
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
-      options
+      options,
     );
   },
   async down(queryInterface, Sequelize) {

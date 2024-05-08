@@ -41,7 +41,7 @@ module.exports = {
           preview: false,
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

@@ -18,7 +18,7 @@ function buildPreviewAndRating(allSpots) {
     // Build previewImage
     const previewImg = element.SpotImages.reduce(
       (acc, e) => (e.preview ? e.url : acc),
-      "no preview"
+      "no preview",
     );
     element.dataValues.previewImage = previewImg;
     element.dataValues.SpotImages = undefined;
@@ -26,14 +26,14 @@ function buildPreviewAndRating(allSpots) {
     // Build avgRating
     const totalStarRating = element.Reviews.reduce(
       (acc, e) => acc + e.stars,
-      0
+      0,
     );
     const userReviewCount = element.Reviews.length;
     element.dataValues.Reviews = undefined;
     if (userReviewCount) {
       element.dataValues.avgRating = totalStarRating / userReviewCount;
     } else {
-      element.dataValues.avgRating = "no reviews"
+      element.dataValues.avgRating = "no reviews";
     }
   });
   return allSpots;
@@ -219,7 +219,7 @@ router.get("/:spotId", async (req, res) => {
   // Build avgRating
   const totalStarRating = selectedSpot.Reviews.reduce(
     (acc, e) => acc + e.stars,
-    0
+    0,
   );
   const userReviewCount = selectedSpot.Reviews.length;
   selectedSpot.dataValues.Reviews = undefined;
@@ -514,7 +514,7 @@ router.post(
     });
 
     res.status(201).json(newReview);
-  }
+  },
 );
 
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {

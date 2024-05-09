@@ -24,21 +24,21 @@ module.exports = {
       [
         {
           id: 1,
-          spotId: 1,
+          spotId: 2,
           userId: 1,
           review: "The best home I ever bought.",
           stars: 5,
         },
         {
           id: 2,
-          spotId: 2,
+          spotId: 3,
           userId: 2,
           review: "This home is the best.",
           stars: 5,
         },
         {
           id: 3,
-          spotId: 3,
+          spotId: 1,
           userId: 3,
           review: "I admired the vivid mountainous landscape.",
           stars: 5,
@@ -52,7 +52,7 @@ module.exports = {
         },
         {
           id: 5,
-          spotId: 1,
+          spotId: 2,
           userId: 3,
           review: "I didn't have much taste for the architecture.",
           stars: 4,

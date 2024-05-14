@@ -23,7 +23,6 @@ module.exports = {
     await Spot.bulkCreate(
       [
         {
-          id: 1,
           ownerId: 1,
           address: "6555 Polymer Way",
           city: "NukeTown",
@@ -36,7 +35,6 @@ module.exports = {
           price: 209.99,
         },
         {
-          id: 2,
           ownerId: 2,
           address: "4785 Destiny Street",
           city: "Sparkle City",
@@ -49,7 +47,6 @@ module.exports = {
           price: 380.99,
         },
         {
-          id: 3,
           ownerId: 3,
           address: "8000 Out There Lane",
           city: "Stary Night",

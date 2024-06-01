@@ -52,8 +52,6 @@ router.get("/", async (req, res) => {
     maxPrice,
   } = req.query;
 
-  console.log(minPrice, maxPrice);
-
   // Validate query params
   const err = new Error("Bad Request");
   err.status = 400;

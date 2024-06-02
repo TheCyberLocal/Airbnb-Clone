@@ -1,12 +1,25 @@
 import "./ViewAllSpots.css";
 import SpotCard from "../SpotCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchSpots } from "../../store/spots";
 
 function ViewAllSpots() {
-  const page = [];
-  for (let i = 0; i < 6; i++) {
-    page.push(<SpotCard />);
-  }
-  return <div className="homeBody">{page}</div>;
+  const dispatch = useDispatch();
+  const spots = useSelector((state) => state.spots);
+  const spotsArr = Object.values(spots);
+
+  useEffect(() => {
+    dispatch(fetchSpots());
+  }, [dispatch]);
+
+  return (
+    <div className="homeBody">
+      {spotsArr.map((spot) => (
+        <SpotCard spot={spot} />
+      ))}
+    </div>
+  );
 }
 
 export default ViewAllSpots;

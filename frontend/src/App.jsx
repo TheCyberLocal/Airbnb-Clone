@@ -3,9 +3,10 @@ import { useDispatch } from "react-redux";
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
-import LoginFormPage from "./components/LoginFormPage";
-import SignupFormPage from "./components/SignupFormPage";
+// import LoginFormPage from "./components/LoginFormPage";
+// import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation/Navigation-bonus";
+import ViewAllSpots from "./components/ViewAllSpots/ViewAllSpots";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -36,8 +37,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <h1>Home Page</h1>
-      }
+        element: <ViewAllSpots />,
+      },
       // {
       //   path: "login",
       //   element: <LoginFormPage />,

@@ -1,0 +1,5 @@
+.spotCard {
+    background-color: grey;
+    aspect-ratio: 0.8;
+    flex: 0 0 max(300px, calc(25% - 15px));
+  }

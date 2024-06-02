@@ -1,0 +1,6 @@
+.homeBody {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 20px;
+    margin: 30px 90px;
+  }

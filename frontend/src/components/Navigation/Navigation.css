@@ -20,3 +20,7 @@ nav {
   padding: 0px 5%;
   border-bottom: solid lightgrey 2px;
 }
+
+.clickable {
+  cursor: pointer;
+}

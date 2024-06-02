@@ -5,3 +5,18 @@
 .hidden {
   display: none;
 }
+
+.nav-logo {
+  width: 110px;
+  height: fit-content;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0px 5%;
+  border-bottom: solid lightgrey 2px;
+}

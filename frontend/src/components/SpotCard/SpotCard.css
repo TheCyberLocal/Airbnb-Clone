@@ -24,3 +24,8 @@ img {
   margin: 10px 0px;
   font-size: 18px;
 }
+
+.my-tooltip {
+  font-size: 20px !important;
+  border-radius: 10px !important;
+}

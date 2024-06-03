@@ -1,13 +1,20 @@
 import "./SpotCard.css";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 
 function SpotCard({ spot }) {
   const nav = useNavigate();
-  const { id, city, state, previewImage, price, avgRating } = spot;
+  const { id, name, city, state, previewImage, price, avgRating } = spot;
 
   return (
-    <div className="spotCard clickable" onClick={() => nav(`/spots/${id}`)}>
+    <div
+      className="spotCard clickable"
+      data-tooltip-id={`my-tooltip-${id}`}
+      data-tooltip-float="true"
+      onClick={() => nav(`/spots/${id}`)}
+    >
+      <Tooltip className="my-tooltip" id={`my-tooltip-${id}`} content={name} />
       <img
         src={previewImage === "no preview" ? "/noPreviewImg.png" : previewImage}
         alt="Preview Image"

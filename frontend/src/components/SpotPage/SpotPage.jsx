@@ -11,7 +11,7 @@ function SpotPage() {
 
   useEffect(() => {
     dispatch(fetchSpot(spotId));
-  }, [dispatch]);
+  }, [dispatch, spotId]);
 
   const { name, city, state, country, description, numReviews } = spot;
 

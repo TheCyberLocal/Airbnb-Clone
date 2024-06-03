@@ -15,8 +15,8 @@ function ViewAllSpots() {
 
   return (
     <div className="homeBody">
-      {spotsArr.map((spot) => (
-        <SpotCard spot={spot} />
+      {spotsArr.map((spot, i) => (
+        <SpotCard key={i} spot={spot} />
       ))}
     </div>
   );

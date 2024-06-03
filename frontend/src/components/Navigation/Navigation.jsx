@@ -8,10 +8,11 @@ function Navigation({ isLoaded }) {
   const nav = useNavigate();
 
   return (
-    <nav>
+    <nav id="nav-bar">
       <img
         src="/logo.png"
-        className="nav-logo clickable"
+        className="clickable"
+        id="nav-logo"
         alt="Airbnb Logo"
         onClick={() => nav("/")}
       />

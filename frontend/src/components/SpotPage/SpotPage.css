@@ -1,0 +1,40 @@
+#spotPage {
+  margin: 30px 90px;
+
+  :is(#title) {
+    font-size: 30px;
+  }
+
+  :is(#location) {
+    font-size: 20px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  :is(#images) {
+    display: flex;
+    flex-direction: row;
+
+    :is(#preview) {
+      width: calc(50% - 10px);
+      margin: 5px;
+      aspect-ratio: 1.5;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    :is(#sideImages) {
+      display: flex;
+      flex-wrap: wrap;
+
+      :is(.sideImages) {
+        width: calc(50% - 10px);
+        margin: 5px;
+        aspect-ratio: 1.5;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+    }
+  }
+}

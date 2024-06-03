@@ -13,22 +13,45 @@ function SpotPage() {
     dispatch(fetchSpot(spotId));
   }, [dispatch, spotId]);
 
-  const { name, city, state, country, description, numReviews } = spot;
+  const { name, city, state, country, description, numReviews, SpotImages } =
+    spot;
+
+  const images = Object.values(SpotImages || {});
+  const previewImage =
+    images.find((e) => e.preview === true)?.url || "/noPreviewImg.png";
+  const sideImages = images.filter((e) => e.preview === false) || [];
+
+  while (sideImages.length < 4) {
+    sideImages.push({ url: "/noMedia.png", id: sideImages.length });
+  }
+  console.log("finished loading images", sideImages);
 
   return (
-    <main>
-      <div className="title">{name}</div>
-      <div className="location">{`${city}, ${state}, ${country}`}</div>
-      <div className="images">images</div>
-      <div className="details">
-        <span>
-          <div className="details-title">{`Hosted by Firstname Lastname`}</div>
-          <div className="description">{`${description}`}</div>
-        </span>
-        <span className="reserve">Reservations</span>
+    <div id="spotPage">
+      <div id="title">{name}</div>
+      <div id="location">{`${city}, ${state}, ${country}`}</div>
+      <div id="images">
+        <img id="preview" src={previewImage} alt="Preview Image" />
+        <div id="sideImages">
+          {sideImages.map((e) => (
+            <img
+              className="sideImages"
+              key={e.id}
+              src={e.url}
+              alt="Spot Image"
+            />
+          ))}
+        </div>
       </div>
-      <div className="reviews">All Reviews Below - count {numReviews}</div>
-    </main>
+      <div id="details">
+        <span>
+          <div id="details-title">{`Hosted by Firstname Lastname`}</div>
+          <div id="description">{`${description}`}</div>
+        </span>
+        <span id="reserve">Reservations</span>
+      </div>
+      <div id="reviews">All Reviews Below - count {numReviews}</div>
+    </div>
   );
 }
 

@@ -41,9 +41,9 @@ function LoginFormModal() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form id="login-form" onSubmit={handleSubmit}>
         <h1>Log In</h1>
-        {errors.credential && <p className="errors">{errors.credential}</p>}
+        {errors.credential && <p id="login-error">{errors.credential}</p>}
         <input
           type="text"
           value={credential}

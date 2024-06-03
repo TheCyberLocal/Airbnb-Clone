@@ -1,35 +1,35 @@
-.errors {
-  color: red;
-  font-size: 17px;
-  margin: 0px;
-}
-
-form {
+#login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-input {
-  margin: 10px 0;
-  width: 89%;
-  outline: none;
-  box-shadow: 4px 4px 5px lightgrey;
-  border-radius: 5px;
-  font-size: 17px;
-}
+  :is(input) {
+    margin: 10px 0;
+    width: 89%;
+    outline: none;
+    box-shadow: 4px 4px 5px lightgrey;
+    border-radius: 5px;
+    font-size: 17px;
+  }
 
-button {
-  margin: 10px 0;
-  width: 90%;
-  box-shadow: 4px 4px 5px lightgrey;
-  font-size: 17px;
-}
+  :is(button) {
+    margin: 10px 0;
+    width: 90%;
+    box-shadow: 4px 4px 5px lightgrey;
+    font-size: 17px;
+  }
 
-#login-button {
-  height: 50px;
-}
+  :is(#login-button) {
+    height: 50px;
+  }
 
-#demo-button {
-  width: 50%;
+  :is(#demo-button) {
+    width: 50%;
+  }
+
+  :is(#login-error) {
+    color: red;
+    font-size: 17px;
+    margin: 0px;
+  }
 }

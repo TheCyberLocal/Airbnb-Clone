@@ -1,4 +1,4 @@
-.homeBody {
+#homePage {
   display: flex;
   flex-wrap: wrap;
   grid-gap: 20px;

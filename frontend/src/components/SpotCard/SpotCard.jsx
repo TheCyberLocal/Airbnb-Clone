@@ -1,5 +1,6 @@
 import "./SpotCard.css";
 import { useNavigate } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 
 function SpotCard({ spot }) {
   const nav = useNavigate();
@@ -15,7 +16,7 @@ function SpotCard({ spot }) {
         <div className="title">
           <span className="city-state">{`${city}, ${state}`}</span>
           <span className="avgRating">
-            <i className="fas fa-star"></i>
+            <FaStar />
             {" " + avgRating?.toFixed(1)}
           </span>
         </div>

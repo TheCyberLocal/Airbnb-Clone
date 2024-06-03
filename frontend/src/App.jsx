@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
-// import LoginFormPage from './components/LoginFormPage';
-// import SignupFormPage from './components/SignupFormPage';
-import Navigation from "./components/Navigation/Navigation-bonus";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
+// import LoginFormPage from "./components/LoginFormPage";
+// import SignupFormPage from "./components/SignupFormPage";
+import Navigation from "./components/Navigation";
+import ViewAllSpots from "./components/ViewAllSpots";
+import SpotPage from "./components/SpotPage";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -31,17 +33,25 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
+        path: "*",
+        element: <h1>Page Not Found 404</h1>,
+      },
+      {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <ViewAllSpots />,
+      },
+      {
+        path: "/spots/:spotId",
+        element: <SpotPage />,
       },
       // {
-      //   path: 'login',
-      //   element: <LoginFormPage />
+      //   path: "login",
+      //   element: <LoginFormPage />,
       // },
       // {
-      //   path: 'signup',
-      //   element: <SignupFormPage />
-      // }
+      //   path: "signup",
+      //   element: <SignupFormPage />,
+      // },
     ],
   },
 ]);

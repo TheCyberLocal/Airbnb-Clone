@@ -1,7 +1,39 @@
 .profile-dropdown {
   position: absolute;
+  transform: translateX(-90px);
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 4px 4px 10px lightgrey;
+  border: solid lightgrey 2px;
+}
+
+.profile-dropdown > *:hover {
+  color: salmon;
 }
 
 .hidden {
   display: none;
+}
+
+.nav-logo {
+  width: 110px;
+  height: fit-content;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0px 5%;
+  border-bottom: solid lightgrey 2px;
+}
+
+.clickable {
+  cursor: pointer;
 }

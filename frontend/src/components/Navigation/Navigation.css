@@ -1,7 +1,6 @@
 .profile-dropdown {
   position: absolute;
-  transform: translateX(-90px);
-  width: 100px;
+  width: 80px;
   display: flex;
   flex-direction: column;
   padding: 5px 10px;
@@ -13,6 +12,16 @@
 
 .profile-dropdown > *:hover {
   color: salmon;
+}
+
+.profile-button {
+  width: 90px;
+  height: 47px;
+  border-radius: 25px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hidden {

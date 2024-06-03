@@ -16,7 +16,7 @@ function SpotCard({ spot }) {
           <span className="city-state">{`${city}, ${state}`}</span>
           <span className="avgRating">
             <i class="fas fa-star"></i>
-            {" " + avgRating.toFixed(1)}
+            {" " + avgRating?.toFixed(1)}
           </span>
         </div>
         <div className="details">

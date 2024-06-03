@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
   return (
     <nav>
       <img
-        src="logo.png"
+        src="/logo.png"
         className="nav-logo clickable"
         alt="Airbnb Logo"
         onClick={() => nav("/")}

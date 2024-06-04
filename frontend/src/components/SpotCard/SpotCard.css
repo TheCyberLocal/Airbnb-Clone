@@ -10,7 +10,7 @@
   }
 
   :is(.description) {
-    font-size: 18px;
+    font-size: 1.1rem;
   }
 
   :is(.title) {
@@ -21,11 +21,11 @@
 
   :is(.details) {
     margin: 10px 0px;
-    font-size: 18px;
+    font-size: 1.1rem;
   }
 
   :is(.my-tooltip) {
-    font-size: 20px !important;
+    font-size: 1.1rem !important;
     border-radius: 10px !important;
   }
 }

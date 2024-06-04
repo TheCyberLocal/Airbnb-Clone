@@ -26,7 +26,6 @@ export const fetchSpots = () => async (dispatch) => {
     key = Number(key);
     processed[key + 1] = data.Spots[key];
   }
-  console.log("processed", processed);
   dispatch(loadSpots(processed));
 };
 

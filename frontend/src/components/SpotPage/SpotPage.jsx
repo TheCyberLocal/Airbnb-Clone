@@ -10,7 +10,6 @@ function SpotPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
-  console.log("spot", spot);
 
   useEffect(() => {
     dispatch(fetchSpot(spotId));
@@ -36,7 +35,6 @@ function SpotPage() {
   while (sideImages.length < 4) {
     sideImages.push({ url: "/noMedia.png", id: sideImages.length });
   }
-  console.log("finished loading images", sideImages);
 
   return (
     spot && (

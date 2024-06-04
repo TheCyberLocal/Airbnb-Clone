@@ -102,4 +102,9 @@
       }
     }
   }
+
+  :is(#reviews-head) {
+    font-size: 1.8rem;
+    margin-top: 10px;
+  }
 }

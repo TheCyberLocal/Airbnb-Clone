@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import { FaStar } from "react-icons/fa";
-import { LuDot } from "react-icons/lu";
 import ReviewCard from "../ReviewCard";
 
 function SpotPage() {
@@ -31,6 +30,8 @@ function SpotPage() {
     numReviews,
     SpotImages,
   } = spot || {};
+  const stars =
+    avgStarRating === "no reviews" ? "New" : avgStarRating?.toFixed(1);
 
   const imagesArr = Object.values(SpotImages || {});
   const previewImage =
@@ -38,7 +39,7 @@ function SpotPage() {
   const sideImages = imagesArr.filter((e) => e.preview === false) || [];
 
   while (sideImages.length < 4) {
-    sideImages.push({ url: "/noMedia.png", id: sideImages.length });
+    sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
   }
 
   return (
@@ -71,9 +72,10 @@ function SpotPage() {
                 <div id="reserve-card-text">
                   <span id="reserve-card-text1">night</span>
                   <span id="reserve-card-text2">
-                    <FaStar /> {avgStarRating?.toFixed(1) || "N/A"}
-                    <LuDot />
-                    {numReviews} reviews
+                    <FaStar />
+                    {stars === "New"
+                      ? " New"
+                      : ` ${stars} • ${numReviews} reviews`}
                   </span>
                 </div>
               </div>
@@ -88,9 +90,8 @@ function SpotPage() {
           </div>
         </div>
         <div id="reviews-head">
-          <FaStar /> {avgStarRating?.toFixed(1) || "N/A"}
-          <LuDot />
-          {numReviews} reviews
+          <FaStar />
+          {stars === "New" ? " New" : ` ${stars} • ${numReviews} reviews`}
         </div>
         {reviewsArr.map((review, i) => (
           <ReviewCard key={i} review={review} />

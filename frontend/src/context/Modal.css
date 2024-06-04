@@ -22,6 +22,7 @@
   position: absolute;
   background-color: white;
   border-radius: 20px;
-  height: 50vh;
-  aspect-ratio: 1.45;
+  height: fit-content;
+  width: fit-content;
+  padding: 25px;
 }

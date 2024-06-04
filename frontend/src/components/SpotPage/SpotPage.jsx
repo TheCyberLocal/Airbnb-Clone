@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { FaStar } from "react-icons/fa";
+import { LuDot } from "react-icons/lu";
 
 function SpotPage() {
   const { spotId } = useParams();
@@ -25,7 +26,7 @@ function SpotPage() {
     price,
     numReviews,
     SpotImages,
-  } = spot;
+  } = spot || {};
 
   const images = Object.values(SpotImages || {});
   const previewImage =
@@ -38,51 +39,54 @@ function SpotPage() {
   console.log("finished loading images", sideImages);
 
   return (
-    <div id="spotPage">
-      <div id="title">{name}</div>
-      <div id="location">{`${city}, ${state}, ${country}`}</div>
-      <div id="images">
-        <img id="preview" src={previewImage} alt="Preview Image" />
-        <div id="sideImages">
-          {sideImages.map((e) => (
-            <img
-              className="sideImages"
-              key={e.id}
-              src={e.url}
-              alt="Spot Image"
-            />
-          ))}
-        </div>
-      </div>
-      <div id="details">
-        <div id="hostedBy">
-          <div id="title">{`Hosted by Firstname Lastname`}</div>
-          <div id="description">{`${description}`}</div>
-        </div>
-        <div id="reserve">
-          <div id="reserve-card">
-            <div id="reserve-card-head">
-              <div id="reserve-card-price">${price}</div>
-              <div id="reserve-card-text">
-                <span id="reserve-card-text1">night</span>
-                <span id="reserve-card-text2">
-                  <FaStar /> {avgStarRating?.toFixed(1) || "N/A"} - {numReviews}{" "}
-                  reviews
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={() => alert("Feature Coming Soon...")}
-              className="clickable"
-              id="reserve-card-button"
-            >
-              Reserve
-            </button>
+    spot && (
+      <div id="spotPage">
+        <div id="title">{name}</div>
+        <div id="location">{`${city}, ${state}, ${country}`}</div>
+        <div id="images">
+          <img id="preview" src={previewImage} alt="Preview Image" />
+          <div id="sideImages">
+            {sideImages.map((e) => (
+              <img
+                className="sideImages"
+                key={e.id}
+                src={e.url}
+                alt="Spot Image"
+              />
+            ))}
           </div>
         </div>
+        <div id="details">
+          <div id="hostedBy">
+            <div id="title">{`Hosted by Firstname Lastname`}</div>
+            <div id="description">{`${description}`}</div>
+          </div>
+          <div id="reserve">
+            <div id="reserve-card">
+              <div id="reserve-card-head">
+                <div id="reserve-card-price">${price}</div>
+                <div id="reserve-card-text">
+                  <span id="reserve-card-text1">night</span>
+                  <span id="reserve-card-text2">
+                    <FaStar /> {avgStarRating?.toFixed(1) || "N/A"}
+                    <LuDot />
+                    {numReviews} reviews
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => alert("Feature Coming Soon...")}
+                className="clickable"
+                id="reserve-card-button"
+              >
+                Reserve
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="reviews">All Reviews Below - count {numReviews}</div>
       </div>
-      <div id="reviews">All Reviews Below - count {numReviews}</div>
-    </div>
+    )
   );
 }
 

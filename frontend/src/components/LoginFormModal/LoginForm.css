@@ -5,18 +5,19 @@
 
   :is(input) {
     margin: 10px 0;
-    width: 89%;
+    width: 85%;
     outline: none;
+    padding: 5px 10px;
     box-shadow: 4px 4px 5px lightgrey;
     border-radius: 5px;
-    font-size: 17px;
+    font-size: 1.3rem;
   }
 
   :is(button) {
     margin: 10px 0;
     width: 90%;
     box-shadow: 4px 4px 5px lightgrey;
-    font-size: 17px;
+    font-size: 1.3rem;
   }
 
   :is(#login-button) {
@@ -29,7 +30,7 @@
 
   :is(#login-error) {
     color: red;
-    font-size: 17px;
+    font-size: 1.3rem;
     margin: 0px;
   }
 }

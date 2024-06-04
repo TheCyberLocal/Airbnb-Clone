@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import { Modal } from "./context/Modal";
-// import LoginFormPage from "./components/LoginFormPage";
-// import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
 import ViewAllSpots from "./components/ViewAllSpots";
 import SpotPage from "./components/SpotPage";
@@ -28,13 +26,27 @@ function Layout() {
   );
 }
 
+const PageNotFound = () => {
+  return (
+    <h1
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        fontSize: "72px",
+      }}
+    >
+      Page Not Found 404
+    </h1>
+  );
+};
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
         path: "*",
-        element: <h1>Page Not Found 404</h1>,
+        element: <PageNotFound />,
       },
       {
         path: "/",
@@ -44,14 +56,6 @@ const router = createBrowserRouter([
         path: "/spots/:spotId",
         element: <SpotPage />,
       },
-      // {
-      //   path: "login",
-      //   element: <LoginFormPage />,
-      // },
-      // {
-      //   path: "signup",
-      //   element: <SignupFormPage />,
-      // },
     ],
   },
 ]);

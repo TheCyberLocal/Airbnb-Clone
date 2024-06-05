@@ -6,6 +6,7 @@ import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import { FaStar } from "react-icons/fa";
 import ReviewCard from "../ReviewCard";
+import PageNotFound from "../PageNotFound";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -51,6 +52,10 @@ function createReviewsElement({ Owner, reviewsArr, user }) {
 
 function SpotPage() {
   const { spotId } = useParams();
+
+  // If url has non numeric spotId
+  if (isNaN(+spotId)) return <PageNotFound />;
+
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews[spotId]);

@@ -6,6 +6,7 @@ import { Modal } from "./context/Modal";
 import Navigation from "./components/Navigation";
 import ViewAllSpots from "./components/ViewAllSpots";
 import SpotPage from "./components/SpotPage";
+import PageNotFound from "./components/PageNotFound";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -25,20 +26,6 @@ function Layout() {
     </>
   );
 }
-
-const PageNotFound = () => {
-  return (
-    <h1
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        fontSize: "72px",
-      }}
-    >
-      Page Not Found 404
-    </h1>
-  );
-};
 
 const router = createBrowserRouter([
   {

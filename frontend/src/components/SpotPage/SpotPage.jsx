@@ -36,11 +36,25 @@ function newestReviewDate(reviewA, reviewB) {
   return dateB - dateA;
 }
 
+function createReviewsElement({ Owner, reviewsArr, user }) {
+  // Return review elements if they exist
+  // Else return string if user logged in and isn't the owner
+  // Else return null
+  if (reviewsArr.length) {
+    return reviewsArr.map((review, i) => (
+      <ReviewCard key={i} review={review} />
+    ));
+  } else if (Owner?.id !== user?.id) {
+    return <div>Be the first to post a review!</div>;
+  } else return null;
+}
+
 function SpotPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews[spotId]);
+  const user = useSelector((state) => state.session.user);
 
   const reviewsArr = Object.values(reviews || {});
   reviewsArr.sort(newestReviewDate);
@@ -61,6 +75,7 @@ function SpotPage() {
     price,
     numReviews,
     SpotImages,
+    Owner,
   } = spot || {};
 
   const starString = formatStarString({ avgStarRating, numReviews });
@@ -75,6 +90,8 @@ function SpotPage() {
   while (sideImages.length < 4) {
     sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
   }
+
+  const reviewsElement = createReviewsElement({ Owner, reviewsArr, user });
 
   return (
     spot && (
@@ -125,9 +142,7 @@ function SpotPage() {
           <FaStar />
           {starString}
         </div>
-        {reviewsArr.map((review, i) => (
-          <ReviewCard key={i} review={review} />
-        ))}
+        <div id="reviews-element">{reviewsElement}</div>
       </div>
     )
   );

@@ -6,10 +6,6 @@
     font-weight: bold;
   }
   :is(.review-date) {
-    font-size: 1.2rem;
     padding: 5px 0px;
-  }
-  :is(.review-text) {
-    font-size: 1.2rem;
   }
 }

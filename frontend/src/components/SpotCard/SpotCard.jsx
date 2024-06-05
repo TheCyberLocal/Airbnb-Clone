@@ -5,8 +5,12 @@ import { Tooltip } from "react-tooltip";
 
 function SpotCard({ spot }) {
   const nav = useNavigate();
+
   const { id, name, city, state, previewImage, price, avgRating } = spot;
-  const stars = avgRating === "no reviews" ? "New" : avgRating?.toFixed(1);
+
+  const starString = ` ${
+    avgRating === "no reviews" ? "New" : avgRating?.toFixed(1)
+  }`;
 
   return (
     <div
@@ -25,7 +29,7 @@ function SpotCard({ spot }) {
           <span className="city-state">{`${city}, ${state}`}</span>
           <span className="avgRating">
             <FaStar />
-            {" " + stars}
+            {starString}
           </span>
         </div>
         <div className="details">

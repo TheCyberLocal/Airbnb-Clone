@@ -7,18 +7,50 @@ import { fetchReviews } from "../../store/reviews";
 import { FaStar } from "react-icons/fa";
 import ReviewCard from "../ReviewCard";
 
+function formatStarString({ avgStarRating, numReviews }) {
+  // Example Outputs
+  // " New" for 0 reviews
+  // " 4.0 • 1 Review" for 1 review
+  // " 4.0 • 2 Reviews" for 2+ reviews
+  const stars = avgStarRating?.toFixed(1);
+  const reviewCountText = numReviews === 1 ? "Review" : "Reviews";
+  const reviewString = ` ${stars} • ${numReviews} ${reviewCountText}`;
+  return stars ? reviewString : " New";
+}
+
+function newestReviewDate(reviewA, reviewB) {
+  // Example for exampleArr.sort(newestReviewDate)
+  // const exampleArr = [
+  //   { createdAt: "2024-07-02T18:56:46.336Z" },
+  //   { createdAt: "2024-07-03T10:15:00.000Z" },
+  //   { createdAt: "2024-07-02T12:30:21.123Z" },
+  // ];
+  // Output Below
+  // [
+  //   { createdAt: "2024-07-03T10:15:00.000Z", },
+  //   { createdAt: "2024-07-02T18:56:46.336Z", },
+  //   { createdAt: "2024-07-02T12:30:21.123Z", },
+  // ];
+  const dateA = new Date(reviewA.createdAt);
+  const dateB = new Date(reviewB.createdAt);
+  return dateB - dateA;
+}
+
 function SpotPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews[spotId]);
+
   const reviewsArr = Object.values(reviews || {});
+  reviewsArr.sort(newestReviewDate);
 
   useEffect(() => {
     dispatch(fetchSpot(spotId));
     dispatch(fetchReviews(spotId));
   }, [dispatch, spotId]);
 
+  // Destructure spot properties without referencing undefined
   const {
     name,
     city,
@@ -30,14 +62,16 @@ function SpotPage() {
     numReviews,
     SpotImages,
   } = spot || {};
-  const stars =
-    avgStarRating === "no reviews" ? "New" : avgStarRating?.toFixed(1);
 
+  const starString = formatStarString({ avgStarRating, numReviews });
+
+  // Ensure preview and side images are displayed
   const imagesArr = Object.values(SpotImages || {});
   const previewImage =
     imagesArr.find((e) => e.preview === true)?.url || "/noPreviewImg.png";
   const sideImages = imagesArr.filter((e) => e.preview === false) || [];
 
+  // Use placeholders when less than 4 side images
   while (sideImages.length < 4) {
     sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
   }
@@ -73,9 +107,7 @@ function SpotPage() {
                   <span id="reserve-card-text1">night</span>
                   <span id="reserve-card-text2">
                     <FaStar />
-                    {stars === "New"
-                      ? " New"
-                      : ` ${stars} • ${numReviews} reviews`}
+                    {starString}
                   </span>
                 </div>
               </div>
@@ -91,7 +123,7 @@ function SpotPage() {
         </div>
         <div id="reviews-head">
           <FaStar />
-          {stars === "New" ? " New" : ` ${stars} • ${numReviews} reviews`}
+          {starString}
         </div>
         {reviewsArr.map((review, i) => (
           <ReviewCard key={i} review={review} />

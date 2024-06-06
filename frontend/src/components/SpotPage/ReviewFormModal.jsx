@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { fetchReviews } from "../../store/reviews";
+import { fetchSpot } from "../../store/spots";
 import { postReview } from "../../store/reviews";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useModal } from "../../context/Modal";
@@ -7,6 +10,7 @@ import "./ReviewFormModal.css";
 
 function ReviewFormModal() {
   const { spotId } = useParams();
+  const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
@@ -53,6 +57,8 @@ function ReviewFormModal() {
           setErrors({ msg: res.message, errArr: res.errors });
         } else {
           closeModal();
+          dispatch(fetchSpot(spotId));
+          dispatch(fetchReviews(spotId));
         }
       };
       submit();

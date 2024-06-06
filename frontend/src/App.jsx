@@ -7,7 +7,7 @@ import Navigation from "./components/Navigation";
 import ViewAllSpots from "./components/ViewAllSpots";
 import SpotPage from "./components/SpotPage";
 import PageNotFound from "./components/PageNotFound";
-import NewSpot from "./components/NewSpot";
+import NewSpotForm from "./components/NewSpotForm";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/spots/new",
-        element: <NewSpot />,
+        element: <NewSpotForm />,
       },
       {
         path: "/spots/:spotId",

@@ -12,10 +12,10 @@ function formatStarString({ avgStarRating, numReviews }) {
   // " New" for 0 reviews
   // " 4.0 • 1 Review" for 1 review
   // " 4.0 • 2 Reviews" for 2+ reviews
-  const stars = avgStarRating?.toFixed(1);
+  if (typeof avgStarRating !== "number") return " New";
+  const stars = avgStarRating.toFixed(1);
   const reviewCountText = numReviews === 1 ? "Review" : "Reviews";
-  const reviewString = ` ${stars} • ${numReviews} ${reviewCountText}`;
-  return stars ? reviewString : " New";
+  return ` ${stars} • ${numReviews} ${reviewCountText}`;
 }
 
 function newestReviewDate(reviewA, reviewB) {

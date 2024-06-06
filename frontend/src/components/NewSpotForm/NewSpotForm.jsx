@@ -32,50 +32,6 @@ function NewSpotForm() {
     return false;
   };
 
-  // const postSpotImages = async (spotId) => {
-  //   // post preview image
-  //   const response = await fetch(`/api/spots/${spotId}/images`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: { url: previewImage, preview: true },
-  //   });
-  //   console.log("response =>", response);
-  //   const data = await response.json();
-  //   console.log("data =>", data);
-
-  //   // post side images
-  //   for (let url of [image1, image2, image3, image4]) {
-  //     if (!url) continue;
-  //     const imageResponse = await fetch(`/api/spots/${spotId}/images`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: { url, preview: false },
-  //     });
-  //     console.log("url =>", url);
-  //     const data = await imageResponse.json();
-  //     console.log("data =>", data);
-  //   }
-  // };
-
-  // const postSpot = async (body) => {
-  //   const response = await fetch("/api/spots", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(body),
-  //   });
-  //   console.log("body =>", body);
-  //   const data = await response.json();
-  //   console.log("data =>", data);
-  //   await postSpotImages(data.id);
-  //   nav(`/spots/${data.id}`);
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -91,7 +47,8 @@ function NewSpotForm() {
     if (description.length < 30) errorsCollector.description = true;
     if (!name) errorsCollector.name = true;
     if (!price) errorsCollector.price = true;
-    if (price && (isNaN(parseFloat(price)) || parseFloat(price) < 0)) errorsCollector.priceNaN = true;
+    if (price && (isNaN(parseFloat(price)) || parseFloat(price) < 0))
+      errorsCollector.priceNaN = true;
     if (!previewImage) errorsCollector.preview = true;
     if (previewImage && !validateImg(previewImage))
       errorsCollector.image0 = true;
@@ -116,9 +73,9 @@ function NewSpotForm() {
         description,
         price: parseFloat(price),
       };
-      console.log('body =>', body);
-      console.log('previewImage =>', previewImage);
-      console.log('sideImages =>', sideImages);
+      console.log("body =>", body);
+      console.log("previewImage =>", previewImage);
+      console.log("sideImages =>", sideImages);
 
       const submit = async () => {
         const newSpotId = await postSpot({
@@ -126,7 +83,7 @@ function NewSpotForm() {
           previewImage,
           sideImages,
         });
-        console.log('newSpotId =>', newSpotId);
+        console.log("newSpotId =>", newSpotId);
         nav(`/spots/${newSpotId}`);
       };
       submit();
@@ -138,7 +95,6 @@ function NewSpotForm() {
   return (
     <form>
       <h1>Create a New Spot</h1>
-      {/* Section 1 */}
       <h2>Where&apos;s your place located?</h2>
       <p>
         Guests will only get your exact address once they booked a reservation.
@@ -164,18 +120,21 @@ function NewSpotForm() {
         />
       </label>
       <div id="city-state">
-        <label>
+        <label id="city">
           City {errors.city && <span className="errors">City is required</span>}
+          <br></br>
           <input
             type="text"
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
+          <b>{" , "}</b>
         </label>
-        <label>
+        <label id="state">
           State{" "}
           {errors.state && <span className="errors">State is required</span>}
+          <br></br>
           <input
             type="text"
             placeholder="State"
@@ -185,21 +144,30 @@ function NewSpotForm() {
         </label>
       </div>
       <div id="coordinates">
-        <label>
+        <label id="lat">
           Latitude{" "}
           {errors.lat && <span className="errors">Latitude is required</span>}
-          {errors.latNaN && <span className="errors">Latitude must be within -90 and 90</span>}
+          {errors.latNaN && (
+            <span className="errors">Latitude must be within -90 and 90</span>
+          )}
+          <br></br>
           <input
             type="text"
             placeholder="Latitude"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
           />
+          <b>{" , "}</b>
         </label>
-        <label>
+        <label id="lng">
           Longitude{" "}
           {errors.lng && <span className="errors">Longitude is required</span>}
-          {errors.lngNaN && <span className="errors">Longitude must be within -180 and 180</span>}
+          {errors.lngNaN && (
+            <span className="errors">
+              Longitude must be within -180 and 180
+            </span>
+          )}
+          <br></br>
           <input
             type="text"
             placeholder="Longitude"
@@ -208,8 +176,7 @@ function NewSpotForm() {
           />
         </label>
       </div>
-      {/* Section 2 */}
-      <h2>Describe your place to guests</h2>
+      <h2 className="new-section">Describe your place to guests</h2>
       <p>
         Mention the best features of your space, any special amenities like fast
         wifi or parking, and what you love about the neighborhood.
@@ -217,17 +184,15 @@ function NewSpotForm() {
       <textarea
         name="Description"
         id="spot-description"
-        rows="5"
-        cols="33"
         placeholder="Please write at least 30 characters"
+        rows={8}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       ></textarea>
       {errors.description && (
         <span className="errors">Description needs 30 or more characters</span>
       )}
-      {/* Section 3 */}
-      <h2>Create a title for your spot</h2>
+      <h2 className="new-section">Create a title for your spot</h2>
       <p>
         Catch guests&apos; attention with a spot title that highlights what
         makes your place special.
@@ -239,23 +204,25 @@ function NewSpotForm() {
         onChange={(e) => setName(e.target.value)}
       />
       {errors.name && <span className="errors">Name is required</span>}
-      {/* Section 4 */}
-      <h2>Set a base price for your spot</h2>
+      <h2 className="new-section">Set a base price for your spot</h2>
       <p>
         Competitive pricing can help your listing stand out and rank higher in
         search results.
       </p>
-      ${" "}
-      <input
-        type="text"
-        placeholder="Price per night (USD)"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
+      <div id="price-input">
+        {"$"}
+        <input
+          type="text"
+          placeholder="Price per night (USD)"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+      </div>
       {errors.price && <div className="errors">Price is required</div>}
-      {errors.priceNaN && <div className="errors">Price per day must be a positive number</div>}
-      {/* Section 5 */}
-      <h2>Liven up your spot with photos</h2>
+      {errors.priceNaN && (
+        <div className="errors">Price per day must be a positive number</div>
+      )}
+      <h2 className="new-section">Liven up your spot with photos</h2>
       <p>Submit a link to at least one photo to publish your spot</p>
       <input
         type="text"
@@ -299,7 +266,9 @@ function NewSpotForm() {
         onChange={(e) => setImage4(e.target.value)}
       />
       {errors.image4 && <span className="errors">{invalidURL}</span>}
-      <button onClick={(e) => handleSubmit(e)}>Create Spot</button>
+      <div id="submit-button">
+        <button onClick={(e) => handleSubmit(e)}>Create Spot</button>
+      </div>
     </form>
   );
 }

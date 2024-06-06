@@ -93,8 +93,8 @@ function NewSpotForm() {
   };
 
   return (
-    <form>
-      <h1>Create a New Spot</h1>
+    <form id="new-spot-form">
+      <h1 id="new-spot-header">Create a New Spot</h1>
       <h2>Where&apos;s your place located?</h2>
       <p>
         Guests will only get your exact address once they booked a reservation.
@@ -104,6 +104,7 @@ function NewSpotForm() {
         {errors.country && <span className="errors">Country is required</span>}
         <input
           type="text"
+          className="new-spot-page"
           placeholder="Country"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
@@ -114,6 +115,7 @@ function NewSpotForm() {
         {errors.address && <span className="errors">Address is required</span>}
         <input
           type="text"
+          className="new-spot-page"
           placeholder="Street Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
@@ -125,6 +127,7 @@ function NewSpotForm() {
           <br></br>
           <input
             type="text"
+            className="new-spot-page"
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -137,6 +140,7 @@ function NewSpotForm() {
           <br></br>
           <input
             type="text"
+            className="new-spot-page"
             placeholder="State"
             value={state}
             onChange={(e) => setState(e.target.value)}
@@ -153,6 +157,7 @@ function NewSpotForm() {
           <br></br>
           <input
             type="text"
+            className="new-spot-page"
             placeholder="Latitude"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
@@ -170,6 +175,7 @@ function NewSpotForm() {
           <br></br>
           <input
             type="text"
+            className="new-spot-page"
             placeholder="Longitude"
             value={lng}
             onChange={(e) => setLng(e.target.value)}
@@ -199,6 +205,7 @@ function NewSpotForm() {
       </p>
       <input
         type="text"
+        className="new-spot-page"
         placeholder="Name of your spot"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -213,6 +220,7 @@ function NewSpotForm() {
         {"$"}
         <input
           type="text"
+          className="new-spot-page"
           placeholder="Price per night (USD)"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -226,6 +234,7 @@ function NewSpotForm() {
       <p>Submit a link to at least one photo to publish your spot</p>
       <input
         type="text"
+        className="new-spot-page"
         placeholder="Preview Image URL"
         value={previewImage}
         onChange={(e) => setPreviewImage(e.target.value)}
@@ -236,6 +245,7 @@ function NewSpotForm() {
       {errors.image0 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
+        className="new-spot-page"
         id="image1"
         placeholder="Image URL"
         value={image1}
@@ -244,6 +254,7 @@ function NewSpotForm() {
       {errors.image1 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
+        className="new-spot-page"
         id="image2"
         placeholder="Image URL"
         value={image2}
@@ -252,6 +263,7 @@ function NewSpotForm() {
       {errors.image2 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
+        className="new-spot-page"
         id="image3"
         placeholder="Image URL"
         value={image3}
@@ -260,6 +272,7 @@ function NewSpotForm() {
       {errors.image3 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
+        className="new-spot-page"
         id="image4"
         placeholder="Image URL"
         value={image4}

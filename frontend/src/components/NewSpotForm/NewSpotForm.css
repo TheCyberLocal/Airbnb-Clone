@@ -1,4 +1,4 @@
-form {
+form#new-spot-form {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,7 +19,7 @@ form {
     font-size: 1rem;
   }
 
-  :is(h1) {
+  :is(h1#new-spot-header) {
     font-size: 2rem;
     display: flex;
     justify-content: left;
@@ -35,7 +35,7 @@ form {
     margin: 10px 0px 0px 0px;
   }
 
-  :is(input, textarea) {
+  :is(input.new-spot-page, textarea#spot-description) {
     width: 465px;
     outline: none;
     resize: none;

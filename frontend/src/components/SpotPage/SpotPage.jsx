@@ -37,15 +37,38 @@ function newestReviewDate(reviewA, reviewB) {
 }
 
 function createReviewsElement({ Owner, reviewsArr, user }) {
-  // Return review elements if they exist
-  // Else return string if user logged in and isn't the owner
-  // Else return null
+  // If user is logged in and isn't owner and hasn't posted, show button.
+  // If user is logged in and isn't owner and no reviews, show "be the first".
+  // If reviews, show reviews.
+  // If nothing else, return null.
+
+  const e = {};
+  if (user && Owner?.id !== user?.id) {
+    if (!reviewsArr.find((rev) => rev?.userId === user?.id)) {
+      // Show button
+      e.button = <button>Post Your Review</button>;
+    }
+    if (!reviewsArr.length) {
+      // Show "Be the first to post a review!"
+      e.text = <p>Be the first to post a review!</p>;
+    }
+  }
+
   if (reviewsArr.length) {
-    return reviewsArr.map((review, i) => (
+    // Show reviews
+    e.reviews = reviewsArr.map((review, i) => (
       <ReviewCard key={i} review={review} />
     ));
-  } else if (Owner?.id !== user?.id) {
-    return <div>Be the first to post a review!</div>;
+  }
+
+  if (Object.keys(e).length) {
+    return (
+      <>
+        {e.button}
+        {e.text}
+        {e.reviews}
+      </>
+    );
   } else return null;
 }
 

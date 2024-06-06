@@ -59,8 +59,6 @@ function NewSpotForm() {
     setErrors(errorsCollector);
 
     if (!Object.keys(errorsCollector).length) {
-      console.log("submitted", errorsCollector);
-
       const sideImages = [image1, image2, image3, image4];
       const body = {
         address,
@@ -73,9 +71,6 @@ function NewSpotForm() {
         description,
         price: parseInt(price),
       };
-      console.log("body =>", body);
-      console.log("previewImage =>", previewImage);
-      console.log("sideImages =>", sideImages);
 
       const submit = async () => {
         const newSpotId = await postSpot({
@@ -83,12 +78,9 @@ function NewSpotForm() {
           previewImage,
           sideImages,
         });
-        console.log("newSpotId =>", newSpotId);
         nav(`/spots/${newSpotId}`);
       };
       submit();
-    } else {
-      console.log("rejected", errorsCollector);
     }
   };
 

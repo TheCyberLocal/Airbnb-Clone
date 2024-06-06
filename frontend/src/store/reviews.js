@@ -11,8 +11,7 @@ export const postReview = async ({ body, spotId }) => {
       body: JSON.stringify(body),
     });
   } catch (e) {
-    console.log("Failed to postSpot");
-    console.errors("errors =>", e);
+    console.errors(e);
     return e;
   }
 };

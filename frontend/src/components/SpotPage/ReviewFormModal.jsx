@@ -50,11 +50,9 @@ function ReviewFormModal() {
           spotId,
         });
         if (res) {
-          console.log(" => errors set");
           setErrors({ msg: res.message, errArr: res.errors });
         } else {
           closeModal();
-          console.log(" => skipped errors");
         }
       };
       submit();

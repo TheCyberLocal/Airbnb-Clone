@@ -20,7 +20,7 @@ div#review-form-modal {
     resize: none;
     box-shadow: 4px 4px 5px lightgrey;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 2px solid lightgrey;
     padding: 5px;
   }
 

@@ -41,7 +41,7 @@ form#new-spot-form {
     resize: none;
     box-shadow: 4px 4px 5px lightgrey;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid lightgrey;
     padding: 5px;
   }
 

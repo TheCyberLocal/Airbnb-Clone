@@ -55,8 +55,17 @@ function ProfileButton({ user }) {
           <>
             <div>Hello, {user.firstName}</div>
             <div>{user.email}</div>
+            <div
+              id="manage-spots-button"
+              className="clickable"
+              onClick={() => nav("/spots/current")}
+            >
+              Manage Spots
+            </div>
             <div>
-              <button onClick={logout}>Log Out</button>
+              <button id="logout-button" onClick={logout}>
+                Log Out
+              </button>
             </div>
           </>
         ) : (

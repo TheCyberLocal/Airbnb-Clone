@@ -11,13 +11,15 @@
     box-shadow: 4px 4px 5px lightgrey;
     border-radius: 5px;
     font-size: 1.3rem;
-    border: 1px solid black;
+    border: 1px solid lightgrey;
   }
 
   :is(button) {
     margin: 10px 0;
     width: 21.5vw;
+    border: 1px solid lightgrey;
     box-shadow: 4px 4px 5px lightgrey;
+    border-radius: 5px;
     font-size: 1.3rem;
   }
 

@@ -5,7 +5,7 @@
   justify-content: space-between;
   height: 80px;
   padding: 0px 5vw;
-  border-bottom: solid lightgrey 2px;
+  border-bottom: 2px solid lightgrey;
 
   :is(#nav-logo) {
     width: 110px;
@@ -36,12 +36,29 @@
       border-radius: 5px;
       background-color: white;
       box-shadow: 4px 4px 10px lightgrey;
-      border: solid lightgrey 2px;
+      border: 2px solid lightgrey;
     }
 
     :is(.profile-dropdown > div) {
       padding: 5px 10px;
       margin: 0px;
+    }
+
+    :is(#manage-spots-button) {
+      display: flex;
+      justify-content: center;
+      margin: 10px 5px 0px 5px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    :is(#logout-button) {
+      width: 90px;
+      height: 45px;
+      margin: 5px 20px;
+      border-radius: 25px;
+      font-size: 1rem;
+      border: solid black 2px;
     }
 
     :is(.profile-button) {

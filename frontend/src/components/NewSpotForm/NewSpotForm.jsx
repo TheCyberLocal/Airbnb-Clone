@@ -71,7 +71,7 @@ function NewSpotForm() {
         lng: parseFloat(lng),
         name,
         description,
-        price: parseFloat(price),
+        price: parseInt(price),
       };
       console.log("body =>", body);
       console.log("previewImage =>", previewImage);

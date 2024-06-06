@@ -58,6 +58,7 @@
 
       :is(#description) {
         margin-bottom: 10px;
+        word-wrap: break-word;
       }
     }
 

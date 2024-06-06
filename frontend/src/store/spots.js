@@ -1,47 +1,46 @@
 import { csrfFetch } from "./csrf";
 
-// // Asynchronous helper functions
-// const postSpotImages = async ({ spotId, previewImage, sideImages }) => {
-//   // post preview image
-//   try {
-//     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: { url: previewImage, preview: true },
-//     });
-//     console.log("response1 =>", response);
-//     const data = await response.json();
-//     console.log("data1 =>", data);
-//   } catch (e) {
-//     console.log("Failed to post Preview Image");
-//     console.errors("errors =>", e);
-//     return;
-//   }
+// Asynchronous helper functions
+const postSpotImages = async ({ spotId, previewImage, sideImages }) => {
+  // post preview image
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: previewImage, preview: true }),
+    });
+    console.log("response1 =>", response);
+    const data = await response.json();
+    console.log("data1 =>", data);
+  } catch (e) {
+    console.log("Failed to post Preview Image");
+    console.errors("errors =>", e);
+  }
 
-//   // post side images
-//   for (let url of sideImages) {
-//     if (!url) continue;
-//     try {
-//       const imageResponse = await csrfFetch(`/api/spots/${spotId}/images`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: { url, preview: false },
-//       });
-//       console.log("url2 =>", url);
-//       const data = await imageResponse.json();
-//       console.log("data2 =>", data);
-//     } catch (e) {
-//       console.log("Failed to post Side Image");
-//       console.errors("errors =>", e);
-//     }
-//   }
-// };
+  // post side images
+  for (let url of sideImages) {
+    if (!url) continue;
+    try {
+      const imageResponse = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url, preview: false }),
+      });
+      console.log("url2 =>", url);
+      const data = await imageResponse.json();
+      console.log("data2 =>", data);
+    } catch (e) {
+      console.log("Failed to post Side Image");
+      console.errors("errors =>", e);
+    }
+  }
+};
 
-export const postSpot = async ({ body }) => {
+export const postSpot = async ({ body, previewImage, sideImages }) => {
   try {
     const response = await csrfFetch("/api/spots", {
       method: "POST",
@@ -53,7 +52,7 @@ export const postSpot = async ({ body }) => {
     console.log("body3 =>", body);
     const data = await response.json();
     console.log("data3 =>", data);
-    // await postSpotImages({ spotId: data.id, previewImage, sideImages });
+    await postSpotImages({ spotId: data.id, previewImage, sideImages });
     return data.id;
   } catch (e) {
     console.log("Failed to postSpot");

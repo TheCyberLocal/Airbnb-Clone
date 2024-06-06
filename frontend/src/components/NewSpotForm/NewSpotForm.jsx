@@ -124,7 +124,7 @@ function NewSpotForm() {
       <div id="city-state">
         <label id="city">
           City {errors.city && <span className="errors">City is required</span>}
-          <br></br>
+          <br />
           <input
             type="text"
             className="new-spot-page"
@@ -137,7 +137,7 @@ function NewSpotForm() {
         <label id="state">
           State{" "}
           {errors.state && <span className="errors">State is required</span>}
-          <br></br>
+          <br />
           <input
             type="text"
             className="new-spot-page"
@@ -154,7 +154,7 @@ function NewSpotForm() {
           {errors.latNaN && (
             <span className="errors">Latitude must be within -90 and 90</span>
           )}
-          <br></br>
+          <br />
           <input
             type="text"
             className="new-spot-page"
@@ -172,7 +172,7 @@ function NewSpotForm() {
               Longitude must be within -180 and 180
             </span>
           )}
-          <br></br>
+          <br />
           <input
             type="text"
             className="new-spot-page"
@@ -188,13 +188,12 @@ function NewSpotForm() {
         wifi or parking, and what you love about the neighborhood.
       </p>
       <textarea
-        name="Description"
         id="spot-description"
         placeholder="Please write at least 30 characters"
         rows={8}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
+      />
       {errors.description && (
         <span className="errors">Description needs 30 or more characters</span>
       )}

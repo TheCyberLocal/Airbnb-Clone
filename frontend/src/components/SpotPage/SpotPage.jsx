@@ -7,6 +7,7 @@ import { fetchReviews } from "../../store/reviews";
 import { FaStar } from "react-icons/fa";
 import ReviewCard from "../ReviewCard";
 import { useModal } from "../../context/Modal";
+import SpotReviewModal from "./ReviewFormModal";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -80,15 +81,6 @@ function SpotPage() {
     sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
   }
 
-  function DisplayPostReviewModal() {
-    setModalContent(
-      <div>
-        <h1>header</h1>
-        <h2>subheader</h2>
-      </div>
-    );
-  }
-
   function createReviewsElement({ Owner, reviewsArr, user }) {
     // If user is logged in and isn't owner and hasn't posted, show button.
     // If user is logged in and isn't owner and no reviews, show "be the first".
@@ -100,7 +92,7 @@ function SpotPage() {
       if (!reviewsArr.find((rev) => rev?.userId === user?.id)) {
         // Show button
         e.button = (
-          <button onClick={() => DisplayPostReviewModal()}>
+          <button onClick={() => setModalContent(<SpotReviewModal />)}>
             Post Your Review
           </button>
         );

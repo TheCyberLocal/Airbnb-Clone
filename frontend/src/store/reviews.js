@@ -1,3 +1,22 @@
+import { csrfFetch } from "./csrf";
+
+// Asynchronous helper functions
+export const postReview = async ({ body, spotId }) => {
+  try {
+    await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (e) {
+    console.log("Failed to postSpot");
+    console.errors("errors =>", e);
+    return e;
+  }
+};
+
 // Action Types
 const LOAD_REVIEWS = "reviews/loadReviews";
 

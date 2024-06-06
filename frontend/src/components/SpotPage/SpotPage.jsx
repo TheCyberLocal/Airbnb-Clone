@@ -6,6 +6,7 @@ import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import { FaStar } from "react-icons/fa";
 import ReviewCard from "../ReviewCard";
+import { useModal } from "../../context/Modal";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -36,48 +37,13 @@ function newestReviewDate(reviewA, reviewB) {
   return dateB - dateA;
 }
 
-function createReviewsElement({ Owner, reviewsArr, user }) {
-  // If user is logged in and isn't owner and hasn't posted, show button.
-  // If user is logged in and isn't owner and no reviews, show "be the first".
-  // If reviews, show reviews.
-  // If nothing else, return null.
-
-  const e = {};
-  if (user && Owner?.id !== user?.id) {
-    if (!reviewsArr.find((rev) => rev?.userId === user?.id)) {
-      // Show button
-      e.button = <button>Post Your Review</button>;
-    }
-    if (!reviewsArr.length) {
-      // Show "Be the first to post a review!"
-      e.text = <p>Be the first to post a review!</p>;
-    }
-  }
-
-  if (reviewsArr.length) {
-    // Show reviews
-    e.reviews = reviewsArr.map((review, i) => (
-      <ReviewCard key={i} review={review} />
-    ));
-  }
-
-  if (Object.keys(e).length) {
-    return (
-      <>
-        {e.button}
-        {e.text}
-        {e.reviews}
-      </>
-    );
-  } else return null;
-}
-
 function SpotPage() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews[spotId]);
   const user = useSelector((state) => state.session.user);
+  const { setModalContent } = useModal();
 
   const reviewsArr = Object.values(reviews || {});
   reviewsArr.sort(newestReviewDate);
@@ -112,6 +78,55 @@ function SpotPage() {
   // Use placeholders when less than 4 side images
   while (sideImages.length < 4) {
     sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
+  }
+
+  function DisplayPostReviewModal() {
+    setModalContent(
+      <div>
+        <h1>header</h1>
+        <h2>subheader</h2>
+      </div>
+    );
+  }
+
+  function createReviewsElement({ Owner, reviewsArr, user }) {
+    // If user is logged in and isn't owner and hasn't posted, show button.
+    // If user is logged in and isn't owner and no reviews, show "be the first".
+    // If reviews, show reviews.
+    // If nothing else, return null.
+
+    const e = {};
+    if (user && Owner?.id !== user?.id) {
+      if (!reviewsArr.find((rev) => rev?.userId === user?.id)) {
+        // Show button
+        e.button = (
+          <button onClick={() => DisplayPostReviewModal()}>
+            Post Your Review
+          </button>
+        );
+      }
+      if (!reviewsArr.length) {
+        // Show "Be the first to post a review!"
+        e.text = <p>Be the first to post a review!</p>;
+      }
+    }
+
+    if (reviewsArr.length) {
+      // Show reviews
+      e.reviews = reviewsArr.map((review, i) => (
+        <ReviewCard key={i} review={review} />
+      ));
+    }
+
+    if (Object.keys(e).length) {
+      return (
+        <>
+          {e.button}
+          {e.text}
+          {e.reviews}
+        </>
+      );
+    } else return null;
   }
 
   const reviewsElement = createReviewsElement({ Owner, reviewsArr, user });

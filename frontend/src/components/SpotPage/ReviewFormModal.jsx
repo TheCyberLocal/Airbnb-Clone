@@ -46,21 +46,19 @@ function ReviewFormModal() {
     errorsCollector.rating = rating === 0;
     setErrors(errorsCollector);
 
-    if (!Object.keys(errors).length) {
-      const submit = async () => {
-        const res = await postReview({
-          body: { review, stars: rating },
-          spotId,
-        });
-        if (res) {
-          setErrors({ msg: res.message, errArr: res.errors });
-        } else {
+    if (!Object.values(errorsCollector).includes(true)) {
+      postReview({
+        body: { review, stars: rating },
+        spotId,
+      })
+        .then(() => {
           closeModal();
           dispatch(fetchSpot(spotId));
           dispatch(fetchReviews(spotId));
-        }
-      };
-      submit();
+        })
+        .catch((e) => {
+          setErrors({ msg: e.message, errArr: e.errors });
+        });
     }
   }
 

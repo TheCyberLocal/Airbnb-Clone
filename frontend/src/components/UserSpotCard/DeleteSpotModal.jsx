@@ -8,8 +8,8 @@ function DeleteSpotModal({ spotId }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    deleteSpot(spotId).then(() => dispatch(fetchMySpots()));
     closeModal();
+    deleteSpot(spotId).then(() => dispatch(fetchMySpots()));
   };
 
   return (

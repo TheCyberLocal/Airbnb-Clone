@@ -11,7 +11,7 @@ export const postReview = async ({ body, spotId }) => {
       body: JSON.stringify(body),
     });
   } catch (e) {
-    console.errors(e);
+    console.error(e);
     return e;
   }
 };

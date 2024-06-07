@@ -1,9 +1,14 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postSpot } from "../../store/spots";
-import "./NewSpotForm.css";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { postSpot, updateSpot, fetchSpot } from "../../store/spots";
+import "./SpotForm.css";
 
-function NewSpotForm() {
+function SpotForm() {
+  const { spotId } = useParams();
+  const dispatch = useDispatch();
+  const updating = window.location.href.endsWith("edit");
+  const spot = useSelector((state) => state.spots[spotId]);
   const nav = useNavigate();
 
   const [country, setCountry] = useState("");
@@ -15,12 +20,41 @@ function NewSpotForm() {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImageURL, setPreviewImage] = useState("");
   const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
   const [image4, setImage4] = useState("");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (!isNaN(parseInt(spotId))) {
+      dispatch(fetchSpot(spotId));
+    }
+  }, [dispatch, spotId]);
+
+  useEffect(() => {
+    // Set imported numeric values to strings for consistent datatype
+    setCountry(spot?.country ?? "");
+    setAddress(spot?.address ?? "");
+    setCity(spot?.city ?? "");
+    setState(spot?.state ?? "");
+    setLat(String(spot?.lat) ?? "");
+    setLng(String(spot?.lng) ?? "");
+    setDescription(spot?.description ?? "");
+    setName(spot?.name ?? "");
+    setPrice(String(spot?.price) ?? "");
+    setPreviewImage(
+      spot?.SpotImages?.find((e) => e.preview === true)?.url || ""
+    );
+    const sideImageURLs = spot?.SpotImages?.filter((e) => e.preview === false);
+    if (sideImageURLs?.length) {
+      setImage1(sideImageURLs[0]?.url || "");
+      setImage2(sideImageURLs[1]?.url || "");
+      setImage3(sideImageURLs[2]?.url || "");
+      setImage4(sideImageURLs[3]?.url || "");
+    }
+  }, [spot]);
 
   const invalidURL = "Image URL must end in .png, .jpg, or .jpeg";
   const imageExtList = [".png", ".jpg", ".jpeg"];
@@ -36,57 +70,71 @@ function NewSpotForm() {
     e.preventDefault();
     setErrors({});
     let errorsCollector = {};
-    if (!country) errorsCollector.country = true;
-    if (!address) errorsCollector.address = true;
-    if (!city) errorsCollector.city = true;
-    if (!state) errorsCollector.state = true;
-    if (!lat) errorsCollector.lat = true;
-    if (isNaN(+lat) || +lat > 90 || +lat < -90) errorsCollector.latNaN = true;
-    if (!lng) errorsCollector.lng = true;
-    if (isNaN(+lng) || +lng > 180 || +lng < -180) errorsCollector.lngNaN = true;
-    if (description.length < 30) errorsCollector.description = true;
-    if (!name) errorsCollector.name = true;
-    if (!price) errorsCollector.price = true;
-    if (price && (isNaN(parseFloat(price)) || parseFloat(price) < 0))
-      errorsCollector.priceNaN = true;
-    if (!previewImage) errorsCollector.preview = true;
-    if (previewImage && !validateImg(previewImage))
-      errorsCollector.image0 = true;
-    if (image1 && !validateImg(image1)) errorsCollector.image1 = true;
-    if (image2 && !validateImg(image2)) errorsCollector.image2 = true;
-    if (image3 && !validateImg(image3)) errorsCollector.image3 = true;
-    if (image4 && !validateImg(image4)) errorsCollector.image4 = true;
+    errorsCollector.country = !country;
+    errorsCollector.address = !address;
+    errorsCollector.city = !city;
+    errorsCollector.state = !state;
+    errorsCollector.lat = !lat;
+    errorsCollector.latNaN = isNaN(+lat) || +lat > 90 || +lat < -90;
+    errorsCollector.lng = !lng;
+    errorsCollector.lngNaN = isNaN(+lng) || +lng > 180 || +lng < -180;
+    errorsCollector.description = description.length < 30;
+    errorsCollector.name = !name;
+    errorsCollector.price = !price;
+    errorsCollector.priceNaN =
+      price && (isNaN(parseFloat(price)) || parseFloat(price) < 0);
+    errorsCollector.preview = !previewImageURL;
+    errorsCollector.image0 = previewImageURL && !validateImg(previewImageURL);
+    errorsCollector.image1 = image1 && !validateImg(image1);
+    errorsCollector.image2 = image2 && !validateImg(image2);
+    errorsCollector.image3 = image3 && !validateImg(image3);
+    errorsCollector.image4 = image4 && !validateImg(image4);
     setErrors(errorsCollector);
 
-    if (!Object.keys(errorsCollector).length) {
-      const sideImages = [image1, image2, image3, image4];
-      const body = {
-        address,
-        city,
-        state,
-        country,
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-        name,
-        description,
-        price: parseInt(price),
-      };
+    // Don't submit if errors are collected
+    if (Object.values(errorsCollector).includes(true)) return;
 
-      const submit = async () => {
-        const newSpotId = await postSpot({
+    // Prepare the submitted data
+    const sideImageURLs = [image1, image2, image3, image4];
+    const body = {
+      address,
+      city,
+      state,
+      country,
+      lat: parseFloat(lat),
+      lng: parseFloat(lng),
+      name,
+      description,
+      price: parseInt(price),
+    };
+
+    const submit = async () => {
+      if (updating) {
+        const newSpotId = await updateSpot({
           body,
-          previewImage,
-          sideImages,
+          previewImageURL,
+          sideImageURLs,
+          spotId,
+          currentSpotImages: spot.SpotImages,
         });
         nav(`/spots/${newSpotId}`);
-      };
-      submit();
-    }
+      } else {
+        const newSpotId = await postSpot({
+          body,
+          previewImageURL,
+          sideImageURLs,
+        });
+        nav(`/spots/${newSpotId}`);
+      }
+    };
+    submit();
   };
 
   return (
     <form id="new-spot-form">
-      <h1 id="new-spot-header">Create a New Spot</h1>
+      <h1 id="new-spot-header">
+        {updating ? "Update your Spot" : "Create a New Spot"}
+      </h1>
       <h2>Where&apos;s your place located?</h2>
       <p>
         Guests will only get your exact address once they booked a reservation.
@@ -96,7 +144,7 @@ function NewSpotForm() {
         {errors.country && <span className="errors">Country is required</span>}
         <input
           type="text"
-          className="new-spot-page"
+          className="spot-form"
           placeholder="Country"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
@@ -107,7 +155,7 @@ function NewSpotForm() {
         {errors.address && <span className="errors">Address is required</span>}
         <input
           type="text"
-          className="new-spot-page"
+          className="spot-form"
           placeholder="Street Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
@@ -119,7 +167,7 @@ function NewSpotForm() {
           <br />
           <input
             type="text"
-            className="new-spot-page"
+            className="spot-form"
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -132,7 +180,7 @@ function NewSpotForm() {
           <br />
           <input
             type="text"
-            className="new-spot-page"
+            className="spot-form"
             placeholder="State"
             value={state}
             onChange={(e) => setState(e.target.value)}
@@ -149,7 +197,7 @@ function NewSpotForm() {
           <br />
           <input
             type="text"
-            className="new-spot-page"
+            className="spot-form"
             placeholder="Latitude"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
@@ -167,7 +215,7 @@ function NewSpotForm() {
           <br />
           <input
             type="text"
-            className="new-spot-page"
+            className="spot-form"
             placeholder="Longitude"
             value={lng}
             onChange={(e) => setLng(e.target.value)}
@@ -196,7 +244,7 @@ function NewSpotForm() {
       </p>
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         placeholder="Name of your spot"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -211,7 +259,7 @@ function NewSpotForm() {
         {"$"}
         <input
           type="text"
-          className="new-spot-page"
+          className="spot-form"
           placeholder="Price per night (USD)"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -225,9 +273,9 @@ function NewSpotForm() {
       <p>Submit a link to at least one photo to publish your spot</p>
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         placeholder="Preview Image URL"
-        value={previewImage}
+        value={previewImageURL}
         onChange={(e) => setPreviewImage(e.target.value)}
       />
       {errors.preview && (
@@ -236,7 +284,7 @@ function NewSpotForm() {
       {errors.image0 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         id="image1"
         placeholder="Image URL"
         value={image1}
@@ -245,7 +293,7 @@ function NewSpotForm() {
       {errors.image1 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         id="image2"
         placeholder="Image URL"
         value={image2}
@@ -254,7 +302,7 @@ function NewSpotForm() {
       {errors.image2 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         id="image3"
         placeholder="Image URL"
         value={image3}
@@ -263,7 +311,7 @@ function NewSpotForm() {
       {errors.image3 && <span className="errors">{invalidURL}</span>}
       <input
         type="text"
-        className="new-spot-page"
+        className="spot-form"
         id="image4"
         placeholder="Image URL"
         value={image4}
@@ -271,10 +319,12 @@ function NewSpotForm() {
       />
       {errors.image4 && <span className="errors">{invalidURL}</span>}
       <div id="submit-button">
-        <button onClick={handleSubmit}>Create Spot</button>
+        <button onClick={handleSubmit}>
+          {updating ? "Update your Spot" : "Create Spot"}
+        </button>
       </div>
     </form>
   );
 }
 
-export default NewSpotForm;
+export default SpotForm;

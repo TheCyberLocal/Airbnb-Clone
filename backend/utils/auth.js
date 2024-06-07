@@ -50,7 +50,7 @@ const restoreUser = (req, res, next) => {
         },
       });
     } catch (e) {
-      console.errors(e);
+      console.error(e);
       res.clearCookie("token");
       return next();
     }

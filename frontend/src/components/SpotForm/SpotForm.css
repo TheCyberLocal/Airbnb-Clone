@@ -35,7 +35,7 @@ form#new-spot-form {
     margin: 10px 0px 0px 0px;
   }
 
-  :is(input.new-spot-page, textarea#spot-description) {
+  :is(input.spot-form, textarea#spot-description) {
     width: 465px;
     outline: none;
     resize: none;
@@ -110,7 +110,8 @@ form#new-spot-form {
     align-items: center;
 
     :is(button) {
-      width: 130px;
+      width: fit-content;
+      padding: 5px;
       border-radius: 5px;
       box-shadow: 4px 4px 5px lightgrey;
     }

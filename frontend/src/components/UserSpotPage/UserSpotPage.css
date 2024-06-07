@@ -1,0 +1,9 @@
+div#user-spot-page {
+  margin: 30px 90px;
+}
+
+div#user-spot-container {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 20px;
+  }

@@ -29,7 +29,7 @@
   }
 
   :is(#login-button) {
-    height: 6vh;
+    height: 60px;
   }
 
   :is(#demo-button) {

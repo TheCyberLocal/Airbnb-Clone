@@ -53,6 +53,7 @@ export const postSpot = async ({ body, previewImage, sideImages }) => {
 // Action Types
 const LOAD_SPOTS = "spots/loadSpots";
 const LOAD_SPOT = "spots/loadSpot";
+const MY_SPOTS = "spots/mySpots";
 
 // Actions
 export const loadSpots = (data) => {
@@ -65,6 +66,13 @@ export const loadSpots = (data) => {
 export const loadSpot = (data) => {
   return {
     type: LOAD_SPOT,
+    data,
+  };
+};
+
+export const mySpots = (data) => {
+  return {
+    type: MY_SPOTS,
     data,
   };
 };
@@ -87,6 +95,19 @@ export const fetchSpot = (id) => async (dispatch) => {
   dispatch(loadSpot(data));
 };
 
+export const fetchMySpots = () => async (dispatch) => {
+  const response = await fetch("/api/spots/current");
+  const data = await response.json();
+  console.log("data =>", data);
+  const processed = {};
+  for (let key in data.Spots) {
+    key = Number(key);
+    processed[key + 1] = data.Spots[key];
+  }
+  console.log("processed =>", processed);
+  dispatch(mySpots(processed));
+};
+
 // Reducer
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
@@ -94,6 +115,8 @@ const spotsReducer = (state = {}, action) => {
       return { ...state, ...action.data };
     case LOAD_SPOT:
       return { ...state, [action.data.id]: action.data };
+    case MY_SPOTS:
+      return { ...state, mySpots: action.data };
     default:
       return state;
   }

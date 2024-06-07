@@ -98,7 +98,9 @@
         :is(#reserve-card-button) {
           height: 50%;
           width: 100%;
-          box-shadow: 4px 4px 5px grey;
+          border: 2px solid lightgrey;
+          border-radius: 5px;
+          box-shadow: 4px 4px 5px lightgrey;
         }
       }
     }

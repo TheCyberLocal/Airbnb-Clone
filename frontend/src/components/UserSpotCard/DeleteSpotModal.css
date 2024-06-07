@@ -1,0 +1,28 @@
+div#delete-spot-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  :is(.clickable) {
+    cursor: pointer;
+  }
+
+  :is(h1.delete-spot-modal) {
+    font-size: 2rem;
+  }
+  :is(h2.delete-spot-modal) {
+    font-size: 1rem;
+  }
+  :is(button#no.delete-spot-modal) {
+    background-color: grey;
+  }
+  :is(button#yes.delete-spot-modal) {
+    background-color: red;
+  }
+  :is(button.delete-spot-modal) {
+    width: 350px;
+    height: 50px;
+    margin-top: 10px;
+  }
+}

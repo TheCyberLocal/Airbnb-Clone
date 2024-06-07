@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import SpotCard from "../SpotCard";
+import DeleteSpotModal from "./DeleteSpotModal";
+import { useModal } from "../../context/Modal";
 import "./UserSpotCard.css";
 
 function UserSpotCard({ spot }) {
   const nav = useNavigate();
+  const { setModalContent } = useModal();
 
   return (
     <div id="user-spot-card">
@@ -12,13 +15,18 @@ function UserSpotCard({ spot }) {
         <span>
           <button
             onClick={() => nav(`/spots/${spot.id}/edit`)}
-            className="user-spot-card"
+            className="user-spot-card clickable"
           >
             Update
           </button>
         </span>
         <span>
-          <button className="user-spot-card">Delete</button>
+          <button
+            onClick={() => setModalContent(<DeleteSpotModal />)}
+            className="user-spot-card clickable"
+          >
+            Delete
+          </button>
         </span>
       </div>
     </div>

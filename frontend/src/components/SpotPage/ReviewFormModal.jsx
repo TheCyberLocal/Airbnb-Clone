@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchReviews } from "../../store/reviews";
+import { fetchReviews, postReview } from "../../store/reviews";
 import { fetchSpot } from "../../store/spots";
-import { postReview } from "../../store/reviews";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useModal } from "../../context/Modal";
 import "./ReviewFormModal.css";

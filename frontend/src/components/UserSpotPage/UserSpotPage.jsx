@@ -3,6 +3,7 @@ import UserSpotCard from "../UserSpotCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchMySpots } from "../../store/spots";
+import { Link } from "react-router-dom";
 
 function UserSpotPage() {
   const dispatch = useDispatch();
@@ -16,11 +17,15 @@ function UserSpotPage() {
   return (
     <div id="user-spot-page">
       <h1>Manage Spots</h1>
-      <div id="user-spot-container">
-        {mySpotsArr.map((spot, i) => (
-          <UserSpotCard key={i} spot={spot} />
-        ))}
-      </div>
+      {mySpotsArr.length ? (
+        <div id="user-spot-container">
+          {mySpotsArr.map((spot, i) => (
+            <UserSpotCard key={i} spot={spot} />
+          ))}
+        </div>
+      ) : (
+        <Link to="/spots/new">Create a New Spot</Link>
+      )}
     </div>
   );
 }

@@ -271,7 +271,7 @@ function NewSpotForm() {
       />
       {errors.image4 && <span className="errors">{invalidURL}</span>}
       <div id="submit-button">
-        <button onClick={(e) => handleSubmit(e)}>Create Spot</button>
+        <button onClick={handleSubmit}>Create Spot</button>
       </div>
     </form>
   );

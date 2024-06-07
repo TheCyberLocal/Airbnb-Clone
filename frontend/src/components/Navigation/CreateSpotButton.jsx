@@ -8,7 +8,7 @@ function CreateSpotButton() {
   }
 
   return (
-    <button onClick={handleClick} id="create-spot-button">
+    <button className="clickable" onClick={handleClick} id="create-spot-button">
       Create a New Spot
     </button>
   );

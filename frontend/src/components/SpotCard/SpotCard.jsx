@@ -14,7 +14,8 @@ function SpotCard({ spot }) {
 
   return (
     <div
-      className="spotCard clickable"
+      id="spot-card"
+      className="clickable"
       data-tooltip-id={`my-tooltip-${id}`}
       data-tooltip-float="true"
       onClick={() => nav(`/spots/${id}`)}

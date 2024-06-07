@@ -7,6 +7,10 @@
   padding: 0px 5vw;
   border-bottom: 2px solid lightgrey;
 
+  :is(.clickable) {
+    cursor: pointer;
+  }
+
   :is(#nav-logo) {
     width: 110px;
     height: fit-content;
@@ -73,10 +77,6 @@
 
     :is(.hidden) {
       display: none;
-    }
-
-    :is(.clickable) {
-      cursor: pointer;
     }
   }
 }

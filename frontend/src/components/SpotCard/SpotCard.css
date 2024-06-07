@@ -1,4 +1,4 @@
-.spotCard {
+#spot-card {
   aspect-ratio: 0.8;
   flex: 0 0 max(300px, calc(25% - 15px));
 
@@ -28,4 +28,8 @@
     font-size: 1.1rem !important;
     border-radius: 10px !important;
   }
+}
+
+:is(.clickable) {
+  cursor: pointer;
 }

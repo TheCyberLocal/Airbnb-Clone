@@ -91,7 +91,7 @@ function ReviewFormModal() {
       <button
         disabled={!validForm}
         className="review-form-modal"
-        onClick={(e) => handleSubmit(e)}
+        onClick={handleSubmit}
       >
         Submit Your Review
       </button>

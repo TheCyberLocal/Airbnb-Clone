@@ -110,14 +110,14 @@ function SpotForm() {
 
     const submit = async () => {
       if (updating) {
-        const newSpotId = await updateSpot({
+        await updateSpot({
           body,
           previewImageURL,
           sideImageURLs,
           spotId,
           currentSpotImages: spot.SpotImages,
         });
-        nav(`/spots/${newSpotId}`);
+        nav(`/spots/${spotId}`);
       } else {
         const newSpotId = await postSpot({
           body,

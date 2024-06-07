@@ -1,8 +1,16 @@
-import "./DeleteSpotModal.css";
+import { deleteSpot, fetchMySpots } from "../../store/spots";
 import { useModal } from "../../context/Modal";
+import { useDispatch } from "react-redux";
+import "./DeleteSpotModal.css";
 
-function DeleteSpotModal() {
+function DeleteSpotModal({ spotId }) {
   const { closeModal } = useModal();
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    deleteSpot(spotId).then(() => dispatch(fetchMySpots()));
+    closeModal();
+  };
 
   return (
     <div id="delete-spot-modal">
@@ -11,14 +19,14 @@ function DeleteSpotModal() {
         Are you sure you want to remove this spot?
       </h2>
       <button
-        onClick={() => alert("feature coming soon...")}
+        onClick={handleDelete}
         id="yes"
         className="delete-spot-modal clickable"
       >
         Yes (Delete Spot)
       </button>
       <button
-        onClick={() => closeModal()}
+        onClick={closeModal}
         id="no"
         className="delete-spot-modal clickable"
       >

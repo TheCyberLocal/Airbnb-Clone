@@ -102,21 +102,28 @@ export const updateSpot = async ({
   currentSpotImages,
 }) => {
   // post spot details
-  const response = await csrfFetch(`/api/spots/${spotId}/`, {
+  await csrfFetch(`/api/spots/${spotId}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
-  const data = await response.json();
   await updateSpotImages({
-    spotId: data.id,
+    spotId,
     previewImageURL,
     sideImageURLs,
     currentSpotImages,
   });
-  return data.id;
+};
+
+export const deleteSpot = async (spotId) => {
+  await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 // Action Types

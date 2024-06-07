@@ -22,7 +22,9 @@ function UserSpotCard({ spot }) {
         </span>
         <span>
           <button
-            onClick={() => setModalContent(<DeleteSpotModal />)}
+            onClick={() =>
+              setModalContent(<DeleteSpotModal spotId={spot.id} />)
+            }
             className="user-spot-card clickable"
           >
             Delete

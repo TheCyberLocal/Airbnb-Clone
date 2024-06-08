@@ -1,3 +1,5 @@
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
+import { useModal } from "../../context/Modal";
 import "./ReviewCard.css";
 
 const MONTHS = {
@@ -26,14 +28,32 @@ function formatDate(dateTime) {
   return `${monthName} ${year}`;
 }
 
-function ReviewCard({ review }) {
+function ReviewCard({ review, user, spotId }) {
   const formattedDate = formatDate(review.createdAt);
+  const { setModalContent } = useModal();
 
   return (
     <div className="review-card">
       <div className="review-name">{review.User.firstName}</div>
       <div className="review-date">{formattedDate}</div>
       <div className="review-text">{review.review}</div>
+      {user?.id === review.User.id && (
+        <div id="review-delete">
+          <button
+            onClick={() =>
+              setModalContent(
+                <ConfirmDeleteModal
+                  reviewId={review.id}
+                  spotId={spotId}
+                  itemText={"Review"}
+                />
+              )
+            }
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }

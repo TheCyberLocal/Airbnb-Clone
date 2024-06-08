@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import SpotCard from "../SpotCard";
-import DeleteSpotModal from "./DeleteSpotModal";
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
 import { useModal } from "../../context/Modal";
 import "./UserSpotCard.css";
 
@@ -23,7 +23,9 @@ function UserSpotCard({ spot }) {
         <span>
           <button
             onClick={() =>
-              setModalContent(<DeleteSpotModal spotId={spot.id} />)
+              setModalContent(
+                <ConfirmDeleteModal spotId={spot.id} itemText={"Spot"} />
+              )
             }
             className="user-spot-card clickable"
           >

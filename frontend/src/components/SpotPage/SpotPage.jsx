@@ -84,7 +84,7 @@ function SpotPage() {
   function createReviewsElement({ Owner, reviewsArr, user }) {
     // If user is logged in and isn't owner and hasn't posted, show button.
     // If user is logged in and isn't owner and no reviews, show "be the first".
-    // If reviews, show reviews.
+    // If reviews, show them.
     // If nothing else, return null.
 
     const e = {};
@@ -106,7 +106,7 @@ function SpotPage() {
     if (reviewsArr.length) {
       // Show reviews
       e.reviews = reviewsArr.map((review, i) => (
-        <ReviewCard key={i} review={review} />
+        <ReviewCard key={i} review={review} spotId={spotId} user={user} />
       ));
     }
 

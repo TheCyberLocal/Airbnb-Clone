@@ -15,6 +15,16 @@ export const postReview = async ({ body, spotId }) => {
   }
 };
 
+export const deleteReview = async (reviewId) => {
+  console.log("reviewId =>", reviewId);
+  await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
 // Action Types
 const LOAD_REVIEWS = "reviews/loadReviews";
 

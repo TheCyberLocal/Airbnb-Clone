@@ -14,7 +14,7 @@ function ViewAllSpots() {
   }, [dispatch]);
 
   return (
-    <div id="homePage">
+    <div id="view-all-spots">
       {spotsArr.map((spot, i) => (
         <SpotCard key={i} spot={spot} />
       ))}

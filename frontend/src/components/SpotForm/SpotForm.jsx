@@ -39,13 +39,13 @@ function SpotForm() {
     setAddress(spot?.address ?? "");
     setCity(spot?.city ?? "");
     setState(spot?.state ?? "");
-    setLat(String(spot?.lat) ?? "");
-    setLng(String(spot?.lng) ?? "");
+    setLat(String(spot?.lat ?? ""));
+    setLng(String(spot?.lng ?? ""));
     setDescription(spot?.description ?? "");
     setName(spot?.name ?? "");
-    setPrice(String(spot?.price) ?? "");
+    setPrice(String(spot?.price ?? ""));
     setPreviewImage(
-      spot?.SpotImages?.find((e) => e.preview === true)?.url || ""
+      spot?.SpotImages?.find((e) => e.preview === true)?.url || "",
     );
     const sideImageURLs = spot?.SpotImages?.filter((e) => e.preview === false);
     if (sideImageURLs?.length) {
@@ -131,20 +131,17 @@ function SpotForm() {
   };
 
   return (
-    <form id="new-spot-form">
-      <h1 id="new-spot-header">
-        {updating ? "Update your Spot" : "Create a New Spot"}
-      </h1>
+    <form id="spot-form">
+      <h1>{updating ? "Update your Spot" : "Create a New Spot"}</h1>
       <h2>Where&apos;s your place located?</h2>
       <p>
         Guests will only get your exact address once they booked a reservation.
       </p>
       <label>
         Country{" "}
-        {errors.country && <span className="errors">Country is required</span>}
+        {errors.country && <span className="error">Country is required</span>}
         <input
           type="text"
-          className="spot-form"
           placeholder="Country"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
@@ -152,22 +149,20 @@ function SpotForm() {
       </label>
       <label>
         Street Address{" "}
-        {errors.address && <span className="errors">Address is required</span>}
+        {errors.address && <span className="error">Address is required</span>}
         <input
           type="text"
-          className="spot-form"
           placeholder="Street Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
       </label>
-      <div id="city-state">
+      <div>
         <label id="city">
-          City {errors.city && <span className="errors">City is required</span>}
+          City {errors.city && <span className="error">City is required</span>}
           <br />
           <input
             type="text"
-            className="spot-form"
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -176,28 +171,26 @@ function SpotForm() {
         </label>
         <label id="state">
           State{" "}
-          {errors.state && <span className="errors">State is required</span>}
+          {errors.state && <span className="error">State is required</span>}
           <br />
           <input
             type="text"
-            className="spot-form"
             placeholder="State"
             value={state}
             onChange={(e) => setState(e.target.value)}
           />
         </label>
       </div>
-      <div id="coordinates">
+      <div>
         <label id="lat">
           Latitude{" "}
-          {errors.lat && <span className="errors">Latitude is required</span>}
+          {errors.lat && <span className="error">Latitude is required</span>}
           {errors.latNaN && (
-            <span className="errors">Latitude must be within -90 and 90</span>
+            <span className="error">Latitude must be within -90 and 90</span>
           )}
           <br />
           <input
             type="text"
-            className="spot-form"
             placeholder="Latitude"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
@@ -206,16 +199,13 @@ function SpotForm() {
         </label>
         <label id="lng">
           Longitude{" "}
-          {errors.lng && <span className="errors">Longitude is required</span>}
+          {errors.lng && <span className="error">Longitude is required</span>}
           {errors.lngNaN && (
-            <span className="errors">
-              Longitude must be within -180 and 180
-            </span>
+            <span className="error">Longitude must be within -180 and 180</span>
           )}
           <br />
           <input
             type="text"
-            className="spot-form"
             placeholder="Longitude"
             value={lng}
             onChange={(e) => setLng(e.target.value)}
@@ -228,14 +218,13 @@ function SpotForm() {
         wifi or parking, and what you love about the neighborhood.
       </p>
       <textarea
-        id="spot-description"
         placeholder="Please write at least 30 characters"
         rows={8}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
       {errors.description && (
-        <span className="errors">Description needs 30 or more characters</span>
+        <span className="error">Description needs 30 or more characters</span>
       )}
       <h2 className="new-section">Create a title for your spot</h2>
       <p>
@@ -244,12 +233,11 @@ function SpotForm() {
       </p>
       <input
         type="text"
-        className="spot-form"
         placeholder="Name of your spot"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      {errors.name && <span className="errors">Name is required</span>}
+      {errors.name && <span className="error">Name is required</span>}
       <h2 className="new-section">Set a base price for your spot</h2>
       <p>
         Competitive pricing can help your listing stand out and rank higher in
@@ -259,65 +247,55 @@ function SpotForm() {
         {"$"}
         <input
           type="text"
-          className="spot-form"
           placeholder="Price per night (USD)"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
       </div>
-      {errors.price && <div className="errors">Price is required</div>}
+      {errors.price && <div className="error">Price is required</div>}
       {errors.priceNaN && (
-        <div className="errors">Price per day must be a positive number</div>
+        <div className="error">Price per day must be a positive number</div>
       )}
       <h2 className="new-section">Liven up your spot with photos</h2>
       <p>Submit a link to at least one photo to publish your spot</p>
       <input
         type="text"
-        className="spot-form"
         placeholder="Preview Image URL"
         value={previewImageURL}
         onChange={(e) => setPreviewImage(e.target.value)}
       />
       {errors.preview && (
-        <span className="errors">Preview image is required</span>
+        <span className="error">Preview image is required</span>
       )}
-      {errors.image0 && <span className="errors">{invalidURL}</span>}
+      {errors.image0 && <span className="error">{invalidURL}</span>}
       <input
         type="text"
-        className="spot-form"
-        id="image1"
         placeholder="Image URL"
         value={image1}
         onChange={(e) => setImage1(e.target.value)}
       />
-      {errors.image1 && <span className="errors">{invalidURL}</span>}
+      {errors.image1 && <span className="error">{invalidURL}</span>}
       <input
         type="text"
-        className="spot-form"
-        id="image2"
         placeholder="Image URL"
         value={image2}
         onChange={(e) => setImage2(e.target.value)}
       />
-      {errors.image2 && <span className="errors">{invalidURL}</span>}
+      {errors.image2 && <span className="error">{invalidURL}</span>}
       <input
         type="text"
-        className="spot-form"
-        id="image3"
         placeholder="Image URL"
         value={image3}
         onChange={(e) => setImage3(e.target.value)}
       />
-      {errors.image3 && <span className="errors">{invalidURL}</span>}
+      {errors.image3 && <span className="error">{invalidURL}</span>}
       <input
         type="text"
-        className="spot-form"
-        id="image4"
         placeholder="Image URL"
         value={image4}
         onChange={(e) => setImage4(e.target.value)}
       />
-      {errors.image4 && <span className="errors">{invalidURL}</span>}
+      {errors.image4 && <span className="error">{invalidURL}</span>}
       <div id="submit-button">
         <button onClick={handleSubmit}>
           {updating ? "Update your Spot" : "Create Spot"}

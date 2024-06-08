@@ -1,26 +1,22 @@
-#spotPage {
+div#spot-page {
   margin: 30px 90px;
 
-  :is(.clickable) {
-    cursor: pointer;
-  }
-
-  :is(#title) {
+  & > div#title {
     font-size: 1.8rem;
   }
 
-  :is(#location) {
+  & > div#location {
     font-size: 1.3rem;
     height: 50px;
     display: flex;
     align-items: center;
   }
 
-  :is(#images) {
+  & > div#images {
     display: flex;
     flex-direction: row;
 
-    :is(#preview) {
+    & > img#preview {
       width: calc(50% - 10px);
       margin: 5px;
       aspect-ratio: 1.5;
@@ -28,11 +24,11 @@
       border-radius: 15px;
     }
 
-    :is(#sideImages) {
+    & > #sideImages {
       display: flex;
       flex-wrap: wrap;
 
-      :is(.sideImages) {
+      & > img.sideImages {
         width: calc(50% - 10px);
         margin: 5px;
         aspect-ratio: 1.5;
@@ -42,60 +38,58 @@
     }
   }
 
-  :is(#details) {
+  & > div#details {
     display: flex;
     flex-direction: row;
-    padding: 10px 0px;
+    padding: 10px 0;
     border-bottom: 2px solid lightgrey;
 
-    :is(#hostedBy) {
+    & > div#hostedBy {
       width: 60%;
       margin-right: 5%;
 
-      :is(#title) {
+      & > div#title {
         margin-bottom: 10px;
       }
 
-      :is(#description) {
+      & > div#description {
         margin-bottom: 10px;
         word-wrap: break-word;
       }
     }
 
-    :is(#reserve) {
+    & > div#reserve {
       width: 35%;
 
-      :is(#reserve-card) {
+      & > div#reserve-card {
         height: 100px;
         border: 2px solid lightgrey;
         border-radius: 15px;
         padding: 20px 25px;
 
-        :is(#reserve-card-head) {
+        & > div#reserve-card-head {
           height: 50%;
           width: 100%;
           display: flex;
           align-items: center;
           flex-direction: row;
 
-          :is(#reserve-card-price) {
+          & > div#reserve-card-price {
             display: flex;
             align-items: center;
-            height: 100%;
             font-size: 1.5rem;
             margin-right: 2px;
           }
 
-          :is(#reserve-card-text) {
+          & > div#reserve-card-text {
             display: flex;
             align-items: center;
             width: 100%;
-            height: 100%;
             justify-content: space-between;
           }
         }
 
-        :is(#reserve-card-button) {
+        & > button {
           height: 50%;
           width: 100%;
           border: 2px solid lightgrey;
@@ -106,13 +100,13 @@
     }
   }
 
-  :is(#reviews-head) {
+  & > div#reviews-head {
     font-size: 1.8rem;
     margin-top: 10px;
   }
 
-  :is(#reviews-element) {
+  & > div#reviews-element {
     font-size: 1.2rem;
-    padding: 20px 0px;
+    padding: 20px 0;
   }
 }

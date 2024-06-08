@@ -50,7 +50,7 @@ export function Modal() {
       <div id="modal-background" onClick={closeModal} />
       <div id="modal-content">{modalContent}</div>
     </div>,
-    modalRef.current
+    modalRef.current,
   );
 }
 

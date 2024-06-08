@@ -1,4 +1,4 @@
-#nav-bar {
+#navigation {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -7,31 +7,39 @@
   padding: 0px 5vw;
   border-bottom: 2px solid lightgrey;
 
-  :is(.clickable) {
-    cursor: pointer;
-  }
-
-  :is(#nav-logo) {
+  & > #logo {
     width: 110px;
-    height: fit-content;
   }
 
-  :is(#nav-bar-right) {
+  & > #right-container {
     display: flex;
     flex-direction: row;
 
-    :is(#create-spot-button) {
+    #create-spot {
       margin-right: 20px;
       width: 180px;
       height: 47px;
       border-radius: 25px;
       font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    :is(.profile-dropdown) {
+    #manage-spots-button {
+      display: flex;
+      justify-content: center;
+      margin: 10px 5px 0px 5px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    #logout-button {
+      width: 90px;
+      height: 45px;
+      margin: 5px 20px;
+      border-radius: 25px;
+      border: solid black 2px;
+    }
+
+    .profile-dropdown {
       position: absolute;
       transform: translateX(-45px) translateY(17px);
       width: 150px;
@@ -40,32 +48,14 @@
       border-radius: 5px;
       background-color: white;
       box-shadow: 4px 4px 10px lightgrey;
-      border: 2px solid lightgrey;
+
+      & > div {
+        padding: 5px 10px;
+        margin: 0px;
+      }
     }
 
-    :is(.profile-dropdown > div) {
-      padding: 5px 10px;
-      margin: 0px;
-    }
-
-    :is(#manage-spots-button) {
-      display: flex;
-      justify-content: center;
-      margin: 10px 5px 0px 5px;
-      border-top: 2px solid black;
-      border-bottom: 2px solid black;
-    }
-
-    :is(#logout-button) {
-      width: 90px;
-      height: 45px;
-      margin: 5px 20px;
-      border-radius: 25px;
-      font-size: 1rem;
-      border: solid black 2px;
-    }
-
-    :is(.profile-button) {
+    .profile-button {
       width: 90px;
       height: 47px;
       border-radius: 25px;
@@ -75,7 +65,7 @@
       justify-content: center;
     }
 
-    :is(.hidden) {
+    .hidden {
       display: none;
     }
   }

@@ -1,44 +1,27 @@
-#login-form {
+#login-form-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 300px;
 
-  :is(input) {
+  & > input {
     margin: 10px 0;
-    width: 20vw;
-    outline: none;
     padding: 5px 10px;
-    box-shadow: 4px 4px 5px lightgrey;
-    border-radius: 5px;
     font-size: 1.3rem;
-    border: 1px solid lightgrey;
   }
 
-  :is(button) {
+  & > button {
     margin: 10px 0;
-    width: 21.5vw;
-    border: 1px solid lightgrey;
-    box-shadow: 4px 4px 5px lightgrey;
-    border-radius: 5px;
+    width: 275px;
     font-size: 1.3rem;
   }
 
-  :is(p) {
-    margin: 0px;
+  & > p#or {
+    margin: 0;
     font-size: 1.3rem;
   }
 
-  :is(#login-button) {
-    height: 60px;
-  }
-
-  :is(#demo-button) {
-    width: 21.5vw;
-  }
-
-  :is(.error) {
-    color: red;
-    font-size: 1rem;
-    margin: 0px;
+  & > button#login {
+    height: 50px;
   }
 }

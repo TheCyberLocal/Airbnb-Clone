@@ -125,7 +125,7 @@ function SpotPage() {
 
   return (
     spot && (
-      <div id="spotPage">
+      <div id="spot-page">
         <div id="title">{name}</div>
         <div id="location">{`${city}, ${state}, ${country}`}</div>
         <div id="images">
@@ -151,8 +151,8 @@ function SpotPage() {
               <div id="reserve-card-head">
                 <div id="reserve-card-price">${price}</div>
                 <div id="reserve-card-text">
-                  <span id="reserve-card-text1">night</span>
-                  <span id="reserve-card-text2">
+                  <span>night</span>
+                  <span>
                     <FaStar />
                     {starString}
                   </span>
@@ -161,7 +161,6 @@ function SpotPage() {
               <button
                 onClick={() => alert("Feature Coming Soon...")}
                 className="clickable"
-                id="reserve-card-button"
               >
                 Reserve
               </button>

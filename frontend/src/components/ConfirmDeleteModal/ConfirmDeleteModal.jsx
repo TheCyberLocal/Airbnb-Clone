@@ -20,23 +20,13 @@ function ConfirmDeleteModal({ reviewId, spotId, itemText }) {
   };
 
   return (
-    <div id="delete-spot-modal">
-      <h1 className="delete-spot-modal">Confirm Delete</h1>
-      <h2 className="delete-spot-modal">
-        Are you sure you want to remove this {itemText.toLowerCase()}?
-      </h2>
-      <button
-        onClick={handleDelete}
-        id="yes"
-        className="delete-spot-modal clickable"
-      >
+    <div id="confirm-delete-modal">
+      <h1>Confirm Delete</h1>
+      <h2>Are you sure you want to remove this {itemText.toLowerCase()}?</h2>
+      <button onClick={handleDelete} id="yes" className="clickable">
         Yes (Delete {itemText})
       </button>
-      <button
-        onClick={closeModal}
-        id="no"
-        className="delete-spot-modal clickable"
-      >
+      <button onClick={closeModal} id="no" className="clickable">
         No (Keep {itemText})
       </button>
     </div>

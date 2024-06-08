@@ -18,7 +18,7 @@ function UserSpotPage() {
     <div id="user-spot-page">
       <h1>Manage Spots</h1>
       {mySpotsArr.length ? (
-        <div id="user-spot-container">
+        <div>
           {mySpotsArr.map((spot, i) => (
             <UserSpotCard key={i} spot={spot} />
           ))}

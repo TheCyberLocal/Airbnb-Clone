@@ -32,28 +32,39 @@ function ReviewCard({ review, user, spotId }) {
   const formattedDate = formatDate(review.createdAt);
   const { setModalContent } = useModal();
 
+  const UserReviewButtons = () => {
+    return (
+      <>
+        <button
+          className="clickable"
+          onClick={() => alert("Feature Coming Soon...")}
+        >
+          Update
+        </button>
+        <button
+          className="clickable"
+          onClick={() =>
+            setModalContent(
+              <ConfirmDeleteModal
+                reviewId={review.id}
+                spotId={spotId}
+                itemText={"Review"}
+              />,
+            )
+          }
+        >
+          Delete
+        </button>
+      </>
+    );
+  };
+
   return (
     <div className="review-card">
       <div className="review-name">{review.User.firstName}</div>
       <div className="review-date">{formattedDate}</div>
-      <div className="review-text">{review.review}</div>
-      {user?.id === review.User.id && (
-        <div id="review-delete">
-          <button
-            onClick={() =>
-              setModalContent(
-                <ConfirmDeleteModal
-                  reviewId={review.id}
-                  spotId={spotId}
-                  itemText={"Review"}
-                />
-              )
-            }
-          >
-            Delete
-          </button>
-        </div>
-      )}
+      <div>{review.review}</div>
+      {user?.id === review.User.id && <UserReviewButtons />}
     </div>
   );
 }

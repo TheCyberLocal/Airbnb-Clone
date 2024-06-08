@@ -2,5 +2,27 @@
 
 body {
   margin: 0;
+}
+
+* {
   font-family: sans-serif;
+}
+
+.error {
+  margin: 0;
+  color: red;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+input,
+button,
+textarea {
+  border: 2px solid lightgrey;
+  box-shadow: 4px 4px 5px lightgrey;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
 }

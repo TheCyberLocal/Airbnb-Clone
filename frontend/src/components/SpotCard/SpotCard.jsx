@@ -14,8 +14,7 @@ function SpotCard({ spot }) {
 
   return (
     <div
-      id="spot-card"
-      className="clickable"
+      className="spot-card clickable"
       data-tooltip-id={`my-tooltip-${id}`}
       data-tooltip-float="true"
       onClick={() => nav(`/spots/${id}`)}
@@ -27,8 +26,8 @@ function SpotCard({ spot }) {
       />
       <div className="description">
         <div className="title">
-          <span className="city-state">{`${city}, ${state}`}</span>
-          <span className="avgRating">
+          <span>{`${city}, ${state}`}</span>
+          <span>
             <FaStar />
             {starString}
           </span>

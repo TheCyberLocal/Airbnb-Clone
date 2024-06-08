@@ -1,28 +1,27 @@
-div#delete-spot-modal {
+div#confirm-delete-modal {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 
-  :is(.clickable) {
-    cursor: pointer;
-  }
-
-  :is(h1.delete-spot-modal) {
+  & > h1 {
     font-size: 2rem;
   }
-  :is(h2.delete-spot-modal) {
+
+  & > h2 {
     font-size: 1rem;
   }
-  :is(button#no.delete-spot-modal) {
-    background-color: grey;
-  }
-  :is(button#yes.delete-spot-modal) {
-    background-color: red;
-  }
-  :is(button.delete-spot-modal) {
+
+  & > button {
     width: 350px;
     height: 50px;
     margin-top: 10px;
+  }
+
+  & > button#no {
+    background-color: grey;
+  }
+
+  & > button#yes {
+    background-color: red;
   }
 }

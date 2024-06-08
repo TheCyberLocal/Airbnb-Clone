@@ -67,7 +67,7 @@ const updateSpotImages = async ({
 
   // Update side images
   const currentSideImages = currentSpotImages.filter(
-    (e) => e.preview === false
+    (e) => e.preview === false,
   );
   for (let i = 0; i < 5; i++) {
     if (currentSideImages[i]?.url === sideImageURLs[i]) continue;

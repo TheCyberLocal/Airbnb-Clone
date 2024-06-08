@@ -23,7 +23,7 @@ function SignupFormModal() {
         confirmPassword.length > 5 &&
         email.length &&
         firstName.length &&
-        lastName.length
+        lastName.length,
     );
   }, [email, username, firstName, lastName, password, confirmPassword]);
 
@@ -38,7 +38,7 @@ function SignupFormModal() {
           firstName,
           lastName,
           password,
-        })
+        }),
       )
         .then(closeModal)
         .catch(async (res) => {

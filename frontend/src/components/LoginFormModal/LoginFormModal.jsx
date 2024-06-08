@@ -35,12 +35,12 @@ function LoginFormModal() {
     setPassword("password");
     setErrors({});
     return dispatch(sessionActions.login({ credential, password })).then(
-      closeModal
+      closeModal,
     );
   };
 
   return (
-    <form id="login-form" onSubmit={handleSubmit}>
+    <form id="login-form-modal" onSubmit={handleSubmit}>
       <h1>Log In</h1>
       {errors.credential && <p className="error">{errors.credential}</p>}
       <input
@@ -57,13 +57,11 @@ function LoginFormModal() {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <button id="login-button" disabled={!validForm} type="submit">
+      <button id="login" disabled={!validForm} type="submit">
         Log In
       </button>
-      <p>or</p>
-      <button id="demo-button" onClick={demoLogin}>
-        Log in as Demo User
-      </button>
+      <p id="or">or</p>
+      <button onClick={demoLogin}>Log in as Demo User</button>
     </form>
   );
 }

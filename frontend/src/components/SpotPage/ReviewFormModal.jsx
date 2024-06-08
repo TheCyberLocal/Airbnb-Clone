@@ -65,11 +65,11 @@ function ReviewFormModal() {
   return (
     <div id="review-form-modal">
       <h1 className="review-form-modal">How was your stay?</h1>
-      {errors.msg && <p className="errors">{errors.msg}</p>}
+      {errors.msg && <p className="error">{errors.msg}</p>}
       {errors.errArr?.length &&
         errors.errArr.map((e, i) => {
           return (
-            <p key={i} className="errors">
+            <p key={i} className="error">
               {e}
             </p>
           );

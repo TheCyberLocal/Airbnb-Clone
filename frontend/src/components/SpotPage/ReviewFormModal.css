@@ -3,9 +3,9 @@ div#review-form-modal {
   display: flex;
   flex-direction: column;
 
-  :is(.errors) {
+  :is(.error) {
     color: red;
-    margin: 5px 0px;
+    margin: 5px 0;
   }
 
   :is(.review-form-modal) {
@@ -25,7 +25,7 @@ div#review-form-modal {
   }
 
   :is(span#review-stars-rating) {
-    margin: 15px 0px 15px 0px;
+    margin: 15px 0 15px 0;
     font-size: 2rem;
   }
 
@@ -37,7 +37,7 @@ div#review-form-modal {
   }
 
   :is(button.review-form-modal) {
-    padding: 15px 0px;
+    padding: 15px 0;
     font-size: 1rem;
   }
 }

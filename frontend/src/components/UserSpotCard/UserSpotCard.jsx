@@ -24,10 +24,10 @@ function UserSpotCard({ spot }) {
           <button
             onClick={() =>
               setModalContent(
-                <ConfirmDeleteModal spotId={spot.id} itemText={"Spot"} />
+                <ConfirmDeleteModal spotId={spot.id} itemText={"Spot"} />,
               )
             }
-            className="user-spot-card clickable"
+            className="clickable"
           >
             Delete
           </button>

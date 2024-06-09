@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       description: {
-        type: DataTypes.VARCHAR(1024),
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,

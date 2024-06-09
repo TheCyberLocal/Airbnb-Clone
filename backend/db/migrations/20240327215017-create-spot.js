@@ -47,7 +47,7 @@ module.exports = {
           type: Sequelize.STRING,
         },
         description: {
-          type: Sequelize.VARCHAR(1024),
+          type: Sequelize.STRING,
         },
         price: {
           type: Sequelize.DECIMAL,

@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       description: {
-        type: DataTypes.STRING(1024),
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -105,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Spot",
-    },
+    }
   );
   return Spot;
 };

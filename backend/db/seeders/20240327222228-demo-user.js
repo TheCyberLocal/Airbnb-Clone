@@ -59,7 +59,7 @@ module.exports = {
           hashedPassword: bcrypt.hashSync("InvestSmart!"),
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

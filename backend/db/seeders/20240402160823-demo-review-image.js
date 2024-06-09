@@ -63,7 +63,7 @@ module.exports = {
           url: "/warrenbuffett_2.jpg",
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

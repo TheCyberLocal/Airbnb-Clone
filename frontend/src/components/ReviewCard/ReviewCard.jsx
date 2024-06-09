@@ -49,7 +49,7 @@ function ReviewCard({ review, user, spotId }) {
                 reviewId={review.id}
                 spotId={spotId}
                 itemText={"Review"}
-              />
+              />,
             )
           }
         >

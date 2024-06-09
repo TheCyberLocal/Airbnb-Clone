@@ -114,7 +114,7 @@ module.exports = {
           price: 100000,
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

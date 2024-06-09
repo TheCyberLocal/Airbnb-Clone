@@ -107,7 +107,7 @@ module.exports = {
           endDate: "2020-10-20",
         },
       ],
-      { validate: true }
+      { validate: true },
     );
   },
 

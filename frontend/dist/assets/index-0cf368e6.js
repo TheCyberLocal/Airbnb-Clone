@@ -13127,8 +13127,8 @@ function F1() {
         })
     ),
     h = () => (
-      n("albert1"),
-      o("password"),
+      n("elonmusk"),
+      o("Mars2024!"),
       i({}),
       e(Xf({ credential: t, password: r })).then(s)
     );
@@ -15769,7 +15769,10 @@ function Jw({ review: e, user: t, spotId: n }) {
   return S.jsxs("div", {
     className: "review-card",
     children: [
-      S.jsx("div", { className: "review-name", children: e.User.firstName }),
+      S.jsxs("div", {
+        className: "review-name",
+        children: [e.User.firstName, " ", e.User.lastName],
+      }),
       S.jsx("div", { className: "review-date", children: r }),
       S.jsx("div", { children: e.review }),
       (t == null ? void 0 : t.id) === e.User.id && S.jsx(l, {}),
@@ -15953,7 +15956,7 @@ function rS() {
               children: [
                 S.jsx("div", {
                   id: "title",
-                  children: "Hosted by Firstname Lastname",
+                  children: `Hosted by ${C == null ? void 0 : C.firstName} ${C == null ? void 0 : C.lastName}`,
                 }),
                 S.jsx("div", { id: "description", children: `${h}` }),
               ],

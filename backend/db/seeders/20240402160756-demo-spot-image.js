@@ -189,7 +189,7 @@ module.exports = {
         },
       ],
 
-      { validate: true }
+      { validate: true },
     );
   },
 

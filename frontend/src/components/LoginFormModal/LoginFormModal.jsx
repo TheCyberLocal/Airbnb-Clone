@@ -35,7 +35,7 @@ function LoginFormModal() {
     setPassword("Mars2024!");
     setErrors({});
     return dispatch(sessionActions.login({ credential, password })).then(
-      closeModal
+      closeModal,
     );
   };
 

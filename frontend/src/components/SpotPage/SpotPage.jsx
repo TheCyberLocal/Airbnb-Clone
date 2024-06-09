@@ -143,7 +143,7 @@ function SpotPage() {
         </div>
         <div id="details">
           <div id="hostedBy">
-            <div id="title">{`Hosted by Firstname Lastname`}</div>
+            <div id="title">{`Hosted by ${Owner?.firstName} ${Owner?.lastName}`}</div>
             <div id="description">{`${description}`}</div>
           </div>
           <div id="reserve">

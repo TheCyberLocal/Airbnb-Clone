@@ -41,12 +41,13 @@
 
     .profile-dropdown {
       position: absolute;
-      transform: translateX(-45px) translateY(17px);
-      width: 150px;
+      transform: translateX(-60px) translateY(17px);
+      width: fit-content;
       display: flex;
       flex-direction: column;
       border-radius: 5px;
       background-color: white;
+      border: 2px solid lightgrey;
       box-shadow: 4px 4px 10px lightgrey;
 
       & > div {

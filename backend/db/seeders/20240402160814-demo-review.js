@@ -72,13 +72,6 @@ module.exports = {
           stars: 4,
         },
         {
-          spotId: 4,
-          userId: 3,
-          review:
-            "Chichen Itza is a fascinating Mayan archaeological site. Learning about the Mayan calendar and their astronomical knowledge was particularly interesting. Climbing El Castillo (the pyramid) wasn't allowed anymore, which was a bit disappointing.",
-          stars: 4,
-        },
-        {
           spotId: 6,
           userId: 3,
           review:

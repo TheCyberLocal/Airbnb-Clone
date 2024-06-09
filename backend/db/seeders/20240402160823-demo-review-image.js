@@ -47,19 +47,19 @@ module.exports = {
           url: "/billgates_2.jpg",
         },
         {
-          reviewId: 11,
+          reviewId: 10,
           url: "/stevejobs_1.jpg",
         },
         {
-          reviewId: 12,
+          reviewId: 11,
           url: "/stevejobs_2.jpg",
         },
         {
-          reviewId: 14,
+          reviewId: 13,
           url: "/warrenbuffett_1.jpg",
         },
         {
-          reviewId: 15,
+          reviewId: 14,
           url: "/warrenbuffett_2.jpg",
         },
       ],

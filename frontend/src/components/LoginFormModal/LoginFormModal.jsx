@@ -31,11 +31,11 @@ function LoginFormModal() {
   };
 
   const demoLogin = () => {
-    setCredential("albert1");
-    setPassword("password");
+    setCredential("elonmusk");
+    setPassword("Mars2024!");
     setErrors({});
     return dispatch(sessionActions.login({ credential, password })).then(
-      closeModal,
+      closeModal
     );
   };
 

@@ -49,7 +49,7 @@ function ReviewCard({ review, user, spotId }) {
                 reviewId={review.id}
                 spotId={spotId}
                 itemText={"Review"}
-              />,
+              />
             )
           }
         >
@@ -61,7 +61,9 @@ function ReviewCard({ review, user, spotId }) {
 
   return (
     <div className="review-card">
-      <div className="review-name">{review.User.firstName}</div>
+      <div className="review-name">
+        {review.User.firstName} {review.User.lastName}
+      </div>
       <div className="review-date">{formattedDate}</div>
       <div>{review.review}</div>
       {user?.id === review.User.id && <UserReviewButtons />}

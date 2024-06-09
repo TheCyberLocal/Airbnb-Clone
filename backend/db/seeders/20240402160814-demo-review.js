@@ -26,7 +26,7 @@ module.exports = {
           spotId: 5,
           userId: 1,
           review:
-            "Machu Picchu was breathtaking! The hike up Wayna Picchu was challenging, but the panoramic view of the ancient city nestled amongst the clouds was absolutely worth it. The ingenuity of the Inca engineers in building such a magnificent place in such a harsh environment is truly inspiring. Makes you wonder what other marvels might be hidden out there!",
+            "Machu Picchu's beauty is unreal! Grueling Wayna Picchu hike rewarded with stunning cloud city views. Inca engineering brilliance inspires - what other wonders await?",
           stars: 5,
         },
         {
@@ -61,7 +61,7 @@ module.exports = {
           spotId: 2,
           userId: 3,
           review:
-            "Hiking a portion of the Great Wall was an incredible experience. The sheer scale of the wall is mind-boggling, and the views of the surrounding countryside are stunning. It's a powerful reminder of China's rich history and engineering marvel.",
+            "Great Wall hike - mind-blown by scale! Breathtaking countryside views. Powerful reminder of China's history & engineering prowess.",
           stars: 5,
         },
         {
@@ -121,7 +121,7 @@ module.exports = {
           stars: 4,
         },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

@@ -12,12 +12,21 @@ function ViewAllSpots() {
   useEffect(() => {
     dispatch(fetchSpots());
   }, [dispatch]);
-
   return (
     <div id="view-all-spots">
-      {spotsArr.map((spot, i) => (
-        <SpotCard key={i} spot={spot} />
-      ))}
+      {spotsArr.map((spot, i) => {
+        const properties = [
+          "id",
+          "name",
+          "city",
+          "state",
+          "previewImage",
+          "price",
+          "avgRating",
+        ];
+        const validSpot = properties.every((prop) => spot[prop] !== undefined);
+        return validSpot ? <SpotCard key={i} spot={spot} /> : null;
+      })}
     </div>
   );
 }

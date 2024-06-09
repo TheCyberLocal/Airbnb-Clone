@@ -47,14 +47,14 @@ module.exports = {
           spotId: 7,
           userId: 2,
           review:
-            "The Taj Mahal is even more stunning in person than in photos. The use of light and reflection in the design creates a truly magical atmosphere. We learned about the symbolism behind the various architectural elements, which added another layer of appreciation to the visit.",
+            "The Taj Mahal is even more stunning in person than in photos. The use of light and reflection in the design creates a truly magical atmosphere. The symbolism in the architecture added another layer of appreciation to the visit.",
           stars: 5,
         },
         {
           spotId: 1,
           userId: 3,
           review:
-            "The Colosseum is a fascinating piece of history, but it's hard to imagine the gladiatorial battles that took place there. The crowds were large, and it felt a bit overwhelming. However, the underground chambers where the gladiators prepared were interesting to see.",
+            "The Colosseum is a fascinating piece of history, but the crowds were large. It felt a bit overwhelming. However, the underground chambers where the gladiators prepared were interesting to see.",
           stars: 3,
         },
         {
@@ -89,7 +89,7 @@ module.exports = {
           spotId: 1,
           userId: 4,
           review:
-            "The Colosseum is a powerful symbol of Roman engineering and innovation. The sense of history is palpable as you walk through the arena. It would have been interesting to see some kind of interactive exhibit that recreates the gladiatorial contests using modern technology.",
+            "The Colosseum is a powerful symbol of Roman engineering and innovation. It would have been interesting to see some kind of interactive exhibit that recreates the gladiatorial contests using modern technology.",
           stars: 4,
         },
         {
@@ -121,7 +121,7 @@ module.exports = {
           stars: 4,
         },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

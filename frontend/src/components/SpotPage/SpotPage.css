@@ -45,7 +45,7 @@ div#spot-page {
     border-bottom: 2px solid lightgrey;
 
     & > div#hostedBy {
-      width: 60%;
+      width: calc(95% - 325px);
       margin-right: 5%;
 
       & > div#title {
@@ -59,7 +59,7 @@ div#spot-page {
     }
 
     & > div#reserve {
-      width: 35%;
+      width: 325px;
 
       & > div#reserve-card {
         height: 100px;

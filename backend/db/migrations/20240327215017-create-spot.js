@@ -47,7 +47,7 @@ module.exports = {
           type: Sequelize.STRING,
         },
         description: {
-          type: Sequelize.TEXT,
+          type: Sequelize.VARCHAR(1024),
         },
         price: {
           type: Sequelize.DECIMAL,
@@ -61,7 +61,7 @@ module.exports = {
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
-      options,
+      options
     );
   },
   async down(queryInterface, Sequelize) {

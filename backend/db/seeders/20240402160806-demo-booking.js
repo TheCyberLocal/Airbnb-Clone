@@ -23,25 +23,97 @@ module.exports = {
     await Booking.bulkCreate(
       [
         {
-          spotId: 2,
+          spotId: 5,
           userId: 1,
-          startDate: "1910-04-20",
-          endDate: "1910-07-20",
+          startDate: "2021-06-10",
+          endDate: "2021-06-20",
         },
         {
-          spotId: 3,
+          spotId: 7,
+          userId: 1,
+          startDate: "2020-12-01",
+          endDate: "2020-12-15",
+        },
+        {
+          spotId: 6,
           userId: 2,
-          startDate: "1920-09-01",
-          endDate: "1920-12-01",
+          startDate: "2021-01-10",
+          endDate: "2021-01-20",
+        },
+        {
+          spotId: 7,
+          userId: 2,
+          startDate: "2022-02-01",
+          endDate: "2022-02-14",
         },
         {
           spotId: 1,
           userId: 3,
-          startDate: "1990-01-01",
-          endDate: "1990-12-31",
+          startDate: "2021-11-01",
+          endDate: "2021-11-30",
+        },
+        {
+          spotId: 2,
+          userId: 3,
+          startDate: "2022-05-10",
+          endDate: "2022-05-20",
+        },
+        {
+          spotId: 3,
+          userId: 3,
+          startDate: "2022-11-01",
+          endDate: "2022-11-30",
+        },
+        {
+          spotId: 4,
+          userId: 3,
+          startDate: "2023-07-15",
+          endDate: "2023-07-25",
+        },
+        {
+          spotId: 6,
+          userId: 3,
+          startDate: "2020-12-10",
+          endDate: "2020-12-24",
+        },
+        {
+          spotId: 7,
+          userId: 3,
+          startDate: "2021-08-01",
+          endDate: "2021-08-15",
+        },
+        {
+          spotId: 1,
+          userId: 4,
+          startDate: "2022-10-01",
+          endDate: "2022-10-15",
+        },
+        {
+          spotId: 2,
+          userId: 4,
+          startDate: "2021-03-05",
+          endDate: "2021-03-20",
+        },
+        {
+          spotId: 7,
+          userId: 4,
+          startDate: "2022-04-01",
+          endDate: "2022-04-15",
+        },
+        {
+          spotId: 3,
+          userId: 5,
+          startDate: "2022-03-01",
+          endDate: "2022-03-14",
+        },
+        {
+          spotId: 6,
+          userId: 5,
+          startDate: "2020-10-01",
+          endDate: "2020-10-20",
         },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

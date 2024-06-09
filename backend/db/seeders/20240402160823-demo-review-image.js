@@ -24,18 +24,46 @@ module.exports = {
       [
         {
           reviewId: 1,
-          url: "https://a0.muscache.com/im/pictures/miso/Hosting-33882223/original/a322808e-7243-467b-8817-3be02b9b1b08.jpeg?im_w=720",
+          url: "/elonmusk_1.jpg",
         },
         {
           reviewId: 2,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-643406112283067720/original/b1589486-0c95-4ed5-8ad7-94a0e8f4e975.jpeg?im_w=720",
+          url: "/elonmusk_2.jpg",
         },
         {
           reviewId: 3,
-          url: "https://a0.muscache.com/im/pictures/miso/Hosting-999521786830063746/original/7d02ff44-5167-4b6e-b67b-577726605ac1.jpeg?im_w=720",
+          url: "/markzuckerberg_1.jpg",
+        },
+        {
+          reviewId: 4,
+          url: "/markzuckerberg_2.jpg",
+        },
+        {
+          reviewId: 5,
+          url: "/billgates_1.jpg",
+        },
+        {
+          reviewId: 6,
+          url: "/billgates_2.jpg",
+        },
+        {
+          reviewId: 11,
+          url: "/stevejobs_1.jpg",
+        },
+        {
+          reviewId: 12,
+          url: "/stevejobs_2.jpg",
+        },
+        {
+          reviewId: 14,
+          url: "/warrenbuffett_1.jpg",
+        },
+        {
+          reviewId: 15,
+          url: "/warrenbuffett_2.jpg",
         },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

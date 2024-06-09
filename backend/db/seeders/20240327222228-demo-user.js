@@ -24,28 +24,42 @@ module.exports = {
     await User.bulkCreate(
       [
         {
-          email: "alberto@user.io",
-          username: "albert1",
-          firstName: "Albert",
-          lastName: "Einstein",
-          hashedPassword: bcrypt.hashSync("password"),
+          email: "elon.musk@spacex.com",
+          username: "elonmusk",
+          firstName: "Elon",
+          lastName: "Musk",
+          hashedPassword: bcrypt.hashSync("Mars2024!"),
         },
         {
-          email: "freddy@user.io",
-          username: "fred2",
-          firstName: "Frederick",
-          lastName: "Nietzsche",
-          hashedPassword: bcrypt.hashSync("password2"),
+          email: "mark.zuckerberg@meta.com",
+          username: "zuck",
+          firstName: "Mark",
+          lastName: "Zuckerberg",
+          hashedPassword: bcrypt.hashSync("SocialKing123"),
         },
         {
-          email: "jbpeterson@user.io",
-          username: "jordan3",
-          firstName: "Jordan",
-          lastName: "Peterson",
-          hashedPassword: bcrypt.hashSync("password3"),
+          email: "bill.gates@gatesfoundation.org",
+          username: "billgates",
+          firstName: "Bill",
+          lastName: "Gates",
+          hashedPassword: bcrypt.hashSync("WindowsXP!"),
+        },
+        {
+          email: "steve.jobs@apple.com",
+          username: "stevejobs",
+          firstName: "Steve",
+          lastName: "Jobs",
+          hashedPassword: bcrypt.hashSync("iLeader2024"),
+        },
+        {
+          email: "warren.buffett@berkshirehathaway.com",
+          username: "warrenbuffett",
+          firstName: "Warren",
+          lastName: "Buffett",
+          hashedPassword: bcrypt.hashSync("InvestSmart!"),
         },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

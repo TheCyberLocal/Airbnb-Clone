@@ -2,11 +2,15 @@ div.spot-card {
   aspect-ratio: 0.8;
   flex: 0 0 max(300px, calc(25% - 15px));
 
-  & > img {
-    width: 100%;
-    height: 75%;
-    object-fit: cover;
-    border-radius: 15px;
+  & > div.image {
+    aspect-ratio: 1;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+    }
   }
 
   & > div.description {

@@ -16,24 +16,31 @@ div#spot-page {
     display: flex;
     flex-direction: row;
 
-    & > img#preview {
-      width: calc(50% - 10px);
-      margin: 5px;
-      aspect-ratio: 1.5;
-      object-fit: cover;
-      border-radius: 15px;
-    }
+    & > div#preview {
+      width: calc(50vw - 90px);
 
-    & > #sideImages {
-      display: flex;
-      flex-wrap: wrap;
-
-      & > img.sideImages {
-        width: calc(50% - 10px);
-        margin: 5px;
+      & > img {
+        border-radius: 15px;
+        width: 100%;
         aspect-ratio: 1.5;
         object-fit: cover;
-        border-radius: 15px;
+      }
+    }
+
+    & > div#sideImages {
+      display: flex;
+      flex-wrap: wrap;
+      width: calc(50vw - 90px);
+
+      & > div.sideImages {
+        margin: 0 0 10px 10px;
+
+        & > img {
+          border-radius: 15px;
+          width: calc(25vw - 60px);
+          aspect-ratio: 1.5;
+          object-fit: cover;
+        }
       }
     }
   }

@@ -12,20 +12,24 @@ function ViewAllSpots() {
   useEffect(() => {
     dispatch(fetchSpots());
   }, [dispatch]);
+
+  const validateSpot = (spot) => {
+    const properties = [
+      "id",
+      "name",
+      "city",
+      "state",
+      "previewImage",
+      "price",
+      "avgRating",
+    ];
+    return properties.every((prop) => spot[prop] !== undefined);
+  };
+
   return (
     <div id="view-all-spots">
       {spotsArr.map((spot, i) => {
-        const properties = [
-          "id",
-          "name",
-          "city",
-          "state",
-          "previewImage",
-          "price",
-          "avgRating",
-        ];
-        const validSpot = properties.every((prop) => spot[prop] !== undefined);
-        return validSpot ? <SpotCard key={i} spot={spot} /> : null;
+        return validateSpot(spot) ? <SpotCard key={i} spot={spot} /> : null;
       })}
     </div>
   );

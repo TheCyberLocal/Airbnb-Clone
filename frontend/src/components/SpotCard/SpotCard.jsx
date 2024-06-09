@@ -20,10 +20,9 @@ function SpotCard({ spot }) {
       onClick={() => nav(`/spots/${id}`)}
     >
       <Tooltip className="my-tooltip" id={`my-tooltip-${id}`} content={name} />
-      <img
-        src={previewImage === "no preview" ? "/noPreviewImg.png" : previewImage}
-        alt="Preview Image"
-      />
+      <div className="image">
+        <img src={previewImage} alt="Preview Image" />
+      </div>
       <div className="description">
         <div className="title">
           <span>{`${city}, ${state}`}</span>

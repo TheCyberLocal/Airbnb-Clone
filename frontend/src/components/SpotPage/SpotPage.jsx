@@ -72,14 +72,10 @@ function SpotPage() {
 
   // Ensure preview and side images are displayed
   const imagesArr = Object.values(SpotImages || {});
-  const previewImage =
-    imagesArr.find((e) => e.preview === true)?.url || "/noPreviewImg.png";
+  const previewImage = imagesArr.find((e) => e.preview === true)?.url;
   const sideImages = imagesArr.filter((e) => e.preview === false) || [];
 
   // Use placeholders when less than 4 side images
-  while (sideImages.length < 4) {
-    sideImages.push({ url: "/noMedia.png", id: `demo${sideImages.length}` });
-  }
 
   function createReviewsElement({ Owner, reviewsArr, user }) {
     // If user is logged in and isn't owner and hasn't posted, show button.
@@ -129,15 +125,14 @@ function SpotPage() {
         <div id="title">{name}</div>
         <div id="location">{`${city}, ${state}, ${country}`}</div>
         <div id="images">
-          <img id="preview" src={previewImage} alt="Preview Image" />
+          <div id="preview">
+            <img src={previewImage} alt="Preview Image" />
+          </div>
           <div id="sideImages">
             {sideImages.map((e) => (
-              <img
-                className="sideImages"
-                key={e.id}
-                src={e.url}
-                alt="Spot Image"
-              />
+              <div key={e.id} className="sideImages">
+                <img key={e.id} src={e.url} alt="Spot Image" />
+              </div>
             ))}
           </div>
         </div>

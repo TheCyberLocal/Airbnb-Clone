@@ -1,6 +1,6 @@
 import "./SpotPage.css";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
@@ -44,15 +44,11 @@ function SpotPage() {
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews[spotId]);
   const user = useSelector((state) => state.session.user);
+  const [starString, setStarString] = useState("");
   const { setModalContent } = useModal();
 
   const reviewsArr = Object.values(reviews || {});
   reviewsArr.sort(newestReviewDate);
-
-  useEffect(() => {
-    dispatch(fetchSpot(spotId));
-    dispatch(fetchReviews(spotId));
-  }, [dispatch, spotId]);
 
   // Destructure spot properties without referencing undefined
   const {
@@ -68,7 +64,11 @@ function SpotPage() {
     Owner,
   } = spot || {};
 
-  const starString = formatStarString({ avgStarRating, numReviews });
+  useEffect(() => {
+    dispatch(fetchSpot(spotId));
+    dispatch(fetchReviews(spotId));
+    setStarString(formatStarString({ avgStarRating, numReviews }));
+  }, [dispatch, spotId, reviews, avgStarRating, numReviews]);
 
   // Ensure preview and side images are displayed
   const imagesArr = Object.values(SpotImages || {});

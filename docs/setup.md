@@ -54,6 +54,7 @@
      - **Name:** Give your application a name.
      - **Region:** Set to the location closest to you.
      - **Branch:** Set to "main".
+     - **Runtime:** Set to "Node".
      - **Root Directory:** Leave blank (commands run from the root directory).
      - **Instance Type:** Select "Free".
 

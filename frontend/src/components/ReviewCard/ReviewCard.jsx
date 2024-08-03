@@ -29,7 +29,6 @@ function formatDate(dateTime) {
 }
 
 function ReviewCard({ review, user, spotId }) {
-  const formattedDate = formatDate(review.createdAt);
   const { setModalContent } = useModal();
 
   const UserReviewButtons = () => {
@@ -49,7 +48,7 @@ function ReviewCard({ review, user, spotId }) {
                 reviewId={review.id}
                 spotId={spotId}
                 itemText={"Review"}
-              />,
+              />
             )
           }
         >
@@ -64,7 +63,7 @@ function ReviewCard({ review, user, spotId }) {
       <div className="review-name">
         {review.User.firstName} {review.User.lastName}
       </div>
-      <div className="review-date">{formattedDate}</div>
+      <div className="review-date">{formatDate(review.createdAt)}</div>
       <div>{review.review}</div>
       {user?.id === review.User.id && <UserReviewButtons />}
     </div>

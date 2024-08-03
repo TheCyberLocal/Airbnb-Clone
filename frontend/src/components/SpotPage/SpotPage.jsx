@@ -68,7 +68,11 @@ function SpotPage() {
     dispatch(fetchSpot(spotId));
     dispatch(fetchReviews(spotId));
     setStarString(formatStarString({ avgStarRating, numReviews }));
-  }, [dispatch, spotId, reviews, avgStarRating, numReviews]);
+  }, [dispatch, spotId]);
+
+  useEffect(() => {
+    setStarString(formatStarString({ avgStarRating, numReviews }));
+  }, [avgStarRating, numReviews]);
 
   // Ensure preview and side images are displayed
   const imagesArr = Object.values(SpotImages || {});

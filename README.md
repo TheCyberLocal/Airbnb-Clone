@@ -19,7 +19,7 @@ The mission of Airbnb is to develop my skills as a full-stack web developer alon
 
 ## 📚 More on Airbnb
 
-<!-- - ### 💾 [Installation and Setup](./docs/setup.md) -->
+- ### 💾 [Installation and Setup](./docs/setup.md)
 - ### 📑 [Airbnb Documentation](https://github.com/TheCyberLocal/Airbnb-Clone/wiki)
 - ### ✨ [Airbnb in action!](https://api-project-xwci.onrender.com)
 

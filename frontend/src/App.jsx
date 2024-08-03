@@ -9,6 +9,7 @@ import SpotPage from "./components/SpotPage";
 import PageNotFound from "./components/PageNotFound";
 import SpotForm from "./components/SpotForm";
 import UserSpotPage from "./components/UserSpotPage";
+import Footer from "./components/Footer/Footer";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Layout() {
       <Modal />
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
+      <Footer />
     </>
   );
 }

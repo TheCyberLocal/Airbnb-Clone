@@ -160,12 +160,16 @@ function SpotPage() {
                   </span>
                 </div>
               </div>
-              <button
-                onClick={() => alert("Feature Coming Soon...")}
-                className="clickable"
-              >
-                Reserve
-              </button>
+              {user.id !== spot.ownerId ? (
+                <button
+                  onClick={() => alert("Feature Coming Soon...")}
+                  className="clickable"
+                >
+                  Reserve
+                </button>
+              ) : (
+                <h2>Welcome to your spot</h2>
+              )}
             </div>
           </div>
         </div>

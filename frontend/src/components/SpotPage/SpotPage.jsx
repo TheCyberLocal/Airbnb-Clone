@@ -160,7 +160,7 @@ function SpotPage() {
                   </span>
                 </div>
               </div>
-              {user.id !== spot.ownerId ? (
+              {user?.id !== spot.ownerId ? (
                 <button
                   onClick={() => alert("Feature Coming Soon...")}
                   className="clickable"

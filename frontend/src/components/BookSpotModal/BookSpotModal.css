@@ -1,0 +1,35 @@
+div.book-spot-modal {
+  & > h1.book-spot-modal-title {
+    text-align: center;
+  }
+
+  & > div.book-spot-modal-errors {
+    color: red;
+    height: 40px;
+  }
+
+  & > div.book-spot-modal-buttons {
+    display: flex;
+    flex-direction: row;
+
+    & > * {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    & > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      margin: 5px 10px;
+      font-size: 1.5rem;
+      width: 30%;
+    }
+
+    & > button#book-spot {
+      width: 70%;
+    }
+  }
+}

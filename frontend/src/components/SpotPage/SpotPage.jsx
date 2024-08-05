@@ -48,7 +48,36 @@ function SpotPage() {
   const reviews = useSelector((state) => state.reviews[spotId]);
   const user = useSelector((state) => state.session.user);
   const [starString, setStarString] = useState("");
+  const [userBooking, setUserBooking] = useState(null);
   const { setModalContent, closeMenu } = useModal();
+
+  useEffect(() => {
+    dispatch(fetchSpot(spotId));
+    dispatch(fetchReviews(spotId));
+  }, [dispatch, spotId]);
+
+  useEffect(() => {
+    if (spot) {
+      const fetchBooking = async () => {
+        const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
+        const data = await response.json();
+        const myBooking = data?.Bookings.find(
+          (e) => e.userId === user?.id && new Date(e.startDate) > new Date()
+        );
+        setUserBooking(myBooking);
+      };
+      fetchBooking();
+    }
+  }, [spot, user]);
+
+  useEffect(() => {
+    setStarString(
+      formatStarString({
+        avgStarRating: spot?.avgStarRating,
+        numReviews: spot?.numReviews,
+      })
+    );
+  }, [spot]);
 
   const reviewsArr = Object.values(reviews || {});
   reviewsArr.sort(newestReviewDate);
@@ -96,7 +125,6 @@ function SpotPage() {
     const e = {};
     if (user && Owner?.id !== user?.id) {
       if (!reviewsArr.find((rev) => rev?.userId === user?.id)) {
-        // Show button
         e.button = (
           <button onClick={() => setModalContent(<SpotReviewModal />)}>
             Post Your Review
@@ -104,13 +132,11 @@ function SpotPage() {
         );
       }
       if (!reviewsArr.length) {
-        // Show "Be the first to post a review!"
         e.text = <p>Be the first to post a review!</p>;
       }
     }
 
     if (reviewsArr.length) {
-      // Show reviews
       e.reviews = reviewsArr.map((review, i) => (
         <ReviewCard key={i} review={review} spotId={spotId} user={user} />
       ));
@@ -165,8 +191,12 @@ function SpotPage() {
               </div>
               {user ? (
                 user?.id !== spot.ownerId ? (
-                  <button onClick={() => setModalContent(<BookSpotModal />)}>
-                    Reserve
+                  <button
+                    onClick={() =>
+                      setModalContent(<BookSpotModal booking={userBooking} />)
+                    }
+                  >
+                    {userBooking ? "Update Reservation" : "Reserve"}
                   </button>
                 ) : (
                   <h3>Welcome to your spot</h3>

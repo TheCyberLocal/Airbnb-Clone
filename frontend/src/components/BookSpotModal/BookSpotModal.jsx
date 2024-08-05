@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
 
-export default function BookSpotModal() {
+function BookSpotModal({ booking }) {
   const { closeModal } = useModal();
   const { spotId } = useParams();
   const [error, setError] = useState("");
@@ -19,35 +19,25 @@ export default function BookSpotModal() {
   });
 
   useEffect(() => {
-    csrfFetch(`/api/spots/${spotId}/bookings`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        const myBooking = data?.Bookings.find(
-          (e) => "id" in e && e.startDate > new Date()
-        );
-        if (myBooking) {
-          setSelectionRange({
-            startDate: new Date(myBooking.startDate),
-            endDate: new Date(myBooking.endDate),
-            key: "selection",
-          });
-        } else {
-          setSelectionRange({
-            startDate: new Date(new Date().getTime() + 86400000),
-            endDate: new Date(new Date().getTime() + 172800000),
-            key: "selection",
-          });
-        }
+    if (booking) {
+      setSelectionRange({
+        startDate: new Date(booking.startDate),
+        endDate: new Date(booking.endDate),
+        key: "selection",
       });
-  }, []);
+    }
+  }, [booking]);
 
   const handleSelect = (ranges) => setSelectionRange(ranges.selection);
 
   const handleBookingClick = () => {
-    csrfFetch(`/api/spots/${spotId}/bookings`, {
-      method: "POST",
+    const url = booking
+      ? `/api/spots/${spotId}/bookings/${booking.id}`
+      : `/api/spots/${spotId}/bookings`;
+    const method = booking ? "PUT" : "POST";
+
+    csrfFetch(url, {
+      method,
       headers: {
         "Content-Type": "application/json",
       },
@@ -55,10 +45,15 @@ export default function BookSpotModal() {
         startDate: selectionRange.startDate,
         endDate: selectionRange.endDate,
       }),
-    }).then((res) => {
-      console.log(res);
-      setError(res.error);
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          closeModal();
+        }
+      });
   };
 
   return (
@@ -71,7 +66,9 @@ export default function BookSpotModal() {
           minDate={new Date(new Date().getTime() + 86400000)}
         />
       </div>
-      <div className="book-spot-modal-errors">{error && { errors }}</div>
+      <div className="book-spot-modal-errors">
+        {error && <div>{error}</div>}
+      </div>
       <div className="book-spot-modal-buttons">
         <button
           id="book-spot"
@@ -87,3 +84,5 @@ export default function BookSpotModal() {
     </div>
   );
 }
+
+export default BookSpotModal;

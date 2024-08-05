@@ -4,8 +4,7 @@ import "../../../node_modules/react-date-range/dist/theme/default.css"; // Theme
 import { DateRangePicker } from "react-date-range";
 import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
 
 function BookSpotModal({ booking }) {
@@ -30,35 +29,41 @@ function BookSpotModal({ booking }) {
 
   const handleSelect = (ranges) => setSelectionRange(ranges.selection);
 
-  const handleBookingClick = () => {
+  const handleBookingClick = async () => {
     const url = booking
-      ? `/api/spots/${spotId}/bookings/${booking.id}`
+      ? `/api/bookings/${booking.id}`
       : `/api/spots/${spotId}/bookings`;
     const method = booking ? "PUT" : "POST";
 
-    csrfFetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        startDate: selectionRange.startDate,
-        endDate: selectionRange.endDate,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-        } else {
-          closeModal();
-        }
+    try {
+      const response = await csrfFetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startDate: selectionRange.startDate.toISOString(),
+          endDate: selectionRange.endDate.toISOString(),
+        }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.errors.startDate || data.errors.endDate);
+      } else {
+        closeModal();
+      }
+    } catch (err) {
+      setError("An error occurred. Please choose a date after today.");
+    }
   };
 
   return (
     <div className="book-spot-modal">
-      <h1 className="book-spot-modal-title">Book this spot</h1>
+      <h1 className="book-spot-modal-title">
+        {booking ? "Update your booking" : "Book this spot"}
+      </h1>
       <div className="book-spot-modal-content">
         <DateRangePicker
           ranges={[selectionRange]}
@@ -75,7 +80,9 @@ function BookSpotModal({ booking }) {
           className="clickable"
           onClick={handleBookingClick}
         >
-          {`Book ${selectionRange.startDate.toLocaleDateString()} - ${selectionRange.endDate.toLocaleDateString()}`}
+          {`Book ${selectionRange.startDate.toISOString().split("T")[0]} - ${
+            selectionRange.endDate.toISOString().split("T")[0]
+          }`}
         </button>
         <button className="clickable" onClick={closeModal}>
           Cancel

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchReviews, postReview } from "../../store/reviews";
-import { fetchSpot } from "../../store/spots";
+import { fetchReviews, postReview, updateReview } from "../../store/reviews";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useModal } from "../../context/Modal";
 import "./ReviewFormModal.css";
@@ -57,7 +56,8 @@ function ReviewFormModal({ reviewId = null }) {
     setErrors(errorsCollector);
 
     if (!Object.values(errorsCollector).includes(true)) {
-      postReview({
+      const request = reviewId ? updateReview : postReview;
+      request({
         body: { review, stars: rating },
         spotId,
       })

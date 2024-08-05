@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchReviews, postReview } from "../../store/reviews";
 import { fetchSpot } from "../../store/spots";
@@ -7,7 +7,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { useModal } from "../../context/Modal";
 import "./ReviewFormModal.css";
 
-function ReviewFormModal() {
+function ReviewFormModal({ reviewId = null }) {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const { closeModal } = useModal();
@@ -16,6 +16,16 @@ function ReviewFormModal() {
   const [hoverRating, setHoverRating] = useState(0);
   const [errors, setErrors] = useState({});
   const [validForm, setValidForm] = useState(false);
+
+  const reviews = useSelector((state) => state.reviews[spotId]);
+
+  useEffect(() => {
+    if (reviewId) {
+      const review = reviews.find((r) => r.id === reviewId);
+      setReview(review.review);
+      setRating(review.stars);
+    }
+  }, [dispatch, reviewId]);
 
   useEffect(() => {
     setValidForm(review.length > 9 && rating);

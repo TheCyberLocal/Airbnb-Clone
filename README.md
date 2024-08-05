@@ -1,4 +1,4 @@
-# Airbnb
+# Airbnb-Clone
 
 ## 🗺️ Project Overview
 

@@ -15,6 +15,20 @@ export const postReview = async ({ body, spotId }) => {
   }
 };
 
+export const updateReview = async ({ body, reviewId }) => {
+  try {
+    await csrfFetch(`/api/reviews/${reviewId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (e) {
+    return e;
+  }
+};
+
 export const deleteReview = async (reviewId) => {
   await csrfFetch(`/api/reviews/${reviewId}`, {
     method: "DELETE",

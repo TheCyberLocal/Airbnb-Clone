@@ -8,6 +8,8 @@ import { FaStar } from "react-icons/fa";
 import ReviewCard from "../ReviewCard";
 import { useModal } from "../../context/Modal";
 import SpotReviewModal from "./ReviewFormModal";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -45,7 +47,7 @@ function SpotPage() {
   const reviews = useSelector((state) => state.reviews[spotId]);
   const user = useSelector((state) => state.session.user);
   const [starString, setStarString] = useState("");
-  const { setModalContent } = useModal();
+  const { setModalContent, closeMenu } = useModal();
 
   const reviewsArr = Object.values(reviews || {});
   reviewsArr.sort(newestReviewDate);
@@ -160,15 +162,22 @@ function SpotPage() {
                   </span>
                 </div>
               </div>
-              {user?.id !== spot.ownerId ? (
-                <button
-                  onClick={() => alert("Feature Coming Soon...")}
-                  className="clickable"
-                >
-                  Reserve
-                </button>
+              {user ? (
+                user?.id !== spot.ownerId ? (
+                  <button onClick={() => alert("Feature Coming Soon!")}>
+                    Reserve
+                  </button>
+                ) : (
+                  <h3>Welcome to your spot</h3>
+                )
               ) : (
-                <h2>Welcome to your spot</h2>
+                <button>
+                  <OpenModalMenuItem
+                    itemText="Log In to Reserve"
+                    onItemClick={closeMenu}
+                    modalComponent={<LoginFormModal />}
+                  />
+                </button>
               )}
             </div>
           </div>

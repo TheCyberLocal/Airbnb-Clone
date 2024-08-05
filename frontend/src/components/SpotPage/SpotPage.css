@@ -105,6 +105,11 @@ div#spot-page {
           border: 2px solid lightgrey;
           border-radius: 5px;
           box-shadow: 4px 4px 5px lightgrey;
+          font-size: 1.1rem;
+        }
+
+        & > h3 {
+          font-size: 1.5rem;
         }
       }
     }

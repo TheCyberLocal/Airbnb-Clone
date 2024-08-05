@@ -106,6 +106,7 @@ div#spot-page {
           border-radius: 5px;
           box-shadow: 4px 4px 5px lightgrey;
           font-size: 1.1rem;
+          cursor: pointer;
         }
 
         & > h3 {

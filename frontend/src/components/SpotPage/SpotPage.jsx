@@ -10,6 +10,7 @@ import { useModal } from "../../context/Modal";
 import SpotReviewModal from "./ReviewFormModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
+import BookSpotModal from "../BookSpotModal";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -164,7 +165,7 @@ function SpotPage() {
               </div>
               {user ? (
                 user?.id !== spot.ownerId ? (
-                  <button onClick={() => alert("Feature Coming Soon!")}>
+                  <button onClick={() => setModalContent(<BookSpotModal />)}>
                     Reserve
                   </button>
                 ) : (

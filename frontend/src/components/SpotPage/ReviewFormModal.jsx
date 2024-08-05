@@ -56,10 +56,10 @@ function ReviewFormModal({ reviewId = null }) {
     setErrors(errorsCollector);
 
     if (!Object.values(errorsCollector).includes(true)) {
-      console.log(reviewId);
       const request = reviewId ? updateReview : postReview;
       request({
-        body: { review, stars: rating, reviewId },
+        body: { review, stars: rating },
+        reviewId,
         spotId,
       })
         .then(() => {

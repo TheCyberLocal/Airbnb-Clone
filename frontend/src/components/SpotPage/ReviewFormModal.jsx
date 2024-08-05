@@ -24,7 +24,7 @@ function ReviewFormModal({ reviewId = null }) {
       setReview(review.review);
       setRating(review.stars);
     }
-  }, [dispatch, reviewId]);
+  }, [dispatch, reviews, reviewId]);
 
   useEffect(() => {
     setValidForm(review.length > 9 && rating);
@@ -56,9 +56,10 @@ function ReviewFormModal({ reviewId = null }) {
     setErrors(errorsCollector);
 
     if (!Object.values(errorsCollector).includes(true)) {
+      console.log(reviewId);
       const request = reviewId ? updateReview : postReview;
       request({
-        body: { review, stars: rating },
+        body: { review, stars: rating, reviewId },
         spotId,
       })
         .then(() => {

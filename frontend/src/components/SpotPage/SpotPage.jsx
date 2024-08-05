@@ -67,7 +67,6 @@ function SpotPage() {
   useEffect(() => {
     dispatch(fetchSpot(spotId));
     dispatch(fetchReviews(spotId));
-    setStarString(formatStarString({ avgStarRating, numReviews }));
   }, [dispatch, spotId]);
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import ConfirmDeleteModal from "../ConfirmDeleteModal";
+import SpotReviewModal from "../SpotPage/ReviewFormModal";
 import { useModal } from "../../context/Modal";
 import "./ReviewCard.css";
 
@@ -36,7 +37,7 @@ function ReviewCard({ review, user, spotId }) {
       <>
         <button
           className="clickable"
-          onClick={() => alert("Feature Coming Soon...")}
+          onClick={() => setModalContent(<SpotReviewModal />)}
         >
           Update
         </button>

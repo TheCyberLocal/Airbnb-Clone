@@ -63,7 +63,6 @@ function ReviewFormModal({ reviewId = null }) {
       })
         .then(() => {
           closeModal();
-          dispatch(fetchSpot(spotId));
           dispatch(fetchReviews(spotId));
         })
         .catch((e) => {

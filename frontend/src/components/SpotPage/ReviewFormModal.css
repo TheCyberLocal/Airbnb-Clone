@@ -3,6 +3,11 @@ div#review-form-modal {
   display: flex;
   flex-direction: column;
 
+  & button,
+  & span#review-stars-rating {
+    cursor: pointer;
+  }
+
   :is(.error) {
     color: red;
     margin: 5px 0;

@@ -70,6 +70,10 @@ function SpotPage() {
   }, [dispatch, spotId]);
 
   useEffect(() => {
+    dispatch(fetchSpot(spotId));
+  }, [reviews]);
+
+  useEffect(() => {
     setStarString(formatStarString({ avgStarRating, numReviews }));
   }, [avgStarRating, numReviews]);
 

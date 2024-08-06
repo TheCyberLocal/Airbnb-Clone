@@ -16,21 +16,12 @@ function ConfirmDeleteModal({ reviewId, spotId, bookingId, itemText }) {
     } else if (itemText === "Review") {
       deleteReview(reviewId).then(() => dispatch(fetchReviews(spotId)));
     } else if (itemText === "Booking") {
-      async function handleDeleteBooking() {
-        try {
-          csrfFetch(`/api/bookings/${bookingId}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        } catch (err) {
-          setError("An error occurred. Please choose a date after today.");
-        }
-        dispatch(fetchReviews(spotId));
-      }
-
-      handleDeleteBooking();
+      csrfFetch(`/api/bookings/${bookingId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => dispatch(fetchReviews(spotId)));
     }
   };
 

@@ -17,18 +17,34 @@ div.book-spot-modal {
     justify-content: center;
   }
 
-  & > button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    margin: 5px 10px;
-    font-size: 1.5rem;
-    width: 90%;
-  }
-
   & > div.book-spot-modal-buttons {
-    display: flex;
-    flex-direction: row;
+    & button#book-spot {
+      margin-bottom: 10px;
+    }
+
+    & > div#cancel-delete {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+
+    & button {
+      display: flex;
+      align-items: center;
+
+      justify-content: center;
+      height: 40px;
+      margin: 5px 10px;
+      font-size: 1.2rem;
+      width: 330px;
+    }
+
+    & button.half-width {
+      width: 150px;
+    }
+
+    & button#delete {
+      background-color: red;
+    }
   }
 }

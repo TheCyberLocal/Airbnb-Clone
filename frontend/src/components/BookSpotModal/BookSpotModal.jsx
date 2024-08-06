@@ -81,15 +81,35 @@ function BookSpotModal({ booking }) {
       <div className="book-spot-modal-errors">
         {error && <div>{error}</div>}
       </div>
-      <button id="book-spot" className="clickable" onClick={handleBookingClick}>
-        {`Book ${format(selectionRange.startDate, "MM-dd-yyyy")} - ${format(
-          selectionRange.endDate,
-          "MM-dd-yyyy"
-        )}`}
-      </button>
-      <button className="clickable" onClick={closeModal}>
-        Cancel
-      </button>
+      <div className="book-spot-modal-buttons">
+        <button
+          id="book-spot"
+          className="clickable"
+          onClick={handleBookingClick}
+        >
+          {`Book ${format(selectionRange.startDate, "MM-dd-yyyy")} - ${format(
+            selectionRange.endDate,
+            "MM-dd-yyyy"
+          )}`}
+        </button>
+        <div id="cancel-delete">
+          {booking && (
+            <button
+              id="delete"
+              className="clickable half-width"
+              onClick={handleBookingClick}
+            >
+              Delete
+            </button>
+          )}
+          <button
+            className={`clickable ${booking ? "half-width" : ""}`}
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

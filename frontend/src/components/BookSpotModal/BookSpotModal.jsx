@@ -1,7 +1,7 @@
 import "./BookSpotModal.css";
 import "../../../node_modules/react-date-range/dist/styles.css";
 import "../../../node_modules/react-date-range/dist/theme/default.css"; // Theme CSS file
-import { DateRangePicker } from "react-date-range";
+import { Calendar } from "react-date-range";
 import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
@@ -65,7 +65,7 @@ function BookSpotModal({ booking }) {
         {booking ? "Update your booking" : "Book this spot"}
       </h1>
       <div className="book-spot-modal-content">
-        <DateRangePicker
+        <Calendar
           ranges={[selectionRange]}
           onChange={handleSelect}
           minDate={new Date(new Date().getTime() + 86400000)}
@@ -74,20 +74,14 @@ function BookSpotModal({ booking }) {
       <div className="book-spot-modal-errors">
         {error && <div>{error}</div>}
       </div>
-      <div className="book-spot-modal-buttons">
-        <button
-          id="book-spot"
-          className="clickable"
-          onClick={handleBookingClick}
-        >
-          {`Book ${selectionRange.startDate.toISOString().split("T")[0]} - ${
-            selectionRange.endDate.toISOString().split("T")[0]
-          }`}
-        </button>
-        <button className="clickable" onClick={closeModal}>
-          Cancel
-        </button>
-      </div>
+      <button id="book-spot" className="clickable" onClick={handleBookingClick}>
+        {`Book ${selectionRange.startDate.toISOString().split("T")[0]} - ${
+          selectionRange.endDate.toISOString().split("T")[0]
+        }`}
+      </button>
+      <button className="clickable" onClick={closeModal}>
+        Cancel
+      </button>
     </div>
   );
 }

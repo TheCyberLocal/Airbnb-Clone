@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
-import { addDays, format, parseISO, isWithinInterval, parse } from "date-fns";
+import { addDays, format, parseISO, isWithinInterval } from "date-fns";
 import ConfirmDeleteModal from "../ConfirmDeleteModal";
 import { useDispatch } from "react-redux";
 import { fetchSpot } from "../../store/spots";
@@ -42,7 +42,6 @@ function BookSpotModal({ booking, booked }) {
   };
 
   const handleSelect = (ranges) => {
-    console.log(booked);
     setSelectionRange({
       startDate: ranges.selection.startDate,
       endDate: ranges.selection.endDate,

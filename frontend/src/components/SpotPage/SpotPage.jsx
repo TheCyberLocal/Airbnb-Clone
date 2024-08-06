@@ -11,6 +11,7 @@ import SpotReviewModal from "./ReviewFormModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import BookSpotModal from "../BookSpotModal";
+import { csrfFetch } from "../../store/csrf";
 
 function formatStarString({ avgStarRating, numReviews }) {
   // Example Outputs
@@ -70,11 +71,10 @@ function SpotPage() {
           (e) => e.userId !== user?.id && new Date(e.endDate) > new Date()
         );
         setBooked(booked);
-        console.log(data);
       };
       fetchBooking();
     }
-  }, [spot, user]);
+  }, [spot, spotId, user]);
 
   useEffect(() => {
     setStarString(
@@ -109,7 +109,7 @@ function SpotPage() {
 
   useEffect(() => {
     dispatch(fetchSpot(spotId));
-  }, [reviews]);
+  }, [dispatch, reviews, spotId]);
 
   useEffect(() => {
     setStarString(formatStarString({ avgStarRating, numReviews }));

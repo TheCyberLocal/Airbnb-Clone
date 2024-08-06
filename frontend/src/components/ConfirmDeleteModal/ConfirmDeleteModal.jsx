@@ -1,10 +1,11 @@
 import { deleteSpot, fetchMySpots } from "../../store/spots";
 import { deleteReview, fetchReviews } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
+import { csrfFetch } from "../../store/csrf";
 import { useDispatch } from "react-redux";
 import "./ConfirmDeleteModal.css";
 
-function ConfirmDeleteModal({ reviewId, spotId, itemText }) {
+function ConfirmDeleteModal({ reviewId, spotId, bookingId, itemText }) {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
 
@@ -15,7 +16,21 @@ function ConfirmDeleteModal({ reviewId, spotId, itemText }) {
     } else if (itemText === "Review") {
       deleteReview(reviewId).then(() => dispatch(fetchReviews(spotId)));
     } else if (itemText === "Booking") {
-      // TODO
+      async function handleDeleteBooking() {
+        try {
+          csrfFetch(`/api/bookings/${bookingId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        } catch (err) {
+          setError("An error occurred. Please choose a date after today.");
+        }
+        dispatch(fetchReviews(spotId));
+      }
+
+      handleDeleteBooking();
     }
   };
 

@@ -8,9 +8,12 @@ import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { addDays, format, parseISO } from "date-fns";
 import ConfirmDeleteModal from "../ConfirmDeleteModal";
+import { useDispatch } from "react-redux";
+import { fetchSpot } from "../../store/spots";
 
 function BookSpotModal({ booking }) {
   const { closeModal, setModalContent } = useModal();
+  const dispatch = useDispatch();
   const { spotId } = useParams();
   const [error, setError] = useState("");
   const [selectionRange, setSelectionRange] = useState({
@@ -39,7 +42,11 @@ function BookSpotModal({ booking }) {
 
   const handleDeleteClick = () => {
     setModalContent(
-      <ConfirmDeleteModal spotId={spotId} itemText={"Booking"} />
+      <ConfirmDeleteModal
+        spotId={spotId}
+        bookingId={booking.id}
+        itemText={"Booking"}
+      />
     );
   };
 
@@ -50,7 +57,7 @@ function BookSpotModal({ booking }) {
     const method = booking ? "PUT" : "POST";
 
     try {
-      const response = await csrfFetch(url, {
+      await csrfFetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
@@ -61,16 +68,16 @@ function BookSpotModal({ booking }) {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        setError(data.errors.startDate || data.errors.endDate);
+        setError("An error occurred. Please choose a date after today.");
       } else {
         closeModal();
       }
     } catch (err) {
       setError("An error occurred. Please choose a date after today.");
     }
+
+    dispatch(fetchSpot(spotId));
   };
 
   return (
@@ -94,7 +101,7 @@ function BookSpotModal({ booking }) {
           className="clickable"
           onClick={handleBookingClick}
         >
-          {`Book ${format(selectionRange.startDate, "MM-dd-yyyy")} - ${format(
+          {`Book ${format(selectionRange.startDate, "MM-dd-yyyy")} to ${format(
             selectionRange.endDate,
             "MM-dd-yyyy"
           )}`}

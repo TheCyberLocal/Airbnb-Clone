@@ -49,6 +49,7 @@ function SpotPage() {
   const user = useSelector((state) => state.session.user);
   const [starString, setStarString] = useState("");
   const [userBooking, setUserBooking] = useState(null);
+  const [booked, setBooked] = useState(null);
   const { setModalContent, closeMenu } = useModal();
 
   useEffect(() => {
@@ -62,9 +63,14 @@ function SpotPage() {
         const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
         const data = await response.json();
         const myBooking = data?.Bookings.find(
-          (e) => e.userId === user?.id && new Date(e.startDate) > new Date(),
+          (e) => e.userId === user?.id && new Date(e.endDate) > new Date()
         );
         setUserBooking(myBooking);
+        const booked = data?.Bookings.filter(
+          (e) => e.userId !== user?.id && new Date(e.endDate) > new Date()
+        );
+        setBooked(booked);
+        console.log(data);
       };
       fetchBooking();
     }
@@ -75,7 +81,7 @@ function SpotPage() {
       formatStarString({
         avgStarRating: spot?.avgStarRating,
         numReviews: spot?.numReviews,
-      }),
+      })
     );
   }, [spot]);
 
@@ -189,14 +195,35 @@ function SpotPage() {
                   </span>
                 </div>
               </div>
+              <p>
+                {userBooking &&
+                  `Booked ${userBooking.startDate} to ${userBooking.endDate}`}
+              </p>
               {user ? (
                 user?.id !== spot.ownerId ? (
                   <button
-                    onClick={() =>
-                      setModalContent(<BookSpotModal booking={userBooking} />)
-                    }
+                    onClick={() => {
+                      if (
+                        !userBooking ||
+                        (userBooking &&
+                          new Date(userBooking.startDate) > new Date())
+                      ) {
+                        setModalContent(
+                          <BookSpotModal
+                            booking={userBooking}
+                            booked={booked}
+                          />
+                        );
+                      } else {
+                        alert("You cannot edit your reservation once started");
+                      }
+                    }}
                   >
-                    {userBooking ? "Update Reservation" : "Reserve"}
+                    {userBooking
+                      ? new Date(userBooking.startDate) > new Date()
+                        ? "Update Reservation"
+                        : "Enjoy your stay"
+                      : "Reserve"}
                   </button>
                 ) : (
                   <h3>Welcome to your spot</h3>

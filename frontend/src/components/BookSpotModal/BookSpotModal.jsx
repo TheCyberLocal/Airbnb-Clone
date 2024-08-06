@@ -6,12 +6,12 @@ import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
-import { addDays, format, parseISO } from "date-fns";
+import { addDays, format, parseISO, isWithinInterval, parse } from "date-fns";
 import ConfirmDeleteModal from "../ConfirmDeleteModal";
 import { useDispatch } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 
-function BookSpotModal({ booking }) {
+function BookSpotModal({ booking, booked }) {
   const { closeModal, setModalContent } = useModal();
   const dispatch = useDispatch();
   const { spotId } = useParams();
@@ -32,7 +32,17 @@ function BookSpotModal({ booking }) {
     }
   }, [booking]);
 
+  const isDisabledDate = (date) => {
+    return booked.some((range) =>
+      isWithinInterval(date, {
+        start: range.startDate,
+        end: addDays(range.endDate, 1),
+      })
+    );
+  };
+
   const handleSelect = (ranges) => {
+    console.log(booked);
     setSelectionRange({
       startDate: ranges.selection.startDate,
       endDate: ranges.selection.endDate,
@@ -68,13 +78,9 @@ function BookSpotModal({ booking }) {
         }),
       });
 
-      if (!response.ok) {
-        setError("An error occurred. Please choose a date after today.");
-      } else {
-        closeModal();
-      }
-    } catch (err) {
-      setError("An error occurred. Please choose a date after today.");
+      closeModal();
+    } catch {
+      setError("An error occurred with your booking.");
     }
 
     dispatch(fetchSpot(spotId));
@@ -89,6 +95,7 @@ function BookSpotModal({ booking }) {
         <DateRange
           ranges={[selectionRange]}
           onChange={handleSelect}
+          disabledDay={isDisabledDate}
           minDate={addDays(new Date(), 1)}
         />
       </div>

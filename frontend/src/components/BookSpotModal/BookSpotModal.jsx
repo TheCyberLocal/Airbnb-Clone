@@ -1,7 +1,7 @@
 import "./BookSpotModal.css";
 import "../../../node_modules/react-date-range/dist/styles.css";
 import "../../../node_modules/react-date-range/dist/theme/default.css"; // Theme CSS file
-import { Calendar } from "react-date-range";
+import { DateRange } from "react-date-range";
 import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
@@ -65,7 +65,7 @@ function BookSpotModal({ booking }) {
         {booking ? "Update your booking" : "Book this spot"}
       </h1>
       <div className="book-spot-modal-content">
-        <Calendar
+        <DateRange
           ranges={[selectionRange]}
           onChange={handleSelect}
           minDate={new Date(new Date().getTime() + 86400000)}

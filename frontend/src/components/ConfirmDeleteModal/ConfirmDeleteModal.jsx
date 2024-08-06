@@ -1,4 +1,4 @@
-import { deleteSpot, fetchMySpots } from "../../store/spots";
+import { deleteSpot, fetchMySpots, fetchSpot } from "../../store/spots";
 import { deleteReview, fetchReviews } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 import { csrfFetch } from "../../store/csrf";
@@ -21,7 +21,7 @@ function ConfirmDeleteModal({ reviewId, spotId, bookingId, itemText }) {
         headers: {
           "Content-Type": "application/json",
         },
-      }).then(() => dispatch(fetchReviews(spotId)));
+      }).then(() => dispatch(fetchSpot(spotId)));
     }
   };
 

@@ -7,9 +7,10 @@ import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { addDays, format, parseISO } from "date-fns";
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
 
 function BookSpotModal({ booking }) {
-  const { closeModal } = useModal();
+  const { closeModal, setModalContent } = useModal();
   const { spotId } = useParams();
   const [error, setError] = useState("");
   const [selectionRange, setSelectionRange] = useState({
@@ -34,6 +35,12 @@ function BookSpotModal({ booking }) {
       endDate: ranges.selection.endDate,
       key: "selection",
     });
+  };
+
+  const handleDeleteClick = () => {
+    setModalContent(
+      <ConfirmDeleteModal spotId={spotId} itemText={"Booking"} />
+    );
   };
 
   const handleBookingClick = async () => {
@@ -97,7 +104,7 @@ function BookSpotModal({ booking }) {
             <button
               id="delete"
               className="clickable half-width"
-              onClick={handleBookingClick}
+              onClick={handleDeleteClick}
             >
               Delete
             </button>

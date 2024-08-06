@@ -14,6 +14,8 @@ function ConfirmDeleteModal({ reviewId, spotId, itemText }) {
       deleteSpot(spotId).then(() => dispatch(fetchMySpots()));
     } else if (itemText === "Review") {
       deleteReview(reviewId).then(() => dispatch(fetchReviews(spotId)));
+    } else if (itemText === "Booking") {
+      // TODO
     }
   };
 

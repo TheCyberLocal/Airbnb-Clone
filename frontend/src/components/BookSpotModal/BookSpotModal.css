@@ -27,8 +27,6 @@ div.book-spot-modal {
     width: 90%;
   }
 
-
-
   & > div.book-spot-modal-buttons {
     display: flex;
     flex-direction: row;

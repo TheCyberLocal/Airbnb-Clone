@@ -62,7 +62,7 @@ function SpotPage() {
         const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
         const data = await response.json();
         const myBooking = data?.Bookings.find(
-          (e) => e.userId === user?.id && new Date(e.startDate) > new Date()
+          (e) => e.userId === user?.id && new Date(e.startDate) > new Date(),
         );
         setUserBooking(myBooking);
       };
@@ -75,7 +75,7 @@ function SpotPage() {
       formatStarString({
         avgStarRating: spot?.avgStarRating,
         numReviews: spot?.numReviews,
-      })
+      }),
     );
   }, [spot]);
 

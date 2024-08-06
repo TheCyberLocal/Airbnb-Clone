@@ -37,7 +37,9 @@ function ReviewCard({ review, user, spotId }) {
       <>
         <button
           className="clickable"
-          onClick={() => setModalContent(<SpotReviewModal reviewId={review.id} />)}
+          onClick={() =>
+            setModalContent(<SpotReviewModal reviewId={review.id} />)
+          }
         >
           Update
         </button>
@@ -49,7 +51,7 @@ function ReviewCard({ review, user, spotId }) {
                 reviewId={review.id}
                 spotId={spotId}
                 itemText={"Review"}
-              />
+              />,
             )
           }
         >

@@ -6,28 +6,35 @@ import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { useState, useEffect } from "react";
 import { csrfFetch } from "../../store/csrf";
+import { addDays, format, parseISO } from "date-fns";
 
 function BookSpotModal({ booking }) {
   const { closeModal } = useModal();
   const { spotId } = useParams();
   const [error, setError] = useState("");
   const [selectionRange, setSelectionRange] = useState({
-    startDate: new Date(new Date().getTime() + 86400000),
-    endDate: new Date(new Date().getTime() + 172800000),
+    startDate: addDays(new Date(), 1),
+    endDate: addDays(new Date(), 2),
     key: "selection",
   });
 
   useEffect(() => {
     if (booking) {
       setSelectionRange({
-        startDate: new Date(booking.startDate),
-        endDate: new Date(booking.endDate),
+        startDate: parseISO(booking.startDate),
+        endDate: parseISO(booking.endDate),
         key: "selection",
       });
     }
   }, [booking]);
 
-  const handleSelect = (ranges) => setSelectionRange(ranges.selection);
+  const handleSelect = (ranges) => {
+    setSelectionRange({
+      startDate: ranges.selection.startDate,
+      endDate: ranges.selection.endDate,
+      key: "selection",
+    });
+  };
 
   const handleBookingClick = async () => {
     const url = booking
@@ -42,8 +49,8 @@ function BookSpotModal({ booking }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          startDate: selectionRange.startDate.toISOString(),
-          endDate: selectionRange.endDate.toISOString(),
+          startDate: format(selectionRange.startDate, "MM-dd-yyyy"),
+          endDate: format(selectionRange.endDate, "MM-dd-yyyy"),
         }),
       });
 
@@ -68,16 +75,17 @@ function BookSpotModal({ booking }) {
         <DateRange
           ranges={[selectionRange]}
           onChange={handleSelect}
-          minDate={new Date(new Date().getTime() + 86400000)}
+          minDate={addDays(new Date(), 1)}
         />
       </div>
       <div className="book-spot-modal-errors">
         {error && <div>{error}</div>}
       </div>
       <button id="book-spot" className="clickable" onClick={handleBookingClick}>
-        {`Book ${selectionRange.startDate.toISOString().split("T")[0]} - ${
-          selectionRange.endDate.toISOString().split("T")[0]
-        }`}
+        {`Book ${format(selectionRange.startDate, "MM-dd-yyyy")} - ${format(
+          selectionRange.endDate,
+          "MM-dd-yyyy"
+        )}`}
       </button>
       <button className="clickable" onClick={closeModal}>
         Cancel
